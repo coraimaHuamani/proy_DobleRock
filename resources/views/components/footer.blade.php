@@ -1,48 +1,45 @@
-<footer class="bg-[#1a1a1a] text-gray-300 py-6 mt-0">
+<footer class="bg-[#000000] text-gray-300 py-6 mt-0">
     <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-start gap-8">
         <!-- Logo y redes -->
         <div>
             <div class="mb-2">
-                <span class="text-white font-bold text-xl">DOBLE <span class="text-orange-500">ROCK</span></span>
+                <img src="{{ asset('images/LogoFinal.jpg') }}" alt="Logo" class="w-20 h-20 object-contain mb-4" />
             </div>
             <p class="mb-4">La mejor tienda de productos rock y accesorios musicales.</p>
             <div class="flex space-x-4">
-                <a href="#" class="text-orange-500 hover:text-white"><i class="fa-brands fa-facebook fa-lg"></i></a>
-                <a href="#" class="text-orange-500 hover:text-white"><i
-                        class="fa-brands fa-instagram fa-lg"></i></a>
-                <a href="#" class="text-orange-500 hover:text-white"><i
-                        class="fa-brands fa-twitter fa-lg"></i></a>
-                <a href="#" class="text-orange-500 hover:text-white"><i
-                        class="fa-brands fa-youtube fa-lg"></i></a>
+                <a href="#" class="text-[#e7452e] hover:text-white"><i class="fa-brands fa-facebook fa-lg"></i></a>
+                <a href="#" class="text-[#e7452e] hover:text-white"><i class="fa-brands fa-instagram fa-lg"></i></a>
+                <a href="#" class="text-[#e7452e] hover:text-white"><i class="fa-brands fa-twitter fa-lg"></i></a>
+                <a href="#" class="text-[#e7452e] hover:text-white"><i class="fa-brands fa-youtube fa-lg"></i></a>
             </div>
         </div>
         <!-- Categorías -->
         <div>
-            <h3 class="text-orange-500 font-bold mb-2">Categorías</h3>
+            <h3 class="text-[#e7452e] font-bold mb-2">Categorías</h3>
             <ul>
-                <li>Polos</li>
-                <li>Accesorios</li>
-                <li>Zapatillas</li>
-                <li>Audífonos</li>
+                <li class="hover:text-[#e7452e] transition">Polos</li>
+                <li class="hover:text-[#e7452e] transition">Accesorios</li>
+                <li class="hover:text-[#e7452e] transition">Zapatillas</li>
+                <li class="hover:text-[#e7452e] transition">Audífonos</li>
             </ul>
         </div>
         <!-- Información -->
         <div>
-            <h3 class="text-orange-500 font-bold mb-2">Información</h3>
+            <h3 class="text-[#e7452e] font-bold mb-2">Información</h3>
             <ul>
-                <li>Sobre Nosotros</li>
-                <li>Contacto</li>
-                <li>Términos y Condiciones</li>
-                <li>Política de Privacidad</li>
+                <li class="hover:text-[#e7452e] transition">Sobre Nosotros</li>
+                <li class="hover:text-[#e7452e] transition">Contacto</li>
+                <li class="hover:text-[#e7452e] transition">Términos y Condiciones</li>
+                <li class="hover:text-[#e7452e] transition">Política de Privacidad</li>
             </ul>
         </div>
         <!-- Contacto -->
         <div>
-            <h3 class="text-orange-500 font-bold mb-2">Contacto</h3>
+            <h3 class="text-[#e7452e] font-bold mb-2">Contacto</h3>
             <ul>
-                <li><i class="fa-solid fa-envelope text-orange-500 mr-2"></i> info@doblerock.com</li>
-                <li><i class="fa-solid fa-phone text-orange-500 mr-2"></i> +1 (555) 123-4567</li>
-                <li><i class="fa-solid fa-location-dot text-orange-500 mr-2"></i> 123 Rock Street, Music City</li>
+                <li><i class="fa-solid fa-envelope text-[#e7452e] mr-2"></i> info@doblerock.com</li>
+                <li><i class="fa-solid fa-phone text-[#e7452e] mr-2"></i> +1 (555) 123-4567</li>
+                <li><i class="fa-solid fa-location-dot text-[#e7452e] mr-2"></i> 123 Rock Street, Music City</li>
             </ul>
         </div>
     </div>
