@@ -1,7 +1,7 @@
 <!-- SECCIÓN ESCUCHAR MÚSICA -->
 <section class="py-16 bg-[#1a1a1a]">
     <div class="text-center mb-8">
-        <h2 class="text-3xl md:text-5xl font-bold text-[#e7452e] mb-2">ESCUCHAR MÚSICA</h2>
+        <h2 class="text-2xl md:text-4xl font-extrabold text-[#e7452e] mb-2">ESCUCHAR MÚSICA</h2>
         <p class="text-gray-300 text-lg">Descubre los mejores álbumes de rock y música alternativa</p>
     </div>
     <div class="max-w-6xl mx-auto px-6">

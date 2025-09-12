@@ -12,11 +12,8 @@
 
             {{-- HERO --}}
             <header class="py-10 text-center">
-                <h1 class="text-4xl md:text-6xl font-extrabold tracking-wide text-[#e7452e] uppercase">
-                    Tienda Virtual
-                </h1>
                 <p class="mt-3 text-base md:text-lg text-gray-300 tracking-widest uppercase">
-                    Productos musicales, merchandising y otros artículos
+                    Productos musicales, merchandising y accesorios de estilo rock.
                 </p>
             </header>
 
@@ -51,17 +48,13 @@
             @endphp
 
             <div id="carousel" class="relative mb-12">
-                <div class="overflow-hidden rounded-2xl border border-white/10">
+                <div class="overflow-hidden">
                     <div class="flex transition-transform duration-500" data-carousel-track>
                         @foreach ($popular as $p)
                             <div class="min-w-full grid md:grid-cols-2">
-                                {{-- Imagen con swap hover --}}
-                                <a href="#"
-                                    class="relative block aspect-[16/10] md:aspect-auto md:h-[360px] overflow-hidden">
-                                    <img src="{{ $p['img'] }}" alt=""
-                                        class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-100 hover:opacity-0">
-                                    <img src="{{ $p['img2'] }}" alt=""
-                                        class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0 hover:opacity-100">
+                                {{-- Sin imagen, fondo oscuro --}}
+                                <div class="relative block aspect-[16/10] md:aspect-auto md:h-[360px] overflow-hidden shadow-lg bg-[#232323] flex items-center justify-center rounded-lg">
+                                    <span class="text-gray-500 text-xs uppercase tracking-widest">Sin imagen</span>
                                     @if ($p['badge'] === 'preorder')
                                         <span
                                             class="absolute left-3 top-3 z-10 text-[10px] uppercase tracking-widest bg-sky-600 text-white px-2 py-1 rounded">preorder</span>
@@ -69,7 +62,7 @@
                                         <span
                                             class="absolute left-3 top-3 z-10 text-[10px] uppercase tracking-widest bg-emerald-600 text-white px-2 py-1 rounded">lifad</span>
                                     @endif
-                                </a>
+                                </div>
                                 {{-- Texto --}}
                                 <div class="p-6 md:p-10 flex flex-col justify-center bg-[#121212]">
                                     <h3 class="text-2xl md:text-3xl font-bold uppercase tracking-wider">{{ $p['title'] }}
@@ -113,10 +106,12 @@
                 </button>
 
                 {{-- Bullets --}}
-                <div class="absolute left-1/2 -translate-x-1/2 -bottom-4 flex gap-2" data-carousel-dots>
+                <div class="absolute left-1/2 -translate-x-1/2 -bottom-8 flex gap-2" data-carousel-dots>
                     @foreach ($popular as $i => $p)
-                        <button type="button" class="w-2.5 h-2.5 rounded-full bg-white/30"
-                            aria-label="Ir al slide {{ $i + 1 }}" data-carousel-dot="{{ $i }}"></button>
+                        <button type="button"
+                            class="w-3 h-3 bg-white/30 shadow-sm transition-all duration-200 border border-white/40"
+                            style="border-radius: 4px;" aria-label="Ir al slide {{ $i + 1 }}"
+                            data-carousel-dot="{{ $i }}"></button>
                     @endforeach
                 </div>
             </div>
@@ -125,45 +120,148 @@
             <nav class="mb-8">
                 <ul class="flex justify-center gap-6 uppercase tracking-widest text-sm">
                     <li><a href="#" class="hover:text-orange-400">¿Qué hay de nuevo?</a></li>
-                    <li><a href="#" class="hover:text-orange-400">Ropa</a></li>
-                    <li><a href="#" class="hover:text-orange-400">Media</a></li>
+                    <li><a href="#" class="hover:text-orange-400">Polos</a></li>
                     <li><a href="#" class="hover:text-orange-400">Accesorios</a></li>
-                    <li><a href="#" class="hover:text-orange-400">LIFAD</a></li>
+                    <li><a href="#" class="hover:text-orange-400">Lentes</a></li>
+                    <li><a href="#" class="hover:text-orange-400">Gorras</a></li>
                 </ul>
             </nav>
 
             {{-- GRID DE PRODUCTOS --}}
             @php
                 $products = [
-                    ['title' => 'CD Álbum "Zeit"', 'subtitle' => 'Edición estándar', 'price' => '15,00', 'old' => null, 'state' => null, 'img' => null, 'img2' => null],
-                    ['title' => 'Vinilo Doble "Mutter"', 'subtitle' => 'Edición remasterizada', 'price' => '28,00', 'old' => '32,00', 'state' => 'preorder', 'img' => null, 'img2' => null],
-                    ['title' => 'Camiseta Logo Clásico', 'subtitle' => '100% algodón', 'price' => '25,00', 'old' => null, 'state' => null, 'img' => null, 'img2' => null],
-                    ['title' => 'Sudadera "Feuer"', 'subtitle' => 'Con capucha', 'price' => '49,00', 'old' => null, 'state' => 'lifad', 'img' => null, 'img2' => null],
-                    ['title' => 'Gorra Negra', 'subtitle' => 'Bordado frontal', 'price' => '19,00', 'old' => null, 'state' => null, 'img' => null, 'img2' => null],
-                    ['title' => 'Póster Tour 2025', 'subtitle' => '70x100 cm', 'price' => '12,00', 'old' => null, 'state' => null, 'img' => null, 'img2' => null],
-                    ['title' => 'Taza Logo', 'subtitle' => 'Cerámica 300ml', 'price' => '9,00', 'old' => null, 'state' => null, 'img' => null, 'img2' => null],
-                    ['title' => 'Llavero Metálico', 'subtitle' => 'Edición limitada', 'price' => '—', 'old' => null, 'state' => 'soldout', 'img' => null, 'img2' => null],
+                    [
+                        'title' => 'CD Álbum "Zeit"',
+                        'subtitle' => 'Edición estándar',
+                        'price' => '15,00',
+                        'old' => null,
+                        'state' => null,
+                        'img' => null,
+                        'img2' => null,
+                    ],
+                    [
+                        'title' => 'Vinilo Doble "Mutter"',
+                        'subtitle' => 'Edición remasterizada',
+                        'price' => '28,00',
+                        'old' => '32,00',
+                        'state' => 'preorder',
+                        'img' => null,
+                        'img2' => null,
+                    ],
+                    [
+                        'title' => 'Camiseta Logo Clásico',
+                        'subtitle' => '100% algodón',
+                        'price' => '25,00',
+                        'old' => null,
+                        'state' => null,
+                        'img' => null,
+                        'img2' => null,
+                    ],
+                    [
+                        'title' => 'Sudadera "Feuer"',
+                        'subtitle' => 'Con capucha',
+                        'price' => '49,00',
+                        'old' => null,
+                        'state' => 'lifad',
+                        'img' => null,
+                        'img2' => null,
+                    ],
+                    [
+                        'title' => 'Gorra Negra',
+                        'subtitle' => 'Bordado frontal',
+                        'price' => '19,00',
+                        'old' => null,
+                        'state' => null,
+                        'img' => null,
+                        'img2' => null,
+                    ],
+                    [
+                        'title' => 'Póster Tour 2025',
+                        'subtitle' => '70x100 cm',
+                        'price' => '12,00',
+                        'old' => null,
+                        'state' => null,
+                        'img' => null,
+                        'img2' => null,
+                    ],
+                    [
+                        'title' => 'Taza Logo',
+                        'subtitle' => 'Cerámica 300ml',
+                        'price' => '9,00',
+                        'old' => null,
+                        'state' => null,
+                        'img' => null,
+                        'img2' => null,
+                    ],
+                    [
+                        'title' => 'Llavero Metálico',
+                        'subtitle' => 'Edición limitada',
+                        'price' => '—',
+                        'old' => null,
+                        'state' => 'soldout',
+                        'img' => null,
+                        'img2' => null,
+                    ],
                 ];
             @endphp
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-                @foreach ($products as $p)
+            {{-- Línea y título de categoría arriba del primer grupo --}}
+            <div class="flex items-center mb-2">
+                <span class="block w-8 h-0.5 bg-white mr-2"></span>
+                <span class="text-gray-300 text-[13px] tracking-widest uppercase">Polos</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-8">
+                @foreach (array_slice($products, 0, 4) as $p)
                     <article class="group">
                         <div class="relative overflow-hidden">
-                            @if ($p['state'] === 'preorder')
-                                <span class="absolute right-3 top-3 z-10 text-[10px] uppercase tracking-widest bg-sky-600 text-white px-2 py-1 rounded">preorder</span>
-                            @elseif($p['state'] === 'soldout')
-                                <span class="absolute right-3 top-3 z-10 text-[10px] uppercase tracking-widest bg-gray-700 text-white px-2 py-1 rounded">no disponible</span>
-                            @elseif($p['state'] === 'lifad')
-                                <span class="absolute right-3 top-3 z-10 text-[10px] uppercase tracking-widest bg-emerald-600 text-white px-2 py-1 rounded">lifad</span>
-                            @endif
-
-                            {{-- Si no hay imagen --}}
-                            <div class="relative block aspect-[1/1] overflow-hidden bg-[#232323] flex items-center justify-center">
-                                <span class="text-gray-500 text-xs uppercase tracking-widest">Sin imagen</span>
+                            <div class="relative block aspect-[1/1] overflow-hidden bg-[#232323] flex items-center justify-center rounded-lg shadow-lg">
+                                @if ($p['img'])
+                                    <img src="{{ $p['img'] }}" alt="{{ $p['title'] }}"
+                                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 rounded-lg" />
+                                @else
+                                    <span class="text-gray-500 text-xs uppercase tracking-widest">Sin imagen</span>
+                                @endif
                             </div>
                         </div>
-                        <h3 class="mt-3 text-[13px] font-semibold tracking-wider uppercase leading-tight">{{ $p['title'] }}</h3>
+                        <h3 class="mt-3 text-[13px] font-semibold tracking-wider uppercase leading-tight">
+                            {{ $p['title'] }}</h3>
+                        @if ($p['subtitle'])
+                            <div class="text-[11px] text-gray-300 uppercase tracking-widest">{{ $p['subtitle'] }}</div>
+                        @endif
+                        <div class="mt-1 text-[11px] uppercase tracking-widest">
+                            @if ($p['price'] !== '—')
+                                @if ($p['old'])
+                                    <span class="text-gray-400 line-through mr-2">{{ $p['old'] }} eur</span>
+                                @endif
+                                <span class="text-emerald-400">{{ $p['price'] }} eur</span>
+                            @else
+                                <span class="text-gray-400">Actualmente no disponible</span>
+                            @endif
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+
+            {{-- Línea y título de categoría arriba del segundo grupo --}}
+            <div class="flex items-center mb-2">
+                <span class="block w-8 h-0.5 bg-white mr-2"></span>
+                <span class="text-gray-300 text-[13px] tracking-widest uppercase">Accesorios</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+                @foreach (array_slice($products, 4, 4) as $p)
+                    <article class="group">
+                        <div class="relative overflow-hidden">
+                            <div class="relative block aspect-[1/1] overflow-hidden bg-[#232323] flex items-center justify-center rounded-lg shadow-lg">
+                                @if ($p['img'])
+                                    <img src="{{ $p['img'] }}" alt="{{ $p['title'] }}"
+                                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 rounded-lg" />
+                                @else
+                                    <span class="text-gray-500 text-xs uppercase tracking-widest">Sin imagen</span>
+                                @endif
+                            </div>
+                        </div>
+                        <h3 class="mt-3 text-[13px] font-semibold tracking-wider uppercase leading-tight">
+                            {{ $p['title'] }}</h3>
                         @if ($p['subtitle'])
                             <div class="text-[11px] text-gray-300 uppercase tracking-widest">{{ $p['subtitle'] }}</div>
                         @endif
@@ -188,12 +286,20 @@
         .shop-wrap {
             background-color: #0d0d0f;
             background-image:
-                radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px),
-                radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px),
-                radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px),
-                radial-gradient(circle at 60% 90%, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px);
-            background-size: 16px 16px, 22px 22px, 18px 18px, 24px 24px;
+                /* Estrellas grandes */
+                radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.12) 0 2px, transparent 2px),
+                radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.10) 0 1.5px, transparent 1.5px),
+                radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.09) 0 1.5px, transparent 1.5px),
+                radial-gradient(circle at 60% 90%, rgba(255, 255, 255, 0.11) 0 1.5px, transparent 1.5px),
+                /* Estrellas pequeñas */
+                radial-gradient(circle at 10% 80%, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px),
+                radial-gradient(circle at 90% 20%, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px);
+            background-size: 100% 100%, 16px 16px, 22px 22px, 18px 18px, 24px 24px, 20px 20px, 18px 18px, 22px 22px;
+            background-repeat: no-repeat, repeat, repeat, repeat, repeat, repeat, repeat;
+            background-attachment: fixed, fixed, fixed, fixed, fixed, fixed, fixed;
         }
+
         .shop-wrap * {
             letter-spacing: .06em;
         }
@@ -234,9 +340,18 @@
                 }
             }
 
-            prevBtn?.addEventListener('click', () => { go(index - 1); play(); });
-            nextBtn?.addEventListener('click', () => { go(index + 1); play(); });
-            dots.forEach((dot, di) => dot.addEventListener('click', () => { go(di); play(); }));
+            prevBtn?.addEventListener('click', () => {
+                go(index - 1);
+                play();
+            });
+            nextBtn?.addEventListener('click', () => {
+                go(index + 1);
+                play();
+            });
+            dots.forEach((dot, di) => dot.addEventListener('click', () => {
+                go(di);
+                play();
+            }));
 
             root.addEventListener('mouseenter', stop);
             root.addEventListener('mouseleave', play);

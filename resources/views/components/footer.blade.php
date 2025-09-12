@@ -2,13 +2,19 @@
     <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-start gap-8">
         <!-- Logo y redes -->
         <div>
-            <div class="mb-2">
-                <img src="{{ asset('images/LogoFinal.jpg') }}" alt="Logo" class="w-20 h-20 object-contain mb-4" />
+            <div class="flex items-center mb-2">
+                <img src="{{ asset('images/image.png') }}" alt="Logo" class="w-12 h-12 object-contain mr-3" />
+                <div class="flex flex-col">
+                    <span class="text-white font-bold text-xl leading-tight">DOBLE</span>
+                    <span class="text-[#e7452e] font-bold text-xl leading-tight">ROCK</span>
+                </div>
             </div>
             <p class="mb-4">La mejor tienda de productos rock y accesorios musicales.</p>
             <div class="flex space-x-4">
-                <a href="#" class="text-[#e7452e] hover:text-white"><i class="fa-brands fa-facebook fa-lg"></i></a>
-                <a href="#" class="text-[#e7452e] hover:text-white"><i class="fa-brands fa-instagram fa-lg"></i></a>
+                <a href="#" class="text-[#e7452e] hover:text-white"><i
+                        class="fa-brands fa-facebook fa-lg"></i></a>
+                <a href="#" class="text-[#e7452e] hover:text-white"><i
+                        class="fa-brands fa-instagram fa-lg"></i></a>
                 <a href="#" class="text-[#e7452e] hover:text-white"><i class="fa-brands fa-twitter fa-lg"></i></a>
                 <a href="#" class="text-[#e7452e] hover:text-white"><i class="fa-brands fa-youtube fa-lg"></i></a>
             </div>
