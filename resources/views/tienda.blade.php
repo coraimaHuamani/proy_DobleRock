@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="shop-wrap relative text-white min-h-screen pb-16 bg-cover bg-center"
-        style="background-image: url('{{ asset('images/fondoTienda.jpg') }}')">
+    <section class="shop-wrap relative text-white min-h-screen pb-16 bg-cover bg-center" style="background-image: url('{{ asset('images/estrellas.jpg') }}'), url('{{ asset('images/fondoTienda.jpg') }}'); background-size: cover, cover; background-position: center, center;">
 
         <!-- Overlay oscuro -->
         <div class="absolute inset-0 bg-black/80"></div>
@@ -53,15 +52,8 @@
                         @foreach ($popular as $p)
                             <div class="min-w-full grid md:grid-cols-2">
                                 {{-- Sin imagen, fondo oscuro --}}
-                                <div class="relative block aspect-[16/10] md:aspect-auto md:h-[360px] overflow-hidden shadow-lg bg-[#232323] flex items-center justify-center rounded-lg">
+                                <div class="relative block aspect-[16/10] md:aspect-auto md:h-[360px] overflow-hidden shadow-lg bg-[#232323] flex items-center justify-center">
                                     <span class="text-gray-500 text-xs uppercase tracking-widest">Sin imagen</span>
-                                    @if ($p['badge'] === 'preorder')
-                                        <span
-                                            class="absolute left-3 top-3 z-10 text-[10px] uppercase tracking-widest bg-sky-600 text-white px-2 py-1 rounded">preorder</span>
-                                    @elseif($p['badge'] === 'lifad')
-                                        <span
-                                            class="absolute left-3 top-3 z-10 text-[10px] uppercase tracking-widest bg-emerald-600 text-white px-2 py-1 rounded">lifad</span>
-                                    @endif
                                 </div>
                                 {{-- Texto --}}
                                 <div class="p-6 md:p-10 flex flex-col justify-center bg-[#121212]">
@@ -118,7 +110,7 @@
 
             {{-- MENÚ --}}
             <nav class="mb-8">
-                <ul class="flex justify-center gap-6 uppercase tracking-widest text-sm">
+                <ul class="flex flex-row flex-wrap justify-center gap-4 md:gap-6 uppercase tracking-widest text-sm">
                     <li><a href="#" class="hover:text-orange-400">¿Qué hay de nuevo?</a></li>
                     <li><a href="#" class="hover:text-orange-400">Polos</a></li>
                     <li><a href="#" class="hover:text-orange-400">Accesorios</a></li>
@@ -361,3 +353,4 @@
         });
     </script>
 @endsection
+

@@ -95,23 +95,19 @@
         </div>
         <ul class="space-y-6 mt-4 font-semibold uppercase text-base">
             <li>
-                <a href="#"
-                    class="w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative">
+                <a href="/" class="hover:text-[#e7452e] w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative">
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-house text-[#e7452e]"></i> Inicio
                     </div>
-                    <span
-                        class="absolute left-3 right-3 bottom-0 h-1 bg-[#e7452e] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200"></span>
+                    <span class="absolute left-3 right-3 bottom-0 h-1 bg-[#e7452e] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200"></span>
                 </a>
             </li>
             <li>
-                <a href="#"
-                    class="w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative">
+                <a href="{{ route('tienda') }}" class="hover:text-[#e7452e] w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative">
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-store text-[#e7452e]"></i> Tienda
                     </div>
-                    <span
-                        class="absolute left-3 right-3 bottom-0 h-1 bg-[#e7452e] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200"></span>
+                    <span class="absolute left-3 right-3 bottom-0 h-1 bg-[#e7452e] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200"></span>
                 </a>
             </li>
             <li>
@@ -171,6 +167,15 @@
             overlay.addEventListener('click', function() {
                 menu.classList.add('-translate-x-full');
                 overlay.classList.add('hidden');
+            });
+
+            // Cerrar menú al hacer clic en cualquier enlace del menú móvil
+            const mobileLinks = menu.querySelectorAll('a');
+            mobileLinks.forEach(function(link) {
+                link.addEventListener('click', function() {
+                    menu.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                });
             });
         }
     });
