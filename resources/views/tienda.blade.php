@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="shop-wrap relative text-white min-h-screen pb-16 bg-cover bg-center" style="background-image: url('{{ asset('images/estrellas.jpg') }}'), url('{{ asset('images/fondoTienda.jpg') }}'); background-size: cover, cover; background-position: center, center;">
+    <section class="shop-wrap relative text-white min-h-screen pb-16 bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/15474721/pexels-photo-15474721.jpeg?_gl=1*1s948t4*_ga*MTgxOTg3ODAzNS4xNzU3NzQ0MzM3*_ga_8JE65Q40S6*czE3NTc3NDQzMzYkbzEkZzEkdDE3NTc3NDQzNzUkajIxJGwwJGgw'); background-size: cover; background-position: center;">
 
         <!-- Overlay oscuro -->
         <div class="absolute inset-0 bg-black/80"></div>
@@ -16,6 +16,7 @@
                 </p>
             </header>
 
+            {{-- CAROUSEL --}}
             {{-- CAROUSEL --}}
             @php
                 $popular = [
@@ -46,38 +47,35 @@
                 ];
             @endphp
 
-            <div id="carousel" class="relative mb-12">
+            <div id="carousel" class="relative mb-12 grid md:grid-cols-2">
+                <!-- Imagen: solo esta parte se desliza -->
                 <div class="overflow-hidden">
                     <div class="flex transition-transform duration-500" data-carousel-track>
                         @foreach ($popular as $p)
-                            <div class="min-w-full grid md:grid-cols-2">
-                                {{-- Sin imagen, fondo oscuro --}}
+                            <div class="min-w-full">
                                 <div class="relative block aspect-[16/10] md:aspect-auto md:h-[360px] overflow-hidden shadow-lg bg-[#232323] flex items-center justify-center">
                                     <span class="text-gray-500 text-xs uppercase tracking-widest">Sin imagen</span>
                                 </div>
-                                {{-- Texto --}}
-                                <div class="p-6 md:p-10 flex flex-col justify-center bg-[#121212]">
-                                    <h3 class="text-2xl md:text-3xl font-bold uppercase tracking-wider">{{ $p['title'] }}
-                                    </h3>
-                                    @if ($p['subtitle'])
-                                        <p class="mt-1 text-[12px] uppercase tracking-widest text-gray-300">
-                                            {{ $p['subtitle'] }}</p>
-                                    @endif
-                                    <div class="mt-4 text-sm uppercase tracking-widest text-emerald-400">{{ $p['price'] }}
-                                    </div>
-                                    <div class="mt-6 flex gap-3">
-                                        <button type="button"
-                                            class="px-5 py-2 border border-white/40 hover:border-white uppercase text-[11px] tracking-widest">
-                                            ver producto
-                                        </button>
-                                        <button type="button"
-                                            class="px-5 py-2 bg-[#e7452e] hover:bg-orange-600 text-white uppercase text-[11px] tracking-widest">
-                                            añadir
-                                        </button>
-                                    </div>
-                                </div>
                             </div>
                         @endforeach
+                    </div>
+                </div>
+                <!-- Detalle: permanece fijo pero cambia el contenido -->
+                <div class="p-6 md:p-10 flex flex-col justify-center bg-[#121212]" id="carousel-detail">
+                    <h3 class="text-2xl md:text-3xl font-bold uppercase tracking-wider" id="carousel-title">{{ $popular[0]['title'] }}</h3>
+                    @if ($popular[0]['subtitle'])
+                        <p class="mt-1 text-[12px] uppercase tracking-widest text-gray-300" id="carousel-subtitle">{{ $popular[0]['subtitle'] }}</p>
+                    @endif
+                    <div class="mt-4 text-sm uppercase tracking-widest text-emerald-400" id="carousel-price">{{ $popular[0]['price'] }}</div>
+                    <div class="mt-6 flex gap-3">
+                        <button type="button"
+                            class="px-5 py-2 border border-white/40 hover:border-white uppercase text-[11px] tracking-widest">
+                            ver producto
+                        </button>
+                        <button type="button"
+                            class="px-5 py-2 bg-[#e7452e] hover:bg-orange-600 text-white uppercase text-[11px] tracking-widest">
+                            añadir
+                        </button>
                     </div>
                 </div>
 
@@ -270,6 +268,45 @@
                     </article>
                 @endforeach
             </div>
+
+            {{-- ESPECIALES Y DESCUENTOS --}}
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-20 mb-12">
+                <!-- Especial -->
+                <div class="flex flex-col">
+                    <div class="flex items-center mb-2">
+                        <span class="block w-8 h-0.5 bg-white mr-2"></span>
+                        <span class="text-gray-300 text-[13px] tracking-widest uppercase">especial</span>
+                    </div>
+                    <div class="bg-[#181818] shadow-lg flex flex-row w-full h-full" style="border-radius:0; min-height:320px; min-height:220px;">
+                        <div class="flex items-center justify-center bg-[#232323] w-1/2 h-full" style="border-radius:0; min-height:220px;">
+                            <span class="text-gray-500 text-xs uppercase tracking-widest">Sin imagen</span>
+                        </div>
+                        <div class="flex flex-col justify-center flex-1 px-8 py-10">
+                            <h3 class="text-2xl md:text-3xl font-bold uppercase tracking-wider mb-4">Hasta un 60 % de descuento</h3>
+                            <p class="text-sm uppercase tracking-widest text-gray-300 mb-6">En productos seleccionados<br>hasta fin de existencias</p>
+                            <button class="bg-white text-black px-6 py-2 font-bold uppercase tracking-widest shadow" style="border-radius:0;">Comprar ahora</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Exclusivo -->
+                <div class="flex flex-col">
+                    <div class="flex items-center mb-2">
+                        <span class="block w-8 h-0.5 bg-white mr-2"></span>
+                        <span class="text-gray-300 text-[13px] tracking-widest uppercase">exclusivo</span>
+                    </div>
+                    <div class="bg-[#181818] shadow-lg flex flex-row w-full h-full" style="border-radius:0; min-height:320px; min-height:220px;">
+                        <div class="flex items-center justify-center bg-[#232323] w-1/2 h-full" style="border-radius:0; min-height:220px;">
+                            <span class="text-gray-500 text-xs uppercase tracking-widest">Sin imagen</span>
+                        </div>
+                        <div class="flex flex-col justify-center flex-1 px-8 py-10">
+                            <h3 class="text-2xl md:text-3xl font-bold uppercase tracking-wider mb-4">Berlin Store</h3>
+                            <p class="text-sm uppercase tracking-widest text-gray-300 mb-2">Próxima fecha:<br>Viernes<br>12 de septiembre<br>10 - 17 h</p>
+                            <p class="text-sm uppercase tracking-widest text-gray-300 mb-6">Dirección:<br>Hertzstrasse 63B<br>13158 Berlin</p>
+                            <button class="bg-white text-black px-6 py-2 font-bold uppercase tracking-widest shadow" style="border-radius:0;">Saber más</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -298,59 +335,77 @@
     </style>
 
     {{-- JS del carrusel --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const root = document.querySelector('#carousel');
-            const track = root.querySelector('[data-carousel-track]');
-            const slides = Array.from(track.children);
-            const prevBtn = root.querySelector('[data-carousel-prev]');
-            const nextBtn = root.querySelector('[data-carousel-next]');
-            const dotsWrap = root.querySelector('[data-carousel-dots]');
-            const dots = Array.from(dotsWrap.children);
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const root = document.querySelector('#carousel');
+                    const track = root.querySelector('[data-carousel-track]');
+                    const slides = Array.from(track.children);
+                    const prevBtn = root.querySelector('[data-carousel-prev]');
+                    const nextBtn = root.querySelector('[data-carousel-next]');
+                    const dotsWrap = root.querySelector('[data-carousel-dots]');
+                    const dots = Array.from(dotsWrap.children);
 
-            let index = 0;
-            let autoplayMs = 4500;
-            let timer = null;
+                    // Detalle fijo
+                    const detail = document.getElementById('carousel-detail');
+                    const title = document.getElementById('carousel-title');
+                    const subtitle = document.getElementById('carousel-subtitle');
+                    const price = document.getElementById('carousel-price');
 
-            function go(i) {
-                index = (i + slides.length) % slides.length;
-                track.style.transform = `translateX(-${index * 100}%)`;
-                dots.forEach((d, di) => {
-                    d.style.background = di === index ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.3)';
+                    // Data
+                    const popular = @json($popular);
+
+                    let index = 0;
+                    let autoplayMs = 4500;
+                    let timer = null;
+
+                    function updateDetail(i) {
+                        title.textContent = popular[i].title;
+                        if (subtitle) {
+                            subtitle.textContent = popular[i].subtitle || '';
+                            subtitle.style.display = popular[i].subtitle ? '' : 'none';
+                        }
+                        price.textContent = popular[i].price;
+                    }
+
+                    function go(i) {
+                        index = (i + slides.length) % slides.length;
+                        track.style.transform = `translateX(-${index * 100}%)`;
+                        dots.forEach((d, di) => {
+                            d.style.background = di === index ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.3)';
+                        });
+                        updateDetail(index);
+                    }
+
+                    function play() {
+                        stop();
+                        timer = setInterval(() => go(index + 1), autoplayMs);
+                    }
+
+                    function stop() {
+                        if (timer) {
+                            clearInterval(timer);
+                            timer = null;
+                        }
+                    }
+
+                    prevBtn?.addEventListener('click', () => {
+                        go(index - 1);
+                        play();
+                    });
+                    nextBtn?.addEventListener('click', () => {
+                        go(index + 1);
+                        play();
+                    });
+                    dots.forEach((dot, di) => dot.addEventListener('click', () => {
+                        go(di);
+                        play();
+                    }));
+
+                    root.addEventListener('mouseenter', stop);
+                    root.addEventListener('mouseleave', play);
+
+                    go(0);
+                    play();
                 });
-            }
-
-            function play() {
-                stop();
-                timer = setInterval(() => go(index + 1), autoplayMs);
-            }
-
-            function stop() {
-                if (timer) {
-                    clearInterval(timer);
-                    timer = null;
-                }
-            }
-
-            prevBtn?.addEventListener('click', () => {
-                go(index - 1);
-                play();
-            });
-            nextBtn?.addEventListener('click', () => {
-                go(index + 1);
-                play();
-            });
-            dots.forEach((dot, di) => dot.addEventListener('click', () => {
-                go(di);
-                play();
-            }));
-
-            root.addEventListener('mouseenter', stop);
-            root.addEventListener('mouseleave', play);
-
-            go(0);
-            play();
-        });
-    </script>
+            </script>
 @endsection
-
