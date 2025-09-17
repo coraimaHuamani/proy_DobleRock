@@ -13,3 +13,7 @@ Route::get('/tienda', function () {
 Route::get('/noticias', function () {
     return view('noticias');
 })->name('noticias');
+
+Route::get('/galeria', function () {
+    return view('galeria');
+})->name('galeria');

@@ -40,10 +40,9 @@
 
 <!-- Contenedor general con fondo -->
 <nav class="bg-[#000000] text-white">
-    <!-- Contenedor limitado a 1200px y centrado -->
     <div class="max-w-[1200px] mx-auto px-6 py-3 flex items-center justify-between">
 
-        <!-- ENLACES IZQUIERDA -->
+        {{-- ENLACES IZQUIERDA --}}
         <ul class="hidden md:flex space-x-6 font-semibold uppercase text-sm">
             <li>
                 <a href="/"
@@ -53,26 +52,25 @@
                 <a href="{{ route('tienda') }}"
                     class="hover:text-[#e7452e] {{ request()->is('tienda') ? 'text-[#e7452e]' : '' }}">Tienda</a>
             </li>
-            <li>
-                <a href="#" class="hover:text-[#e7452e]">Música</a>
-            </li>
+            <li><a href="#" class="hover:text-[#e7452e]">Música</a></li>
             <li>
                 <a href="{{ route('noticias') }}"
                     class="hover:text-[#e7452e] {{ request()->is('noticias') ? 'text-[#e7452e]' : '' }}">Noticias</a>
             </li>
             <li>
-                <a href="#" class="hover:text-[#e7452e]">Contacto</a>
+                <a href="{{ route('galeria') }}"
+                    class="hover:text-[#e7452e] {{ request()->is('galeria') ? 'text-[#e7452e]' : '' }}">GALERÍA</a>
             </li>
         </ul>
 
-        <!-- BOTÓN HAMBURGUESA MOBILE -->
+        {{-- BOTÓN HAMBURGUESA MOBILE --}}
         <div class="md:hidden">
             <button id="menu-btn" class="focus:outline-none text-white hover:text-[#e7452e]">
                 <i class="fa-solid fa-bars fa-lg"></i>
             </button>
         </div>
 
-        <!-- DERECHA: buscador + iconos -->
+        {{-- DERECHA: buscador + iconos --}}
         <div class="hidden md:flex items-center space-x-4">
             <div class="flex items-center bg-[#232323] rounded-full px-3 py-1">
                 <input type="text" placeholder="Buscar productos..."
@@ -81,18 +79,49 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
+
             <button class="text-white hover:text-[#e7452e]">
                 <i class="fa-solid fa-user"></i>
             </button>
+
+            {{-- CARRITO --}}
             <div class="relative">
-                <button class="text-white hover:text-[#e7452e]">
+                <button id="open-cart" class="text-white hover:text-[#e7452e] flex items-center gap-2">
                     <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count"
+                        class="inline-flex items-center justify-center text-xs bg-[#e7452e] rounded-full w-5 h-5">0</span>
                 </button>
-                <span class="absolute -top-1 -right-2 bg-[#e7452e] text-white text-xs rounded-full px-1.5">1</span>
+            </div>
+        </div>
+    </div>
+
+    {{-- PANEL DEL CARRITO (dropdown/side minimalista) --}}
+    <div id="cart-panel" class="hidden">
+        <div class="fixed inset-0 bg-black/50 z-40"></div>
+        <div
+            class="fixed right-0 top-0 h-full w-full sm:w-[380px] bg-[#0f0f0f] z-50 shadow-2xl border-l border-[#232323]">
+            <div class="p-4 border-b border-[#232323] flex items-center justify-between">
+                <h3 class="font-bold text-lg">Tu carrito</h3>
+                <button id="close-cart" class="text-gray-300 hover:text-white">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-4">
+                <ul id="cart-items" class="divide-y divide-[#232323]"></ul>
+            </div>
+            <div class="p-4 border-t border-[#232323]">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-sm text-gray-300">Total</span>
+                    <span id="cart-total" class="font-bold">S/ 0.00</span>
+                </div>
+                <button class="w-full bg-[#e7452e] hover:bg-[#cf3d28] text-white rounded-lg py-2 text-sm">
+                    Finalizar compra
+                </button>
             </div>
         </div>
     </div>
 </nav>
+
 
 <!-- Línea naranja debajo del navbar -->
 <div class="w-full h-1 bg-[#e7452e]"></div>
