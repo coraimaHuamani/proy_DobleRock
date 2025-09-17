@@ -52,7 +52,10 @@
                 <a href="{{ route('tienda') }}"
                     class="hover:text-[#e7452e] {{ request()->is('tienda') ? 'text-[#e7452e]' : '' }}">Tienda</a>
             </li>
-            <li><a href="#" class="hover:text-[#e7452e]">Música</a></li>
+            <li>
+                <a href="/musica"
+                    class="hover:text-[#e7452e] {{ request()->is('musica') ? 'text-[#e7452e]' : '' }}">Música</a>
+            </li>
             <li>
                 <a href="{{ route('noticias') }}"
                     class="hover:text-[#e7452e] {{ request()->is('noticias') ? 'text-[#e7452e]' : '' }}">Noticias</a>
@@ -167,8 +170,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 </a>
             </li>
             <li>
-                <a href="#"
-                    class="hover:text-[#e7452e] w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative">
+                <a href="/musica"
+                    class="hover:text-[#e7452e] w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative {{ request()->is('musica') ? 'text-[#e7452e]' : '' }}">
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-music text-[#e7452e]"></i> Música
                     </div>

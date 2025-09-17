@@ -14,7 +14,7 @@
                 <i class="fa-solid fa-play text-[#e7452e]"></i>
                 ESCUCHAR
             </a>
-            <a href="#"
+            <a href="/tienda"
                 class="flex items-center gap-2 bg-[#e7452e] hover:bg-orange-600 text-white px-6 py-2 rounded-full font-semibold transition">
                 <i class="fa-solid fa-cart-shopping"></i>
                 TIENDA

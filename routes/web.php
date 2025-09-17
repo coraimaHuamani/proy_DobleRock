@@ -26,3 +26,9 @@ Route::get('/register', function () {
     return view('register');
 })->name('register');
 
+Route::get('/musica', function () {
+    return view('musica');
+})->name('musica');
+
+
+
