@@ -78,6 +78,16 @@
         <!-- Overlay oscuro -->
         <div class="absolute inset-0 bg-black/80"></div>
         <div class="relative max-w-[1200px] mx-auto px-6 py-10 text-white">
+            <!-- Buscador de productos (después del banner, con fondo igual a las cards) -->
+            <div class="flex justify-end mb-8">
+                <div class="flex items-center bg-transparent border border-[#222] shadow rounded-full px-3 py-1 w-full max-w-xs">
+                    <input id="search-product" type="text" placeholder="Buscar productos por nombre..."
+                        class="bg-transparent text-sm focus:outline-none text-gray-300 placeholder-gray-400 w-full">
+                    <button id="search-btn" class="text-white hover:text-[#e7452e]">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </div>
     <!-- El resto del contenido va dentro del div .relative -->
 
             {{-- ====== SECCIÓN: MERCHANDISING MUSICAL ====== --}}

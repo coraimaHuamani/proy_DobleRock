@@ -79,15 +79,7 @@
         {{-- DERECHA: buscador + iconos --}}
         <div class="hidden md:flex items-center space-x-4">
             {{-- Buscador solo visible en tienda --}}
-            @if (request()->is('tienda'))
-            <div class="flex items-center bg-[#232323] rounded-full px-3 py-1">
-                <input id="search-product" type="text" placeholder="Buscar productos..."
-                    class="bg-transparent text-sm focus:outline-none text-gray-300 placeholder-gray-400 w-40">
-                <button id="search-btn" class="text-white hover:text-[#e7452e]">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
-            @endif
+            <!-- Buscador eliminado del navbar, ahora solo en tienda -->
 
             <button class="text-white hover:text-[#e7452e]">
                 <i class="fa-solid fa-user"></i>
