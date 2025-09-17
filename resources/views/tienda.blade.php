@@ -75,7 +75,10 @@
     </script>
     <section class="shop-wrap relative text-white min-h-screen pb-16 bg-cover bg-center"
         style="background-image: url('https://images.pexels.com/photos/15474721/pexels-photo-15474721.jpeg?_gl=1*1s948t4*_ga*MTgxOTg3ODAzNS4xNzU3NzQ0MzM3*_ga_8JE65Q40S6*czE3NTc3NDQzMzYkbzEkZzEkdDE3NTc3NDQzNzUkajIxJGwwJGgw'); background-size: cover; background-position: center;">
-        <div class="max-w-[1200px] mx-auto px-6 py-10 text-white">
+        <!-- Overlay oscuro -->
+        <div class="absolute inset-0 bg-black/80"></div>
+        <div class="relative max-w-[1200px] mx-auto px-6 py-10 text-white">
+    <!-- El resto del contenido va dentro del div .relative -->
 
             {{-- ====== SECCIÓN: MERCHANDISING MUSICAL ====== --}}
             <section class="mb-10">

@@ -65,9 +65,15 @@
 
         {{-- BOTÓN HAMBURGUESA MOBILE --}}
         <div class="md:hidden">
-            <button id="menu-btn" class="focus:outline-none text-white hover:text-[#e7452e]">
-                <i class="fa-solid fa-bars fa-lg"></i>
-            </button>
+            <div class="flex items-center gap-2">
+                <button id="menu-btn" class="focus:outline-none text-white hover:text-[#e7452e]">
+                    <i class="fa-solid fa-bars fa-lg"></i>
+                </button>
+                <button id="open-cart-mobile" class="text-white hover:text-[#e7452e] flex items-center gap-1 md:hidden">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count-mobile" class="inline-flex items-center justify-center text-xs bg-[#e7452e] rounded-full w-5 h-5">0</span>
+                </button>
+            </div>
         </div>
 
         {{-- DERECHA: buscador + iconos --}}
@@ -157,32 +163,26 @@
             </li>
             <li>
                 <a href="#"
-                    class="w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative">
+                    class="hover:text-[#e7452e] w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative">
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-music text-[#e7452e]"></i> Música
                     </div>
-                    <span
-                        class="absolute left-3 right-3 bottom-0 h-1 bg-[#e7452e] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200"></span>
                 </a>
             </li>
             <li>
-                <a href="#"
-                    class="w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative">
+                <a href="{{ route('noticias') }}"
+                    class="hover:text-[#e7452e] w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative {{ request()->is('noticias') ? 'text-[#e7452e]' : '' }}">
                     <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-users text-[#e7452e]"></i> Nosotros
+                        <i class="fa-solid fa-newspaper text-[#e7452e]"></i> Noticias
                     </div>
-                    <span
-                        class="absolute left-3 right-3 bottom-0 h-1 bg-[#e7452e] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200"></span>
                 </a>
             </li>
             <li>
-                <a href="#"
-                    class="w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative">
+                <a href="{{ route('galeria') }}"
+                    class="hover:text-[#e7452e] w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative {{ request()->is('galeria') ? 'text-[#e7452e]' : '' }}">
                     <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-envelope text-[#e7452e]"></i> Contacto
+                        <i class="fa-solid fa-image text-[#e7452e]"></i> Galería
                     </div>
-                    <span
-                        class="absolute left-3 right-3 bottom-0 h-1 bg-[#e7452e] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200"></span>
                 </a>
             </li>
         </ul>
@@ -195,11 +195,13 @@
     // === CARRITO GLOBAL ===
     (function() {
         const STORAGE_KEY = 'cart';
-        const $countBadge = document.getElementById('cart-count');
+    const $countBadge = document.getElementById('cart-count');
+    const $countBadgeMobile = document.getElementById('cart-count-mobile');
         const $cartPanel = document.getElementById('cart-panel');
         const $cartList = document.getElementById('cart-items');
         const $cartTotalEl = document.getElementById('cart-total');
-        const $openCartBtn = document.getElementById('open-cart');
+    const $openCartBtn = document.getElementById('open-cart');
+    const $openCartBtnMobile = document.getElementById('open-cart-mobile');
         const $closeCartBtn = document.getElementById('close-cart');
         // Fondo oscuro para cerrar carrito
         let $cartOverlay = null;
@@ -266,6 +268,7 @@
             // contador
             const totalItems = cart.reduce((a, b) => a + b.qty, 0);
             if ($countBadge) $countBadge.textContent = totalItems;
+            if ($countBadgeMobile) $countBadgeMobile.textContent = totalItems;
 
             // lista
             if ($cartList) {
@@ -321,6 +324,7 @@
 
     // Abrir/cerrar panel
     $openCartBtn?.addEventListener('click', () => $cartPanel?.classList.remove('hidden'));
+    $openCartBtnMobile?.addEventListener('click', () => $cartPanel?.classList.remove('hidden'));
     $closeCartBtn?.addEventListener('click', () => $cartPanel?.classList.add('hidden'));
     $cartOverlay?.addEventListener('click', () => $cartPanel?.classList.add('hidden'));
 
