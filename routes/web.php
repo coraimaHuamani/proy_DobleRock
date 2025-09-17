@@ -30,5 +30,8 @@ Route::get('/musica', function () {
     return view('musica');
 })->name('musica');
 
+Route::get('/producto', function () {
+    return view('producto');
+})->name('producto');
 
 

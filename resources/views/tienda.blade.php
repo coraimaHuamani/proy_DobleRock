@@ -99,9 +99,13 @@
                 <div id="products-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {{-- Taza con diseño de álbum o artista --}}
                         <div class="bg-transparent overflow-hidden shadow border border-[#222] min-h-[440px] flex flex-col">
-                            <img src="https://http2.mlstatic.com/D_NQ_NP_837869-MLA79978531652_102024-O.webp" class="w-full h-56 object-cover">
+                        <a href="/producto?sku=MM-001">
+                            <img src="https://http2.mlstatic.com/D_NQ_NP_837869-MLA79978531652_102024-O.webp" class="w-full h-56 object-cover cursor-pointer transition hover:scale-105">
+                        </a>
                         <div class="p-4 space-y-2">
-                            <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Taza "Álbum/Banda"</h3>
+                            <a href="/producto?sku=MM-001" class="block hover:text-[#e7452e]">
+                                <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Taza "Álbum/Banda"</h3>
+                            </a>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Perfecta para fans que quieren música y café en el mismo lugar.</p>
                             <div class="flex items-center justify-between mt-2">
                             </div>
@@ -116,16 +120,19 @@
                             </div>
                             <button
                                 class="add-btn w-full mt-2 bg-[#181818] hover:bg-[#232323] text-white rounded-lg py-2 text-xs font-mono tracking-wider uppercase"
-                                data-product='{"sku":"MM-001","name":"Taza Álbum/Banda","price":19.90,"image":"https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?q=80&w=1200&auto=format&fit=crop","desc":"Taza con diseño de álbum o artista para disfrutar tu bebida favorita mostrando tu banda preferida."}'>Agregar
+                                data-product='{"sku":"MM-001","name":"Taza Álbum","price":19.90,"image":"https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?q=80&w=1200&auto=format&fit=crop","desc":"Taza con diseño de álbum o artista para disfrutar tu bebida favorita mostrando tu banda preferida."}'>Agregar
                                 al carrito</button>
                         </div>
                     </div>
                     {{-- Funda para teléfono --}}
                         <div class="bg-transparent overflow-hidden shadow border border-[#222] min-h-[440px] flex flex-col">
-                            <img src="https://i.ebayimg.com/thumbs/images/g/K-UAAeSw3StoHCU7/s-l1200.jpg"
-                                alt="Funda para Teléfono" class="w-full h-56 object-cover">
-                        <div class="p-4 space-y-2">
-                            <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Funda para Teléfono</h3>
+                        <a href="/producto?sku=MM-002">
+                            <img src="https://i.ebayimg.com/thumbs/images/g/K-UAAeSw3StoHCU7/s-l1200.jpg" alt="Funda para Teléfono" class="w-full h-56 object-cover cursor-pointer transition hover:scale-105">
+                        </a>
+                            <div class="p-4 space-y-2">
+                                <a href="/producto?sku=MM-002" class="block hover:text-[#e7452e]">
+                                    <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Funda para Teléfono</h3>
+                                </a>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Protege tu celular con estilo rockero y diseños de bandas.</p>
                             <div class="flex items-center justify-between mt-2">
                             </div>
@@ -146,10 +153,13 @@
                     </div>
                     {{-- Póster o lámina de concierto --}}
                         <div class="bg-transparent overflow-hidden shadow border border-[#222] min-h-[440px] flex flex-col">
-                            <img src="https://e1.pxfuel.com/desktop-wallpaper/883/478/desktop-wallpaper-paramore-cover-paramore-tumblr-backgrounds.jpg"
-                                alt="Póster de Concierto" class="w-full h-56 object-cover">
-                        <div class="p-4 space-y-2">
-                            <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Póster de Concierto</h3>
+                        <a href="/producto?sku=MM-003">
+                            <img src="https://e1.pxfuel.com/desktop-wallpaper/883/478/desktop-wallpaper-paramore-cover-paramore-tumblr-backgrounds.jpg" alt="Póster de Concierto" class="w-full h-56 object-cover cursor-pointer transition hover:scale-105">
+                        </a>
+                            <div class="p-4 space-y-2">
+                                <a href="/producto?sku=MM-003" class="block hover:text-[#e7452e]">
+                                    <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Póster de Concierto</h3>
+                                </a>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Decora tu espacio con arte musical icónico de conciertos.</p>
                             <div class="flex items-center justify-between mt-2">
                             </div>
@@ -170,10 +180,13 @@
                     </div>
                     {{-- Gorro o gorra de banda --}}
                         <div class="bg-transparent overflow-hidden shadow border border-[#222] min-h-[440px] flex flex-col">
-                            <img src="https://http2.mlstatic.com/D_NQ_NP_686827-MLA75598912555_042024-O.webp"
-                                alt="Gorro de Banda" class="w-full h-56 object-cover">
-                        <div class="p-4 space-y-2">
-                            <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Gorro/Gorra Banda</h3>
+                        <a href="/producto?sku=MM-004">
+                            <img src="https://http2.mlstatic.com/D_NQ_NP_686827-MLA75598912555_042024-O.webp" alt="Gorro de Banda" class="w-full h-56 object-cover cursor-pointer transition hover:scale-105">
+                        </a>
+                            <div class="p-4 space-y-2">
+                                <a href="/producto?sku=MM-004" class="block hover:text-[#e7452e]">
+                                    <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Gorro/Gorra Banda</h3>
+                                </a>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Luce tu banda favorita mientras te proteges del sol.</p>
                             <div class="flex items-center justify-between mt-2">
                             </div>
@@ -204,10 +217,13 @@
                 <div id="accesorios-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {{-- Accesorio 1 --}}
                     <div class="bg-transparent overflow-hidden shadow border border-[#222] min-h-[440px] flex flex-col">
-                        <img src="https://static.wixstatic.com/media/9554e1_003b0b0b027e40a5a263a7f7b6819d69~mv2.png/v1/fit/w_500,h_500,q_90/file.png"
-                            alt="Gorra Oficial" class="w-full h-56 object-cover">
+                        <a href="/producto?sku=AC-001">
+                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80" alt="Gorra Oficial" class="w-full h-56 object-cover cursor-pointer transition hover:scale-105">
+                        </a>
                         <div class="p-4 space-y-2 flex flex-col flex-1 justify-between">
-                            <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Gorra Oficial</h3>
+                            <a href="/producto?sku=AC-001" class="block hover:text-[#e7452e]">
+                                <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Gorra Oficial</h3>
+                            </a>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Ajustable, bordado de alta calidad.</p>
                             <div class="flex items-center justify-between mt-2">
                             </div>
@@ -228,10 +244,13 @@
                     </div>
                     {{-- Accesorio 2 --}}
                     <div class="bg-transparent overflow-hidden shadow border border-[#222] min-h-[440px] flex flex-col">
-                        <img src="https://m.media-amazon.com/images/I/51zeiPMEG9L._UY1000_.jpg"
-                            alt="Llavero Metálico" class="w-full h-56 object-cover">
+                        <a href="/producto?sku=AC-002">
+                            <img src="https://m.media-amazon.com/images/I/51zeiPMEG9L._UY1000_.jpg" alt="Llavero Metálico" class="w-full h-56 object-cover cursor-pointer transition hover:scale-105">
+                        </a>
                         <div class="p-4 space-y-2 flex flex-col flex-1 justify-between">
-                            <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Llavero Metálico</h3>
+                            <a href="/producto?sku=AC-002" class="block hover:text-[#e7452e]">
+                                <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Llavero Metálico</h3>
+                            </a>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Grabado láser de alta precisión, resistente al desgaste.</p>
                             <div class="flex items-center justify-between mt-2">
                             </div>
@@ -252,10 +271,13 @@
                     </div>
                     {{-- Accesorio 3 --}}
                     <div class="bg-transparent overflow-hidden shadow border border-[#222] min-h-[440px] flex flex-col">
-                        <img src="https://i.etsystatic.com/18862427/r/il/746de4/5068983255/il_570xN.5068983255_l6or.jpg"
-                            alt="Pulsera Rock" class="w-full h-56 object-cover">
+                        <a href="/producto?sku=AC-003">
+                            <img src="https://i.etsystatic.com/18862427/r/il/746de4/5068983255/il_570xN.5068983255_l6or.jpg" alt="Pulsera Rock" class="w-full h-56 object-cover cursor-pointer transition hover:scale-105">
+                        </a>
                         <div class="p-4 space-y-2 flex flex-col flex-1 justify-between">
-                            <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Pulsera Rock</h3>
+                            <a href="/producto?sku=AC-003" class="block hover:text-[#e7452e]">
+                                <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Pulsera Rock</h3>
+                            </a>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Cuero genuino suave, broche metálico resistente.</p>
                             <div class="flex items-center justify-between mt-2">
                             </div>
@@ -276,10 +298,13 @@
                     </div>
                     {{-- Accesorio 4 --}}
                     <div class="bg-transparent overflow-hidden shadow border border-[#222] min-h-[440px] flex flex-col">
-                        <img src="https://www.puaspersonalizadas.es/wp-content/uploads/2017/10/plectrum-xxl-met-maat-min.png"
-                            alt="Púa de Guitarra" class="w-full h-56 object-cover">
+                        <a href="/producto?sku=AC-004">
+                            <img src="https://www.puaspersonalizadas.es/wp-content/uploads/2017/10/plectrum-xxl-met-maat-min.png" alt="Púa de Guitarra" class="w-full h-56 object-cover cursor-pointer transition hover:scale-105">
+                        </a>
                         <div class="p-4 space-y-2 flex flex-col flex-1 justify-between">
-                            <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Púa de Guitarra</h3>
+                            <a href="/producto?sku=AC-004" class="block hover:text-[#e7452e]">
+                                <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Púa de Guitarra</h3>
+                            </a>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Material resistente, edición limitada.</p>
                             <div class="flex items-center justify-between mt-2">
                             </div>
