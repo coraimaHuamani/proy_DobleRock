@@ -46,16 +46,19 @@
         <!-- ENLACES IZQUIERDA -->
         <ul class="hidden md:flex space-x-6 font-semibold uppercase text-sm">
             <li>
-                <a href="/" class="hover:text-[#e7452e] {{ request()->is('/') ? 'text-[#e7452e]' : '' }}">Inicio</a>
+                <a href="/"
+                    class="hover:text-[#e7452e] {{ request()->is('/') ? 'text-[#e7452e]' : '' }}">Inicio</a>
             </li>
             <li>
-                <a href="{{ route('tienda') }}" class="hover:text-[#e7452e] {{ request()->is('tienda') ? 'text-[#e7452e]' : '' }}">Tienda</a>
+                <a href="{{ route('tienda') }}"
+                    class="hover:text-[#e7452e] {{ request()->is('tienda') ? 'text-[#e7452e]' : '' }}">Tienda</a>
             </li>
             <li>
                 <a href="#" class="hover:text-[#e7452e]">Música</a>
             </li>
             <li>
-                <a href="#" class="hover:text-[#e7452e]">Nosotros</a>
+                <a href="{{ route('noticias') }}"
+                    class="hover:text-[#e7452e] {{ request()->is('noticias') ? 'text-[#e7452e]' : '' }}">Noticias</a>
             </li>
             <li>
                 <a href="#" class="hover:text-[#e7452e]">Contacto</a>
@@ -105,14 +108,16 @@
         </div>
         <ul class="space-y-6 mt-4 font-semibold uppercase text-base">
             <li>
-                <a href="/" class="hover:text-[#e7452e] w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative {{ request()->is('/') ? 'text-[#e7452e]' : '' }}">
+                <a href="/"
+                    class="hover:text-[#e7452e] w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative {{ request()->is('/') ? 'text-[#e7452e]' : '' }}">
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-house text-[#e7452e]"></i> Inicio
                     </div>
                 </a>
             </li>
             <li>
-                <a href="{{ route('tienda') }}" class="hover:text-[#e7452e] w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative {{ request()->is('tienda') ? 'text-[#e7452e]' : '' }}">
+                <a href="{{ route('tienda') }}"
+                    class="hover:text-[#e7452e] w-full flex flex-col items-start px-3 py-3 rounded transition-all duration-200 group relative {{ request()->is('tienda') ? 'text-[#e7452e]' : '' }}">
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-store text-[#e7452e]"></i> Tienda
                     </div>
