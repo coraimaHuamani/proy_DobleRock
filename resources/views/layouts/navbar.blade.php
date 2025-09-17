@@ -116,9 +116,21 @@
                     <span class="text-sm text-gray-300">Total</span>
                     <span id="cart-total" class="font-bold">S/ 0.00</span>
                 </div>
-                <button class="w-full bg-[#e7452e] hover:bg-[#cf3d28] text-white rounded-lg py-2 text-sm">
+                <button id="checkout-btn" class="w-full bg-[#e7452e] hover:bg-[#cf3d28] text-white rounded-lg py-2 text-sm">
                     Finalizar compra
                 </button>
+<script>
+// Redirigir a login al finalizar compra
+document.addEventListener('DOMContentLoaded', function() {
+    var checkoutBtn = document.getElementById('checkout-btn');
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/login';
+        });
+    }
+});
+</script>
             </div>
         </div>
     </div>

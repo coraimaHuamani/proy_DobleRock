@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen bg-neutral-950 text-white px-6 md:px-12 lg:px-24">
+    <div class="min-h-screen relative text-white px-6 md:px-12 lg:px-24"
+        style="background-image: url('https://images.pexels.com/photos/15474721/pexels-photo-15474721.jpeg?_gl=1*1s948t4*_ga*MTgxOTg3ODAzNS4xNzU3NzQ0MzM3*_ga_8JE65Q40S6*czE3NTc3NDQzMzYkbzEkZzEkdDE3NTc3NDQzNzUkajIxJGwwJGgw'); background-size: cover; background-position: center;">
+        <div class="absolute inset-0 bg-black/80"></div>
+        <div class="relative z-10">
         <!-- Hero / Encabezado -->
         <header class="relative overflow-hidden">
             <div class="container mx-auto px-4 py-16 lg:py-24 grid lg:grid-cols-2 gap-10 items-center">
@@ -57,7 +60,7 @@
                             <h3 class="font-semibold">Backstage — Gira <em>Evolve</em></h3>
                             <p class="text-sm text-neutral-400">Imagine Dragons</p>
                         </div>
-                        <span class="px-2 py-1 text-xs rounded-full bg-fuchsia-500/20 text-fuchsia-300">Foto</span>
+
                     </div>
                 </article>
 
@@ -73,7 +76,7 @@
                             <h3 class="font-semibold">Studio Session — <em>Night Visions</em></h3>
                             <p class="text-sm text-neutral-400">Preproducción & tomas B-roll</p>
                         </div>
-                        <span class="px-2 py-1 text-xs rounded-full bg-fuchsia-500/20 text-fuchsia-300">Foto</span>
+
                     </div>
                 </article>
 
@@ -88,7 +91,7 @@
                             <h3 class="font-semibold">“Believer” — Live Jam</h3>
                             <p class="text-sm text-neutral-400">Sesión nocturna · Tomada en vivo</p>
                         </div>
-                        <span class="px-2 py-1 text-xs rounded-full bg-emerald-500/20 text-emerald-300">Video</span>
+
                     </div>
                 </article>
 
@@ -104,12 +107,13 @@
                             <h3 class="font-semibold">“Radioactive” — Ensayo Acústico</h3>
                             <p class="text-sm text-neutral-400">Warm-up en estudio</p>
                         </div>
-                        <span class="px-2 py-1 text-xs rounded-full bg-emerald-500/20 text-emerald-300">Video</span>
+
                     </div>
                 </article>
             </div>
         </section>
 
+        </div>
     </div>
 
     <!-- Estilos utilitarios para animaciones mínimas -->

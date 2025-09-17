@@ -17,7 +17,7 @@
             <button type="submit" class="w-full py-2 rounded bg-[#e7452e] hover:bg-[#c53a22] text-white font-bold uppercase tracking-widest transition">Entrar</button>
         </form>
         <div class="mt-6 flex flex-col items-center">
-            <a href="#" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#e7452e] text-[#e7452e] bg-[#181818] hover:bg-[#e7452e] hover:text-white transition font-semibold text-xs uppercase tracking-widest shadow">
+            <a href="/register" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#e7452e] text-[#e7452e] bg-[#181818] hover:bg-[#e7452e] hover:text-white transition font-semibold text-xs uppercase tracking-widest shadow">
                 <i class="fa-solid fa-user-plus"></i>
                 Crear nuevo usuario
             </a>
