@@ -17,3 +17,7 @@ Route::get('/noticias', function () {
 Route::get('/galeria', function () {
     return view('galeria');
 })->name('galeria');
+
+Route::get('/login', function () {
+    return view('login');
+})->name('login');

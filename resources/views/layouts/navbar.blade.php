@@ -81,9 +81,10 @@
             {{-- Buscador solo visible en tienda --}}
             <!-- Buscador eliminado del navbar, ahora solo en tienda -->
 
-            <button class="text-white hover:text-[#e7452e]">
+            <a href="/login" class="flex items-center gap-1 text-white hover:text-[#e7452e] px-2 py-1 rounded transition">
                 <i class="fa-solid fa-user"></i>
-            </button>
+                <span class="hidden md:inline font-semibold uppercase text-xs tracking-widest"></span>
+            </a>
 
             {{-- CARRITO --}}
             <div class="relative">
