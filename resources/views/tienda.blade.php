@@ -1,6 +1,78 @@
 @extends('layouts.app')
 
 @section('content')
+    <!-- Modal de producto agregado -->
+    <div id="add-modal" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-[#181818] text-white px-6 py-3 rounded-lg shadow-lg border border-[#e7452e] flex items-center gap-3 opacity-0 pointer-events-none transition-all duration-300">
+        <i class="fa-solid fa-circle-check text-[#e7452e] text-xl"></i>
+        <span class="font-mono text-sm">¡Producto agregado al carrito!</span>
+    </div>
+    <!-- Banner principal con slider y título -->
+    <section class="w-full bg-black py-8">
+        <div class="max-w-[1200px] mx-auto px-4">
+            <h2 class="text-center text-lg md:text-2xl font tracking-widest text-white mb-6 uppercase">
+                PRODUCTOS MUSICALES, MERCHANDISING Y ACCESORIOS DE ESTILO ROCK.
+            </h2>
+            <!-- Slider simple -->
+                <!-- Cambia las URLs de las imágenes aquí. Dimensión recomendada: 1200x320px -->
+                <div id="banner-slider" class="relative overflow-hidden rounded-lg shadow-lg">
+                    <div class="flex transition-transform duration-700 w-full" id="slider-track">
+                        <div class="w-full flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80" alt="Banner 1" class="w-full h-[320px] object-cover">
+                        </div>
+                        <div class="w-full flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80" alt="Banner 2" class="w-full h-[320px] object-cover">
+                        </div>
+                    </div>
+                <!-- Controles -->
+                <button id="slider-prev" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full w-8 h-8 flex items-center justify-center z-10"><i class="fa-solid fa-chevron-left"></i></button>
+                <button id="slider-next" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full w-8 h-8 flex items-center justify-center z-10"><i class="fa-solid fa-chevron-right"></i></button>
+                <!-- Indicadores -->
+                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                    <span class="slider-dot w-3 h-3 rounded-full bg-white/70 cursor-pointer"></span>
+                    <span class="slider-dot w-3 h-3 rounded-full bg-white/30 cursor-pointer"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+    // Mostrar modal de producto agregado
+    function showAddModal() {
+        const modal = document.getElementById('add-modal');
+        if (!modal) return;
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100');
+        setTimeout(() => {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('opacity-100');
+        }, 1800);
+    }
+
+    // Interceptar clicks en .add-btn para mostrar el modal
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.add-btn');
+        if (btn) {
+            showAddModal();
+        }
+    });
+
+    // Slider JS simple (2 imágenes)
+    (function() {
+        const track = document.getElementById('slider-track');
+        const dots = document.querySelectorAll('.slider-dot');
+        const prev = document.getElementById('slider-prev');
+        const next = document.getElementById('slider-next');
+        let idx = 0;
+        function showSlide(i) {
+            idx = (i+2)%2;
+            track.style.transform = `translateX(-${idx*100}%)`;
+            dots.forEach((d, j) => d.classList.toggle('bg-white/70', j===idx));
+        }
+        prev.onclick = () => showSlide(idx-1);
+        next.onclick = () => showSlide(idx+1);
+        dots.forEach((d, i) => d.onclick = () => showSlide(i));
+        showSlide(0);
+    })();
+    </script>
     <section class="shop-wrap relative text-white min-h-screen pb-16 bg-cover bg-center"
         style="background-image: url('https://images.pexels.com/photos/15474721/pexels-photo-15474721.jpeg?_gl=1*1s948t4*_ga*MTgxOTg3ODAzNS4xNzU3NzQ0MzM3*_ga_8JE65Q40S6*czE3NTc3NDQzMzYkbzEkZzEkdDE3NTc3NDQzNzUkajIxJGwwJGgw'); background-size: cover; background-position: center;">
         <div class="max-w-[1200px] mx-auto px-6 py-10 text-white">
@@ -19,8 +91,13 @@
                             <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Taza "Álbum/Banda"</h3>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Perfecta para fans que quieren música y café en el mismo lugar.</p>
                             <div class="flex items-center justify-between mt-2">
+                            </div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-gray-400">Stock: 2</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
                                 <span class="font-mono text-base text-white">S/ 19.90</span>
-                                <input type="number" min="1" value="1"
+                                <input type="number" min="1" max="2" value="1"
                                     class="qty-input w-16 bg-[#232323] rounded px-2 py-1 text-xs text-center font-mono ml-2"
                                     data-sku="MM-001">
                             </div>
@@ -38,8 +115,13 @@
                             <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Funda para Teléfono</h3>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Protege tu celular con estilo rockero y diseños de bandas.</p>
                             <div class="flex items-center justify-between mt-2">
+                            </div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-gray-400">Stock: 1</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
                                 <span class="font-mono text-base text-white">S/ 29.90</span>
-                                <input type="number" min="1" value="1"
+                                <input type="number" min="1" max="1" value="1"
                                     class="qty-input w-16 bg-[#232323] rounded px-2 py-1 text-xs text-center font-mono ml-2"
                                     data-sku="MM-002">
                             </div>
@@ -57,8 +139,13 @@
                             <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Póster de Concierto</h3>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Decora tu espacio con arte musical icónico de conciertos.</p>
                             <div class="flex items-center justify-between mt-2">
+                            </div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-gray-400">Stock: 2</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
                                 <span class="font-mono text-base text-white">S/ 24.90</span>
-                                <input type="number" min="1" value="1"
+                                <input type="number" min="1" max="2" value="1"
                                     class="qty-input w-16 bg-[#232323] rounded px-2 py-1 text-xs text-center font-mono ml-2"
                                     data-sku="MM-003">
                             </div>
@@ -76,8 +163,13 @@
                             <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Gorro/Gorra Banda</h3>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Luce tu banda favorita mientras te proteges del sol.</p>
                             <div class="flex items-center justify-between mt-2">
+                            </div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-gray-400">Stock: 1</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
                                 <span class="font-mono text-base text-white">S/ 34.90</span>
-                                <input type="number" min="1" value="1"
+                                <input type="number" min="1" max="1" value="1"
                                     class="qty-input w-16 bg-[#232323] rounded px-2 py-1 text-xs text-center font-mono ml-2"
                                     data-sku="MM-004">
                             </div>
@@ -105,8 +197,13 @@
                             <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Gorra Oficial</h3>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Ajustable, bordado de alta calidad.</p>
                             <div class="flex items-center justify-between mt-2">
+                            </div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-gray-400">Stock: 2</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
                                 <span class="font-mono text-base text-white">S/ 39.90</span>
-                                <input type="number" min="1" value="1"
+                                <input type="number" min="1" max="2" value="1"
                                     class="qty-input w-16 bg-[#232323] rounded px-2 py-1 text-xs text-center font-mono ml-2"
                                     data-sku="AC-001">
                             </div>
@@ -124,8 +221,13 @@
                             <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Llavero Metálico</h3>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Grabado láser de alta precisión, resistente al desgaste.</p>
                             <div class="flex items-center justify-between mt-2">
+                            </div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-gray-400">Stock: 1</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
                                 <span class="font-mono text-base text-white">S/ 14.90</span>
-                                <input type="number" min="1" value="1"
+                                <input type="number" min="1" max="1" value="1"
                                     class="qty-input w-16 bg-[#232323] rounded px-2 py-1 text-xs text-center font-mono ml-2"
                                     data-sku="AC-002">
                             </div>
@@ -143,8 +245,13 @@
                             <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Pulsera Rock</h3>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Cuero genuino suave, broche metálico resistente.</p>
                             <div class="flex items-center justify-between mt-2">
+                            </div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-gray-400">Stock: 2</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
                                 <span class="font-mono text-base text-white">S/ 24.90</span>
-                                <input type="number" min="1" value="1"
+                                <input type="number" min="1" max="2" value="1"
                                     class="qty-input w-16 bg-[#232323] rounded px-2 py-1 text-xs text-center font-mono ml-2"
                                     data-sku="AC-003">
                             </div>
@@ -162,8 +269,13 @@
                             <h3 class="text-lg font-bold font-mono uppercase tracking-wider">Púa de Guitarra</h3>
                             <p class="text-xs text-gray-300 font-mono tracking-wider uppercase">Material resistente, edición limitada.</p>
                             <div class="flex items-center justify-between mt-2">
+                            </div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-gray-400">Stock: 1</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
                                 <span class="font-mono text-base text-white">S/ 9.90</span>
-                                <input type="number" min="1" value="1"
+                                <input type="number" min="1" max="1" value="1"
                                     class="qty-input w-16 bg-[#232323] rounded px-2 py-1 text-xs text-center font-mono ml-2"
                                     data-sku="AC-004">
                             </div>
@@ -175,141 +287,7 @@
                     </div>
                 </div>
             </section>
-
         </div>
-
-        {{-- ====== SCRIPTS DEL CARRITO (vanilla JS + localStorage) ====== --}}
-        <script>
-            (function() {
-                const STORAGE_KEY = 'cart';
-                const $countBadge = document.getElementById('cart-count');
-                const $cartPanel = document.getElementById('cart-panel');
-                const $cartList = document.getElementById('cart-items');
-                const $cartTotalEl = document.getElementById('cart-total');
-                const $openCartBtn = document.getElementById('open-cart');
-                const $closeCartBtn = document.getElementById('close-cart');
-
-                function loadCart() {
-                    try {
-                        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-                    } catch {
-                        return [];
-                    }
-                }
-
-                function saveCart(cart) {
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
-                }
-
-                function format(n) {
-                    return 'S/ ' + n.toFixed(2);
-                }
-
-                function getQtyFor(sku) {
-                    const input = document.querySelector(`.qty-input[data-sku="${sku}"]`);
-                    let q = parseInt(input?.value ?? '1', 10);
-                    if (isNaN(q) || q < 1) q = 1;
-                    return q;
-                }
-
-                function addItem(product, qty) {
-                    const cart = loadCart();
-                    const idx = cart.findIndex(i => i.sku === product.sku);
-                    if (idx >= 0) {
-                        cart[idx].qty += qty;
-                    } else {
-                        cart.push({
-                            ...product,
-                            qty
-                        });
-                    }
-                    saveCart(cart);
-                    renderCart();
-                }
-
-                function removeItem(sku) {
-                    let cart = loadCart().filter(i => i.sku !== sku);
-                    saveCart(cart);
-                    renderCart();
-                }
-
-                function updateQty(sku, qty) {
-                    const cart = loadCart();
-                    const i = cart.findIndex(x => x.sku === sku);
-                    if (i >= 0) {
-                        cart[i].qty = qty < 1 ? 1 : qty;
-                        saveCart(cart);
-                        renderCart();
-                    }
-                }
-
-                function renderCart() {
-                    const cart = loadCart();
-                    // contador
-                    const totalItems = cart.reduce((a, b) => a + b.qty, 0);
-                    if ($countBadge) $countBadge.textContent = totalItems;
-
-                    // lista
-                    if ($cartList) {
-                        $cartList.innerHTML = '';
-                        let total = 0;
-                        cart.forEach(item => {
-                            const sub = item.price * item.qty;
-                            total += sub;
-                            const li = document.createElement('li');
-                            li.className = 'flex items-center gap-3 py-3 border-b border-[#2a2a2a]';
-                            li.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded">
-                    <div class="flex-1">
-                        <p class="text-sm font-semibold">${item.name}</p>
-                        <p class="text-xs text-gray-400">${item.desc}</p>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="text-sm">${format(item.price)}</span>
-                            <input type="number" min="1" value="${item.qty}"
-                                class="w-16 bg-[#232323] rounded px-2 py-1 text-sm text-center change-qty"
-                                data-sku="${item.sku}">
-                            <span class="text-xs text-gray-400">Subt: ${format(sub)}</span>
-                        </div>
-                    </div>
-                    <button class="text-[#e7452e] hover:underline remove-item" data-sku="${item.sku}">Quitar</button>
-                `;
-                            $cartList.appendChild(li);
-                        });
-                        if ($cartTotalEl) $cartTotalEl.textContent = format(total);
-                    }
-                }
-
-                // Delegación: agregar
-                document.addEventListener('click', (e) => {
-                    const btn = e.target.closest('.add-btn');
-                    if (btn) {
-                        const product = JSON.parse(btn.getAttribute('data-product'));
-                        const qty = getQtyFor(product.sku);
-                        addItem(product, qty);
-                    }
-                    const rem = e.target.closest('.remove-item');
-                    if (rem) removeItem(rem.getAttribute('data-sku'));
-                });
-
-                // Cambios de cantidad dentro del panel
-                document.addEventListener('change', (e) => {
-                    const inp = e.target.closest('.change-qty');
-                    if (inp) {
-                        const sku = inp.getAttribute('data-sku');
-                        const qty = parseInt(inp.value, 10) || 1;
-                        updateQty(sku, qty);
-                    }
-                });
-
-                // Abrir/cerrar panel
-                $openCartBtn?.addEventListener('click', () => $cartPanel?.classList.remove('hidden'));
-                $closeCartBtn?.addEventListener('click', () => $cartPanel?.classList.add('hidden'));
-
-                // Render inicial
-                renderCart();
-            })();
-        </script>
-
     </section>
 
     {{-- Fondo con estrellas --}}
