@@ -83,7 +83,7 @@
                     <span class="inline-block w-8 h-0.5 bg-white mr-3"></span>
                     <h2 class="text-base tracking-widest text-white uppercase">Merchandising Musical</h2>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div id="products-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {{-- Taza con diseño de álbum o artista --}}
                         <div class="bg-transparent overflow-hidden shadow border border-[#222] min-h-[440px] flex flex-col">
                             <img src="https://http2.mlstatic.com/D_NQ_NP_837869-MLA79978531652_102024-O.webp" class="w-full h-56 object-cover">
@@ -188,7 +188,7 @@
                     <span class="inline-block w-8 h-0.5 bg-white mr-3"></span>
                     <h2 class="text-base tracking-widest text-white uppercase">Accesorios</h2>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div id="accesorios-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {{-- Accesorio 1 --}}
                     <div class="bg-transparent overflow-hidden shadow border border-[#222] min-h-[440px] flex flex-col">
                         <img src="https://static.wixstatic.com/media/9554e1_003b0b0b027e40a5a263a7f7b6819d69~mv2.png/v1/fit/w_500,h_500,q_90/file.png"
@@ -314,3 +314,29 @@
         }
     </style>
 @endsection
+<script>
+// === FILTRO DE PRODUCTOS POR NOMBRE DESDE NAVBAR ===
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('search-product');
+    const productsList = document.getElementById('products-list');
+    const accesoriosList = document.getElementById('accesorios-list');
+    if (!input) return;
+    function filterList(list) {
+        if (!list) return;
+        const val = input.value.trim().toLowerCase();
+        const cards = list.querySelectorAll('h3');
+        cards.forEach(h3 => {
+            const card = h3.closest('.bg-transparent');
+            if (!val || h3.textContent.toLowerCase().includes(val)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+    input.addEventListener('input', function() {
+        filterList(productsList);
+        filterList(accesoriosList);
+    });
+});
+</script>
