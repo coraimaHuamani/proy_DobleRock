@@ -62,7 +62,7 @@
                         class="card group media-foto rounded-3xl overflow-hidden bg-white/5 ring-1 ring-white/10 hover:ring-white/20 transition neon-hover reveal"
                         style="--reveal-delay: .0s">
                         <div class="thumb aspect-[4/3] overflow-hidden relative">
-                            <img src="/images/imagen2.jpg" alt="Imagine Dragons - Backstage de la gira Evolve"
+                            <img src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000d72c274a231dc93ab8f2010e6513" alt="Imagine Dragons - Backstage de la gira Evolve"
                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                             <span class="shine"></span>
                         </div>
@@ -72,7 +72,7 @@
                                 <p class="text-sm text-neutral-400">Imagine Dragons</p>
                             </div>
                             <button class="open-lightbox text-sm underline decoration-[#e7452e]" data-type="image"
-                                data-src="/images/imagen2.jpg">Ver</button>
+                                data-src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000d72c274a231dc93ab8f2010e6513">Ver</button>
                         </div>
                     </article>
 
@@ -81,7 +81,7 @@
                         class="card group media-foto rounded-3xl overflow-hidden bg-white/5 ring-1 ring-white/10 hover:ring-white/20 transition neon-hover reveal"
                         style="--reveal-delay: .06s">
                         <div class="thumb aspect-[4/3] overflow-hidden relative">
-                            <img src="/images/imagen3.jpg" alt="Imagine Dragons - Sesión en estudio para Night Visions"
+                            <img src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000d72c274a231dc93ab8f2010e6513" alt="Imagine Dragons - Sesión en estudio para Night Visions"
                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                             <span class="shine"></span>
                         </div>
