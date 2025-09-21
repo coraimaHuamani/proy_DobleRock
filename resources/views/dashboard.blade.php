@@ -36,6 +36,10 @@
                     <i class="fa-solid fa-images"></i>
                     Galería
                 </button>
+                <button id="menu-noticias" class="flex items-center gap-2 text-white hover:text-[#e7452e] transition font-semibold focus:outline-none">
+                    <i class="fa-solid fa-newspaper"></i>
+                    Noticias
+                </button>
                 <!-- Botón de logout -->
                 <button id="logout-btn"
                     class="flex items-center gap-2 text-white hover:text-red-500 transition font-semibold focus:outline-none mt-8">
@@ -74,11 +78,24 @@
                         <p class="text-gray-300">Aquí aparecerán las imágenes y videos de la galería para administrar.</p>
                     </div>
                 </div>
+
+                <div id="panel-noticias" class="hidden">
+                    <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Noticias</h2>
+                    @include('noticias._editar')
+                    @include('noticias._agregar')
+                    <button id="btn-create-news" type="button"
+                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
+                        Agregar noticia
+                    </button>
+                    <div id="news-container" class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                        @include('noticias._tabla')
+                    </div>
+                </div>
             </main>
         </div>
     </div>
     @push('scripts')
-        <script src="{{ asset('js/dashboard.js') }}"></script>
+        <script type="module" src="{{ asset('js/dashboard.js') }}"></script>
         <script src="{{ asset('js/usuarios/cargarUsuario.js') }}"></script>
         <script src="{{ asset('js/login/logout.js') }}"></script>
         <script>
@@ -86,7 +103,7 @@
                 document.getElementById('panel-productos').classList.add('hidden');
                 document.getElementById('panel-galeria').classList.add('hidden');
                 document.getElementById('panel-usuarios').classList.remove('hidden');
-                // Vuelve a cargar los usuarios cada vez que se muestra el panel
+                document.getElementById('panel-noticias').classList.add('hidden');
                 if (typeof cargarUsuarios === "function") {
                     cargarUsuarios();
                 }
