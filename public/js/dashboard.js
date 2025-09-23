@@ -29,6 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
         panels.usuarios.classList.add('hidden');
         panels.galeria.classList.remove('hidden');
         panels.noticias.classList.add('hidden');
+        
+        // Cargar galería cuando se muestre el panel
+        if (typeof cargarGaleria === "function") {
+            setTimeout(cargarGaleria, 100);
+        }
     };
 
     document.getElementById('menu-noticias').onclick = async() => { 

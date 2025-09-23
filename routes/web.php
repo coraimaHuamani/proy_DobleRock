@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
+
 Route::get('/', function () {
     return view('home');
 });
@@ -34,6 +35,7 @@ Route::get('/musica', function () {
 Route::get('/producto', function () {
     return view('producto');
 })->name('producto');
+
 
 Route::get('/dashboard', function (Request $request) { if (!$request->session()->has('user')) { return redirect('/login'); } return view('dashboard'); })->name('dashboard');
 

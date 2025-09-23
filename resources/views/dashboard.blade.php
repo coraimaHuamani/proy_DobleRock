@@ -75,11 +75,14 @@
                 </div>
                 <div id="panel-galeria" class="hidden">
                     <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Galería</h2>
-                    <button
-                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">Agregar
-                        imagen/video</button>
-                    <div class="bg-[#181818] rounded-lg border border-[#232323] p-4">
-                        <p class="text-gray-300">Aquí aparecerán las imágenes y videos de la galería para administrar.</p>
+                    @include('galeria._agregar')
+                    @include('galeria._editar')
+                    <button id="btn-create-galeria" type="button"
+                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
+                        <i class="fa-solid fa-plus mr-1"></i>Agregar imagen/video
+                    </button>
+                    <div id="galeria-container" class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                        @include('galeria._tabla')
                     </div>
                 </div>
 
@@ -101,6 +104,7 @@
     @push('scripts')
         <script type="module" src="{{ asset('js/dashboard.js') }}"></script>
         <script src="{{ asset('js/usuarios/cargarUsuario.js') }}"></script>
+        <script src="{{ asset('js/galeria/cargarGaleria.js') }}"></script>
         <script src="{{ asset('js/login/logout.js') }}"></script>
         <script>
             document.getElementById('menu-usuarios').addEventListener('click', function() {
