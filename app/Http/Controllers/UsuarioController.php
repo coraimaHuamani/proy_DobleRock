@@ -19,7 +19,7 @@ class UsuarioController extends Controller
             'nombre' => 'required|string|max:255',
             'email' => 'required|email|unique:usuarios,email',
             'password' => 'required|string|min:6',
-            'rol' => 'nullable|string|max:50',
+            'rol' => 'nullable|integer|in:1,2,3',
             'estado' => 'boolean',
         ]);
 
@@ -45,11 +45,11 @@ class UsuarioController extends Controller
             'nombre' => 'sometimes|required|string|max:255',
             'email' => 'sometimes|required|email|unique:usuarios,email,' . $usuario->id,
             'password' => 'nullable|string|min:6',
-            'rol' => 'nullable|string|max:50',
+            'rol' => 'nullable|integer|in:1,2,3',
             'estado' => 'boolean',
         ]);
 
-        if (isset($validated['password'])) {
+        if (isset($validated['password']) && !empty($validated['password'])) {
             $validated['password'] = bcrypt($validated['password']);
         } else {
             unset($validated['password']);

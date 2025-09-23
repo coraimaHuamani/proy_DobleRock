@@ -36,7 +36,8 @@
                     <i class="fa-solid fa-images"></i>
                     Galería
                 </button>
-                <button id="menu-noticias" class="flex items-center gap-2 text-white hover:text-[#e7452e] transition font-semibold focus:outline-none">
+                <button id="menu-noticias"
+                    class="flex items-center gap-2 text-white hover:text-[#e7452e] transition font-semibold focus:outline-none">
                     <i class="fa-solid fa-newspaper"></i>
                     Noticias
                 </button>
@@ -62,10 +63,13 @@
                 </div>
                 <div id="panel-usuarios" class="hidden">
                     <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Usuarios</h2>
-                    <button
-                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">Agregar
-                        usuario</button>
-                    <div class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                    @include('usuarios._agregar')
+                    @include('usuarios._editar')
+                    <button id="btn-create-user" type="button"
+                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
+                        Agregar usuario
+                    </button>
+                    <div id="users-container" class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
                         @include('usuarios._tabla')
                     </div>
                 </div>

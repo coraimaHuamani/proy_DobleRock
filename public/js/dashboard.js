@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
         panels.usuarios.classList.remove('hidden');
         panels.galeria.classList.add('hidden');
         panels.noticias.classList.add('hidden');
+        
+        // Cargar usuarios cuando se muestre el panel
+        if (typeof cargarUsuarios === "function") {
+            setTimeout(cargarUsuarios, 100);
+        }
     };
     document.getElementById('menu-galeria').onclick = () => {
         panels.productos.classList.add('hidden');
@@ -33,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
         panels.noticias.classList.remove('hidden');
 
         cargarNoticias();
-
     }
 
     // Menú hamburguesa para móvil

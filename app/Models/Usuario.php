@@ -30,4 +30,17 @@ class Usuario extends Authenticatable
         'fecha_creacion' => 'date',
         'estado' => 'boolean',
     ];
+
+    // 🚀 Constantes de roles
+    public const ROLES = [
+        1 => 'Admin',
+        2 => 'Editor',
+        3 => 'Usuario',
+    ];
+
+    // 🚀 Accesor para mostrar el nombre del rol
+    public function getRolNombreAttribute()
+    {
+        return self::ROLES[$this->rol] ?? 'Sin rol';
+    }
 }
