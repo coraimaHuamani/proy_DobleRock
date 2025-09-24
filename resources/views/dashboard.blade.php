@@ -21,6 +21,11 @@
                 <div class="hidden md:block mb-8 text-[#e7452e] font-bold uppercase tracking-widest text-lg text-center">
                     {{ session('user', 'Usuario') }}
                 </div>
+                <button id="menu-categorias"
+                    class="flex items-center gap-2 text-white hover:text-[#e7452e] transition font-semibold focus:outline-none">
+                    <i class="fa-solid fa-tags"></i>
+                    Categorías
+                </button>
                 <button id="menu-productos"
                     class="flex items-center gap-2 text-white hover:text-[#e7452e] transition font-semibold focus:outline-none">
                     <i class="fa-solid fa-box"></i>
@@ -52,6 +57,19 @@
             <div id="dashboard-overlay" class="fixed inset-0 bg-black/60 z-30 hidden md:hidden"></div>
             <!-- Contenido dinámico -->
             <main class="flex-1 p-8">
+                <div id="panel-categorias" class="hidden">
+                    <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Categorías</h2>
+                    @include('categorias._agregar')
+                    @include('categorias._editar')
+                    <button id="btn-create-categoria" type="button"
+                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
+                        Agregar categoría
+                    </button>
+                    <div id="categorias-container" class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                        @include('categorias._tabla')
+                    </div>
+                </div>
+
                 <div id="panel-productos">
                     <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Productos</h2>
                     <button
@@ -105,17 +123,9 @@
         <script type="module" src="{{ asset('js/dashboard.js') }}"></script>
         <script src="{{ asset('js/usuarios/cargarUsuario.js') }}"></script>
         <script src="{{ asset('js/galeria/cargarGaleria.js') }}"></script>
+        <script src="{{ asset('js/categoria/tabla.js') }}"></script>
+        <script src="{{ asset('js/categoria/editar.js') }}"></script>
+        <script src="{{ asset('js/categoria/agregar.js') }}"></script>
         <script src="{{ asset('js/login/logout.js') }}"></script>
-        <script>
-            document.getElementById('menu-usuarios').addEventListener('click', function() {
-                document.getElementById('panel-productos').classList.add('hidden');
-                document.getElementById('panel-galeria').classList.add('hidden');
-                document.getElementById('panel-usuarios').classList.remove('hidden');
-                document.getElementById('panel-noticias').classList.add('hidden');
-                if (typeof cargarUsuarios === "function") {
-                    cargarUsuarios();
-                }
-            });
-        </script>
     @endpush
 @endsection
