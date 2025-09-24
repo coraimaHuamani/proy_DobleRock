@@ -255,28 +255,28 @@
             @php
                 $canciones = [
                     [
-                        'titulo' => 'Nothing Impossible',
-                        'artista' => 'Doble Rock',
-                        'duracion' => '3:41',
-                        'src' => '/audio/nothing-impossible.mp3',
+                        'titulo' => 'La leyenda del hada y el mago',
+                        'artista' => 'Rata blanca',
+                        'duracion' => '5:20',
+                        'src' => asset('storage/songs/musica1.mp3'),
                     ],
                     [
-                        'titulo' => 'Rock & Roll Dreams',
-                        'artista' => 'Doble Rock',
-                        'duracion' => '4:05',
-                        'src' => '/audio/rock-roll-dreams.mp3',
+                        'titulo' => 'Mujer Amante',
+                        'artista' => 'Rata blanca',
+                        'duracion' => '5:55',
+                        'src' => '/storage/songs/musica2.mp3',
                     ],
                     [
-                        'titulo' => 'Electric Heart',
-                        'artista' => 'Doble Rock',
-                        'duracion' => '3:22',
-                        'src' => '/audio/electric-heart.mp3',
+                        'titulo' => 'La leyenda del hada y el mago',
+                        'artista' => 'Rata blanca',
+                        'duracion' => '5:20',
+                        'src' => asset('storage/songs/musica1.mp3'),
                     ],
                     [
-                        'titulo' => 'Fire in the Night',
-                        'artista' => 'Doble Rock',
-                        'duracion' => '3:58',
-                        'src' => '/audio/fire-in-the-night.mp3',
+                        'titulo' => 'Mujer Amante',
+                        'artista' => 'Rata blanca',
+                        'duracion' => '5:55',
+                        'src' => '/storage/songs/musica2.mp3',
                     ],
                 ];
                 $albumes = [
@@ -340,15 +340,15 @@
                             @foreach ($canciones as $i => $c)
                                 <li class="py-3 flex items-center justify-between">
                                     <div class="flex items-center gap-4">
-                                        <button class="play-btn text-white" aria-label="Reproducir {{ $c['titulo'] }}"
+                                        <button class="btn-play-song text-white" aria-label="Reproducir {{ $c['titulo'] }}"
                                             data-src="{{ $c['src'] }}" data-title="{{ $c['titulo'] }}"
                                             data-artist="{{ $c['artista'] }}">
                                             <!-- Icono play/pause -->
-                                            <svg class="w-4 h-4 pointer-events-none icon-play" viewBox="0 0 24 24"
+                                            <svg class="icon-play w-4 h-4 pointer-events-none " viewBox="0 0 24 24"
                                                 fill="none">
                                                 <path d="M6 4l14 8-14 8V4z" fill="currentColor" />
                                             </svg>
-                                            <svg class="w-4 h-4 pointer-events-none icon-pause hidden" viewBox="0 0 24 24"
+                                            <svg class="icon-pause w-4 h-4 pointer-events-none hidden" viewBox="0 0 24 24"
                                                 fill="none">
                                                 <path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor" />
                                             </svg>
@@ -542,7 +542,7 @@
 
             // Delegación: click en cualquier .play-btn
             document.body.addEventListener('click', (e) => {
-                const btn = e.target.closest('.play-btn');
+                const btn = e.target.closest('.btn-play-song');
                 if (!btn || btn === npPlayPause) return;
                 const src = btn.dataset.src;
                 if (!src) return;
