@@ -1,153 +1,147 @@
         /* Giro lento del vinilo */
         @keyframes spin-slow {
-        to {
-        transform: rotate(360deg);
-        }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .animate-spin-slow {
-        animation: spin-slow 12s linear infinite;
+            animation: spin-slow 12s linear infinite;
         }
 
         /* Reveal escalonado al scroll */
         @keyframes revealUp {
-        from {
-        transform: translateY(12px);
-        opacity: 0;
-        }
-
-        to {
-        transform: translateY(0);
-        opacity: 1;
-        }
+            from {
+                transform: translateY(12px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .reveal {
-        opacity: 0;
-        transform: translateY(12px);
+            opacity: 0;
+            transform: translateY(12px);
         }
 
         .revealed {
-        animation: revealUp .6s cubic-bezier(.2, .75, .25, 1) forwards;
-        animation-delay: var(--reveal-delay, 0s);
+            animation: revealUp .6s cubic-bezier(.2, .75, .25, 1) forwards;
+            animation-delay: var(--reveal-delay, 0s);
         }
 
         /* Línea que barre horizontalmente bajo el título */
         @keyframes sweepX {
-        0% {
-        transform: translateX(-30%);
-        opacity: .4;
-        }
-
-        50% {
-        opacity: 1;
-        }
-
-        100% {
-        transform: translateX(80%);
-        opacity: .4;
-        }
+            0% {
+                transform: translateX(-30%);
+                opacity: .4;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(80%);
+                opacity: .4;
+            }
         }
 
         .animate-sweep-x {
-        animation: sweepX 2.8s ease-in-out infinite;
+            animation: sweepX 2.8s ease-in-out infinite;
         }
 
-        /* Hover con borde “neón” usando conic-gradient */
+        /* Hover con borde "neón" usando conic-gradient */
         @keyframes conicSpin {
-        to {
-        transform: rotate(360deg);
-        }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .neon-hover {
-        position: relative;
+            position: relative;
         }
 
         .neon-hover::before {
-        content: "";
-        position: absolute;
-        inset: -1px;
-        border-radius: 1.5rem;
-        z-index: -1;
-        background: conic-gradient(from 0deg, #e7452e, transparent 20%, #e7452e 40%, transparent 60%, #e7452e 80%,
-        transparent);
-        filter: blur(10px);
-        opacity: 0;
-        transform: rotate(0deg);
-        transition: opacity .25s ease;
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: 1.5rem;
+            z-index: -1;
+            background: conic-gradient(from 0deg, #e7452e, transparent 20%, #e7452e 40%, transparent 60%, #e7452e 80%, transparent);
+            filter: blur(10px);
+            opacity: 0;
+            transform: rotate(0deg);
+            transition: opacity .25s ease;
         }
 
         .neon-hover:hover::before {
-        opacity: .35;
-        animation: conicSpin 3s linear infinite;
+            opacity: .35;
+            animation: conicSpin 3s linear infinite;
         }
 
         /* Destello diagonal sobre miniaturas */
         .thumb {
-        position: relative;
+            position: relative;
         }
 
         .thumb .shine {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        background: linear-gradient(60deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, .18) 50%, rgba(255, 255, 255,
-        0) 60%);
-        transform: translateX(-120%) skewX(-12deg);
-        transition: transform .8s ease;
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(60deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, .18) 50%, rgba(255, 255, 255, 0) 60%);
+            transform: translateX(-120%) skewX(-12deg);
+            transition: transform .8s ease;
         }
 
         .group:hover .thumb .shine {
-        transform: translateX(120%) skewX(-12deg);
+            transform: translateX(120%) skewX(-12deg);
         }
 
         /* Microinteracciones tarjetas */
         .card {
-        transition: transform .25s ease;
+            transition: transform .25s ease;
         }
 
         .card:hover {
-        transform: translateY(-2px);
+            transform: translateY(-2px);
         }
 
         /* Botones de filtro + ripple */
         .filter-btn {
-        transition: background .2s ease, transform .2s ease;
-        position: relative;
-        overflow: hidden;
+            transition: background .2s ease, transform .2s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .filter-btn:active {
-        transform: translateY(1px) scale(0.98);
+            transform: translateY(1px) scale(0.98);
         }
 
         .active-filter {
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25);
         }
 
         .btn-ripple::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: .75rem;
-        transform: scale(0);
-        background: radial-gradient(120px 120px at var(--rx, 50%) var(--ry, 50%), rgba(231, 69, 46, .35), transparent
-        60%);
-        transition: transform .45s ease;
-        pointer-events: none;
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: .75rem;
+            transform: scale(0);
+            background: radial-gradient(120px 120px at var(--rx, 50%) var(--ry, 50%), rgba(231, 69, 46, .35), transparent 60%);
+            transition: transform .45s ease;
+            pointer-events: none;
         }
 
         .btn-ripple.rippling::after {
-        transform: scale(1);
+            transform: scale(1);
         }
 
         /* Modal transitions */
         #lightbox.show>div:first-child {
-        opacity: 1 !important;
+            opacity: 1 !important;
         }
 
         #lightbox.show>div:last-child {
-        opacity: 1 !important;
-        transform: scale(1) !important;
+            opacity: 1 !important;
+            transform: scale(1) !important; 
         }

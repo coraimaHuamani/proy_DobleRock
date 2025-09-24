@@ -1,5 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
-            // Filtros
+        document.addEventListener('DOMContentLoaded', () => {
+            // Filtros actualizados para usar 'imagen' y 'video'
             const buttons = document.querySelectorAll('.filter-btn');
             const cards = document.querySelectorAll('.card');
             buttons.forEach(btn => {
@@ -17,8 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     cards.forEach(card => {
                         const isPhoto = card.classList.contains('media-foto');
                         const isVideo = card.classList.contains('media-video');
-                        let show = (filter === 'all') || (filter === 'foto' && isPhoto) || (
-                            filter === 'video' && isVideo);
+                        let show = (filter === 'all') || (filter === 'imagen' && isPhoto) || (filter === 'video' && isVideo);
                         card.style.display = show ? '' : 'none';
                     });
                 });
@@ -77,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 lbBackdrop.classList.add('opacity-0');
                 lbBox.classList.add('opacity-0', 'scale-95');
             }
+            
             document.querySelectorAll('.open-lightbox').forEach(btn => {
                 btn.addEventListener('click', () => openLB(btn.dataset.type, btn.dataset.src));
             });
