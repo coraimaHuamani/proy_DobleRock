@@ -6,7 +6,7 @@ use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Validation\Rule;
 
 class NewsController extends Controller
 {
@@ -27,7 +27,7 @@ class NewsController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:50',
             'description' => 'required|string|min:10|max:150',
-            'category' => 'required|string|max:50',
+            'category' => ['required', 'string', Rule::in(array_keys(News::CATEGORIES))],
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'source_url' => 'url:http,https',
         ]);
@@ -63,7 +63,7 @@ class NewsController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:50',
             'description' => 'required|string|min:10|max:150',
-            'category' => 'required|string|max:50',
+            'category' => ['required', 'string', Rule::in(array_keys(News::CATEGORIES))],
             'source_url' => 'nullable|url:http,https',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);

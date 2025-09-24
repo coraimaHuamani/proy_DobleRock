@@ -2,41 +2,53 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Frontend\NewsController as PublicNewsController;
+use App\Http\Controllers\Frontend\GaleriaController as PublicGaleriaController;
 
 
+// Página principal
 Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/tienda', function () {
-    return view('tienda');
-})->name('tienda');
 
-Route::get('/noticias', function () {
-    return view('noticias');
-})->name('noticias');
+// ===================== NOTICIAS =====================
+// Listado de noticias
+Route::get('/noticias', [PublicNewsController::class, 'index'])->name('noticias');
 
-Route::get('/galeria', function () {
-    return view('galeria');
-})->name('galeria');
+// Detalle de una noticia
+Route::get('/noticias/{id}', [PublicNewsController::class, 'show'])->name('noticias.show');
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+// ===================== GALERÍAS =====================
+// Listado de galerías usando el Frontend controller
+Route::get('/galeria', [PublicGaleriaController::class, 'index'])->name('galeria');
 
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
+// Detalle de una galería
+Route::get('/galerias/{id}', [PublicGaleriaController::class, 'show'])->name('galerias.show');
 
-Route::get('/musica', function () {
-    return view('musica');
-})->name('musica');
+// Otras vistas fijas
+Route::get('/tienda', fn() => view('tienda'))->name('tienda');
+Route::get('/login', fn() => view('login'))->name('login');
+Route::get('/register', fn() => view('register'))->name('register');
+Route::get('/musica', fn() => view('musica'))->name('musica');
+Route::get('/producto', fn() => view('producto'))->name('producto');
 
-Route::get('/producto', function () {
-    return view('producto');
-})->name('producto');
+// Dashboard con validación de sesión
+Route::get('/dashboard', function (Request $request) {
+    if (!$request->session()->has('user')) {
+        return redirect('/login');
+    }
+    return view('dashboard');
+})->name('dashboard');
 
+// Login personalizado
+Route::post('/login', function (Request $request) {
+    $user = \App\Models\Usuario::where('email', $request->input('email'))->first();
 
-Route::get('/dashboard', function (Request $request) { if (!$request->session()->has('user')) { return redirect('/login'); } return view('dashboard'); })->name('dashboard');
+    if ($user && $user->estado && \Hash::check($request->input('password'), $user->password)) {
+        $request->session()->put('user', $user->nombre);
+        return redirect('/dashboard');
+    }
 
-Route::post('/login', function(Request $request) { $user = \App\Models\Usuario::where('email', $request->input('email'))->first(); if ($user && $user->estado && \Hash::check($request->input('password'), $user->password)) { $request->session()->put('user', $user->nombre); return redirect('/dashboard'); } return back()->with('error', 'Credenciales incorrectas'); })->name('login.custom');
+    return back()->with('error', 'Credenciales incorrectas');
+})->name('login.custom');

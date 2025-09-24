@@ -14,11 +14,17 @@ export const cargarNoticias = async () => {
     tbody.innerHTML = '';
     news.forEach(e => {
       const tr = document.createElement('tr');
+      
+      // Mostrar categoría con badge de color
+      const categoryBadge = e.category === 'noticia' 
+        ? '<span class="px-2 py-1 text-xs bg-blue-600 text-white rounded">Noticia</span>'
+        : '<span class="px-2 py-1 text-xs bg-purple-600 text-white rounded">Evento</span>';
+      
       tr.innerHTML = `
         <td class="px-4 py-2">${e.id}</td>
         <td class="px-4 py-2">${e.title}</td>
         <td class="px-4 py-2">${e.description}</td>
-        <td class="px-4 py-2">${e.category}</td>
+        <td class="px-4 py-2">${categoryBadge}</td>
         <td class="px-4 py-2">${e.image}</td>
         <td class="px-4 py-2">${e.source_url}</td>
         <td class="px-4 py-2">
@@ -97,8 +103,6 @@ export const cargarNoticias = async () => {
 }
 
 
-
-  
 
 // document.getElementById('menu-noticias').onclick = () => { 
 //   panels.productos.classList.add('hidden');

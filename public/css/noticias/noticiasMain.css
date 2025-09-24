@@ -1,0 +1,186 @@
+        /* Typewriter */
+        .typewriter {
+            position: relative
+        }
+
+        .caret {
+            display: inline-block;
+            margin-left: 4px;
+            color: #e7452e;
+            animation: blink .9s steps(1, end) infinite
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0
+            }
+        }
+
+        /* Sweep under title */
+        @keyframes sweepX {
+            0% {
+                transform: translateX(-30%);
+                opacity: .4
+            }
+
+            50% {
+                opacity: 1
+            }
+
+            100% {
+                transform: translateX(80%);
+                opacity: .4
+            }
+        }
+
+        .animate-sweep-x {
+            animation: sweepX 2.8s ease-in-out infinite
+        }
+
+        /* Card base + "neón" conic border on hover (como en galería) */
+        .news-card {
+            position: relative;
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 1rem;
+            transition: transform .25s ease, box-shadow .25s ease
+        }
+
+        .news-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, .35)
+        }
+
+        .news-card::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            background: conic-gradient(from 0deg, #e7452e, transparent 20%, #e7452e 40%, transparent 60%, #e7452e 80%, transparent);
+            filter: blur(10px);
+            opacity: 0;
+            transition: opacity .25s
+        }
+
+        .news-card:hover::before {
+            opacity: .28
+        }
+
+        /* Accent sweep bottom */
+        .news-card::after {
+            content: "";
+            position: absolute;
+            left: 10%;
+            right: 10%;
+            bottom: -1px;
+            height: 2px;
+            opacity: .2;
+            background: linear-gradient(90deg, transparent, #e7452e, transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease, opacity .35s
+        }
+
+        .news-card:hover::after {
+            transform: scaleX(1);
+            opacity: .9
+        }
+
+        /* Thumb shine (como en galería) */
+        .thumb {
+            position: relative;
+            overflow: hidden
+        }
+
+        .thumb .shine {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(60deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, .18) 50%, rgba(255, 255, 255, 0) 60%);
+            transform: translateX(-120%) skewX(-12deg);
+            transition: transform .8s ease;
+            pointer-events: none
+        }
+
+        .group:hover .thumb .shine {
+            transform: translateX(120%) skewX(-12deg)
+        }
+
+        /* Badge fecha */
+        .date-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            font-size: .68rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            background: rgba(231, 69, 46, .12);
+            border: 1px solid rgba(231, 69, 46, .35);
+            padding: .35rem .55rem;
+            border-radius: .5rem;
+            animation: datePulse 2.6s ease-in-out infinite
+        }
+
+        @keyframes datePulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 rgba(231, 69, 46, 0)
+            }
+
+            50% {
+                box-shadow: 0 0 18px rgba(231, 69, 46, .25)
+            }
+        }
+
+        /* Reveal alternado */
+        .reveal {
+            opacity: 0;
+            transform: translateY(14px) translateX(var(--rx, 0))
+        }
+
+        .revealed {
+            opacity: 1;
+            transform: translateY(0) translateX(0);
+            transition: transform .6s cubic-bezier(.2, .75, .25, 1), opacity .6s
+        }
+
+        /* Botón morph + ripple + spinner */
+        .btn-morph {
+            position: relative;
+            overflow: hidden;
+            transition: transform .2s ease
+        }
+
+        .btn-morph:active {
+            transform: translateY(1px) scale(.99)
+        }
+
+        .btn-morph .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, .4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin .8s linear infinite
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .btn-ripple::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 9999px;
+            transform: scale(0);
+            background: radial-gradient(120px 120px at var(--rx, 50%) var(--ry, 50%), rgba(231, 69, 46, .35), transparent 60%);
+            transition: transform .45s ease;
+            pointer-events: none
+        }
+
+        .btn-ripple.rippling::after {
+            transform: scale(1)
+        }

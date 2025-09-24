@@ -1,3 +1,4 @@
+{{-- filepath: d:\Tecnovedades\proy_DobleRock\resources\views\galeria.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
@@ -49,88 +50,64 @@
                             class="filter-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 active-filter btn-ripple"
                             data-filter="all">Todo</button>
                         <button class="filter-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 btn-ripple"
-                            data-filter="foto">Fotos</button>
+                            data-filter="imagen">Fotos</button>
                         <button class="filter-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 btn-ripple"
                             data-filter="video">Videos</button>
                     </div>
                 </div>
 
-                <!-- Grid responsive -->
+                <!-- Grid responsive con datos dinámicos -->
                 <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5" id="gridReveal">
-                    <!-- Foto -->
-                    <article
-                        class="card group media-foto rounded-3xl overflow-hidden bg-white/5 ring-1 ring-white/10 hover:ring-white/20 transition neon-hover reveal"
-                        style="--reveal-delay: .0s">
-                        <div class="thumb aspect-[4/3] overflow-hidden relative">
-                            <img src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000d72c274a231dc93ab8f2010e6513" alt="Imagine Dragons - Backstage de la gira Evolve"
-                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            <span class="shine"></span>
-                        </div>
-                        <div class="p-4 flex items-center justify-between">
-                            <div>
-                                <h3 class="font-semibold">Backstage — Gira <em>Evolve</em></h3>
-                                <p class="text-sm text-neutral-400">Imagine Dragons</p>
+                    @forelse ($galerias as $index => $item)
+                        @php
+                            $delay = ($index % 6) * 0.06; // Escalonar las animaciones
+                            $mediaClass = $item['tipo'] === 'imagen' ? 'media-foto' : 'media-video';
+                        @endphp
+                        
+                        <article
+                            class="card group {{ $mediaClass }} rounded-3xl overflow-hidden bg-white/5 ring-1 ring-white/10 hover:ring-white/20 transition neon-hover reveal"
+                            style="--reveal-delay: {{ $delay }}s">
+                            <div class="thumb {{ $item['tipo'] === 'imagen' ? 'aspect-[4/3]' : 'aspect-video' }} overflow-hidden relative">
+                                @if($item['tipo'] === 'imagen' && $item['archivo_url'])
+                                    <img src="{{ $item['archivo_url'] }}" 
+                                         alt="{{ $item['titulo'] }}"
+                                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                @elseif($item['tipo'] === 'video' && $item['archivo_url'])
+                                    <video src="{{ $item['archivo_url'] }}" 
+                                           class="w-full h-full object-cover" 
+                                           muted playsinline></video>
+                                @else
+                                    <div class="w-full h-full bg-gray-800 flex items-center justify-center">
+                                        <i class="fa-solid fa-{{ $item['tipo'] === 'imagen' ? 'image' : 'video' }} text-4xl text-gray-500"></i>
+                                    </div>
+                                @endif
+                                <span class="shine"></span>
                             </div>
-                            <button class="open-lightbox text-sm underline decoration-[#e7452e]" data-type="image"
-                                data-src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000d72c274a231dc93ab8f2010e6513">Ver</button>
-                        </div>
-                    </article>
-
-                    <!-- Foto -->
-                    <article
-                        class="card group media-foto rounded-3xl overflow-hidden bg-white/5 ring-1 ring-white/10 hover:ring-white/20 transition neon-hover reveal"
-                        style="--reveal-delay: .06s">
-                        <div class="thumb aspect-[4/3] overflow-hidden relative">
-                            <img src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000d72c274a231dc93ab8f2010e6513" alt="Imagine Dragons - Sesión en estudio para Night Visions"
-                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            <span class="shine"></span>
-                        </div>
-                        <div class="p-4 flex items-center justify-between">
-                            <div>
-                                <h3 class="font-semibold">Studio Session — <em>Night Visions</em></h3>
-                                <p class="text-sm text-neutral-400">Preproducción &amp; tomas B-roll</p>
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-semibold truncate">{{ $item['titulo'] }}</h3>
+                                    @if($item['descripcion'])
+                                        <p class="text-sm text-neutral-400 truncate">{{ $item['descripcion'] }}</p>
+                                    @else
+                                        <p class="text-sm text-neutral-400">{{ $item['tipo_nombre'] }}</p>
+                                    @endif
+                                </div>
+                                @if($item['archivo_url'])
+                                    <button class="open-lightbox text-sm underline decoration-[#e7452e] ml-2 flex-shrink-0" 
+                                            data-type="{{ $item['tipo'] === 'imagen' ? 'image' : 'video' }}"
+                                            data-src="{{ $item['archivo_url'] }}">Ver</button>
+                                @endif
                             </div>
-                            <button class="open-lightbox text-sm underline decoration-[#e7452e]" data-type="image"
-                                data-src="/images/imagen3.jpg">Ver</button>
-                        </div>
-                    </article>
-
-                    <!-- Video -->
-                    <article
-                        class="card group media-video rounded-3xl overflow-hidden bg-white/5 ring-1 ring-white/10 hover:ring-white/20 transition neon-hover reveal"
-                        style="--reveal-delay: .12s">
-                        <div class="thumb aspect-video overflow-hidden relative">
-                            <video src="/videos/clip1.mp4" class="w-full h-full object-cover" muted playsinline></video>
-                            <span class="shine"></span>
-                        </div>
-                        <div class="p-4 flex items-center justify-between">
-                            <div>
-                                <h3 class="font-semibold">“Believer” — Live Jam</h3>
-                                <p class="text-sm text-neutral-400">Sesión nocturna · Tomada en vivo</p>
+                        </article>
+                    @empty
+                        <div class="col-span-full text-center py-12">
+                            <div class="text-gray-500 mb-4">
+                                <i class="fa-solid fa-images text-6xl text-gray-500"></i>
                             </div>
-                            <button class="open-lightbox text-sm underline decoration-[#e7452e]" data-type="video"
-                                data-src="/videos/clip1.mp4">Ver</button>
+                            <h3 class="text-xl font-semibold text-white mb-2">Galería vacía</h3>
+                            <p class="text-gray-400">Aún no hay contenido disponible en la galería.</p>
                         </div>
-                    </article>
-
-                    <!-- Video -->
-                    <article
-                        class="card group media-video rounded-3xl overflow-hidden bg-white/5 ring-1 ring-white/10 hover:ring-white/20 transition neon-hover reveal"
-                        style="--reveal-delay: .18s">
-                        <div class="thumb aspect-video overflow-hidden relative">
-                            <video src="/videos/clip2.mp4" poster="/images/galeria/poster2.jpg"
-                                class="w-full h-full object-cover" muted playsinline></video>
-                            <span class="shine"></span>
-                        </div>
-                        <div class="p-4 flex items-center justify-between">
-                            <div>
-                                <h3 class="font-semibold">“Radioactive” — Ensayo Acústico</h3>
-                                <p class="text-sm text-neutral-400">Warm-up en estudio</p>
-                            </div>
-                            <button class="open-lightbox text-sm underline decoration-[#e7452e]" data-type="video"
-                                data-src="/videos/clip2.mp4">Ver</button>
-                        </div>
-                    </article>
+                    @endforelse
                 </div>
             </section>
         </div>
@@ -141,8 +118,7 @@
         <div class="absolute inset-0 bg-black/80 opacity-0 transition-opacity"></div>
         <div
             class="relative max-w-6xl w-[92vw] md:w-[80vw] rounded-2xl overflow-hidden ring-1 ring-white/10 scale-95 opacity-0 transition-all">
-            <button id="lbClose" class="absolute top-3 right-3 px-3 py-1 rounded-md bg-white/10 hover:bg-white/15">Cerrar
-                ✕</button>
+            <button id="lbClose" class="absolute top-3 right-3 px-3 py-1 rounded-md bg-white/10 hover:bg-white/15">Cerrar ✕</button>
             <div id="lbContent" class="bg-neutral-900"></div>
         </div>
     </div>
@@ -166,7 +142,6 @@
                 transform: translateY(12px);
                 opacity: 0;
             }
-
             to {
                 transform: translateY(0);
                 opacity: 1;
@@ -189,11 +164,9 @@
                 transform: translateX(-30%);
                 opacity: .4;
             }
-
             50% {
                 opacity: 1;
             }
-
             100% {
                 transform: translateX(80%);
                 opacity: .4;
@@ -204,7 +177,7 @@
             animation: sweepX 2.8s ease-in-out infinite;
         }
 
-        /* Hover con borde “neón” usando conic-gradient */
+        /* Hover con borde "neón" usando conic-gradient */
         @keyframes conicSpin {
             to {
                 transform: rotate(360deg);
@@ -304,7 +277,7 @@
     <!-- JS mínimo: filtros, reveal on scroll, ripple, lightbox, parallax -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Filtros
+            // Filtros actualizados para usar 'imagen' y 'video'
             const buttons = document.querySelectorAll('.filter-btn');
             const cards = document.querySelectorAll('.card');
             buttons.forEach(btn => {
@@ -322,8 +295,7 @@
                     cards.forEach(card => {
                         const isPhoto = card.classList.contains('media-foto');
                         const isVideo = card.classList.contains('media-video');
-                        let show = (filter === 'all') || (filter === 'foto' && isPhoto) || (
-                            filter === 'video' && isVideo);
+                        let show = (filter === 'all') || (filter === 'imagen' && isPhoto) || (filter === 'video' && isVideo);
                         card.style.display = show ? '' : 'none';
                     });
                 });
@@ -382,6 +354,7 @@
                 lbBackdrop.classList.add('opacity-0');
                 lbBox.classList.add('opacity-0', 'scale-95');
             }
+            
             document.querySelectorAll('.open-lightbox').forEach(btn => {
                 btn.addEventListener('click', () => openLB(btn.dataset.type, btn.dataset.src));
             });

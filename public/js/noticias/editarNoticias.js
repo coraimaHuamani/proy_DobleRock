@@ -1,5 +1,5 @@
-import { cargarNoticias } from './cargarNoticias.js';
-  
+import { cargarNoticias } from "./cargarNoticias.js";
+
 document.addEventListener('DOMContentLoaded', () => {
 
   const btnCancelar = document.getElementById('btn-cancel-edit');

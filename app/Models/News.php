@@ -16,4 +16,28 @@ class News extends Model
         'image',
         'source_url',
     ];
+
+    // Constantes para categorías
+    public const CATEGORIES = [
+        'noticia' => 'Noticia',
+        'evento' => 'Evento',
+    ];
+
+    // Accesor para mostrar el nombre de la categoría
+    public function getCategoryNameAttribute()
+    {
+        return self::CATEGORIES[$this->category] ?? $this->category;
+    }
+
+    // Scope para obtener solo noticias
+    public function scopeNoticias($query)
+    {
+        return $query->where('category', 'noticia');
+    }
+
+    // Scope para obtener solo eventos
+    public function scopeEventos($query)
+    {
+        return $query->where('category', 'evento');
+    }
 }
