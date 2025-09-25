@@ -31,11 +31,10 @@ class Usuario extends Authenticatable
         'estado' => 'boolean',
     ];
 
-    // 🚀 Constantes de roles
+    // 🚀 Constantes de roles - solo Administrador y Cliente
     public const ROLES = [
-        1 => 'Admin',
-        2 => 'Editor',
-        3 => 'Usuario',
+        1 => 'Administrador',
+        2 => 'Cliente',
     ];
 
     // 🚀 Accesor para mostrar el nombre del rol

@@ -23,11 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const form = document.getElementById("create-users-form");
       const rolValue = document.getElementById("create-user-rol").value;
 
-      // Mapear strings a números para los roles
+      // Mapear strings a números para los roles - solo Admin y Cliente
       const rolMapping = {
         'admin': 1,
-        'editor': 2,
-        'usuario': 3
+        'cliente': 2
       };
 
       try {

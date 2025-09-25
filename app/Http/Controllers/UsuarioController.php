@@ -19,7 +19,7 @@ class UsuarioController extends Controller
             'nombre' => 'required|string|max:255',
             'email' => 'required|email|unique:usuarios,email',
             'password' => 'required|string|min:6',
-            'rol' => 'nullable|integer|in:1,2,3',
+            'rol' => 'nullable|integer|in:1,2', // Solo Administrador(1) y Cliente(2)
             'estado' => 'boolean',
         ]);
 
@@ -45,7 +45,7 @@ class UsuarioController extends Controller
             'nombre' => 'sometimes|required|string|max:255',
             'email' => 'sometimes|required|email|unique:usuarios,email,' . $usuario->id,
             'password' => 'nullable|string|min:6',
-            'rol' => 'nullable|integer|in:1,2,3',
+            'rol' => 'nullable|integer|in:1,2', // Solo Administrador(1) y Cliente(2)
             'estado' => 'boolean',
         ]);
 
