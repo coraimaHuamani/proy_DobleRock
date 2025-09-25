@@ -22,7 +22,6 @@
             class="w-full px-4 py-2 rounded-md bg-[#232323] border-[1px] border-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-[#e7452e]">
             <option value="">Seleccionar rol</option>
             <option value="1">Administrador</option>
-            <option value="2">Cliente</option>
         </select>
 
         <label for="edit-user-estado" class="block text-gray-300 text-sm font-bold mb-2 mt-4">Estado</label>

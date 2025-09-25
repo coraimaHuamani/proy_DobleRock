@@ -36,6 +36,11 @@
                     <i class="fa-solid fa-users"></i>
                     Usuarios
                 </button>
+                <button id="menu-clientes"
+                    class="flex items-center gap-2 text-white hover:text-[#e7452e] transition font-semibold focus:outline-none">
+                    <i class="fa-solid fa-user-friends"></i>
+                    Clientes
+                </button>
                 <button id="menu-galeria"
                     class="flex items-center gap-2 text-white hover:text-[#e7452e] transition font-semibold focus:outline-none">
                     <i class="fa-solid fa-images"></i>
@@ -120,6 +125,19 @@
                         @include('noticias._tabla')
                     </div>
                 </div>
+
+                <div id="panel-clientes" class="hidden">
+                    <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Clientes</h2>
+                    @include('clientes._agregar')
+                    @include('clientes._editar')
+                    <button id="btn-create-cliente" type="button"
+                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
+                        Agregar cliente
+                    </button>
+                    <div id="clientes-container" class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                        @include('clientes._tabla')
+                    </div>
+                </div>
             </main>
         </div>
     </div>
@@ -134,5 +152,8 @@
         <script src="{{ asset('js/producto/agregar.js') }}"></script>
         <script src="{{ asset('js/producto/editar.js') }}"></script>
         <script src="{{ asset('js/login/logout.js') }}"></script>
+        <script src="{{ asset('js/clientes/tabla.js') }}"></script>
+        <script src="{{ asset('js/clientes/agregar.js') }}"></script>
+        <script src="{{ asset('js/clientes/editar.js') }}"></script>
     @endpush
 @endsection

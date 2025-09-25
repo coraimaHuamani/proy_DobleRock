@@ -32,9 +32,6 @@
                         <div class="rounded-xl overflow-hidden">
                             <div class="thumb aspect-[1/1] bg-[#232323] relative">
                                 {{-- DEBUG: Mostrar ruta de imagen --}}
-                                <div class="absolute top-2 left-2 bg-black/70 text-xs text-yellow-400 p-1 rounded z-10">
-                                    Img: {{ $noticia->image ? 'Sí' : 'No' }}
-                                </div>
                                 <img src="{{ $imageUrl }}" alt="{{ $noticia->title }}"
                                     class="w-full h-full object-cover block transition-opacity duration-300 rounded-xl"
                                     onerror="this.src='https://via.placeholder.com/400x300/ff0000/ffffff?text=Error+Carga';">
