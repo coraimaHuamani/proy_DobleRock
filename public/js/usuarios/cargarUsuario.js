@@ -1,92 +1,97 @@
-function cargarUsuarios() {
-    const tbody = document.querySelector('#users-table-container tbody');
-    if (!tbody) {
-        console.error('No se encontró la tabla de usuarios');
-        return;
+const cargarUsuarios = async () => {
+  const tbody = document.querySelector('#users-table-container tbody');
+  
+  if (!tbody) {
+    console.error('No se encontró la tabla de usuarios');
+    return;
+  }
+
+  // Mostrar estado de carga
+  tbody.innerHTML = `
+    <tr>
+      <td colspan="6" class="text-center py-8 text-gray-400">
+        <i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i>
+        <p>Cargando usuarios...</p>
+      </td>
+    </tr>
+  `;
+
+  try {
+    const response = await fetch('/api/usuarios');
+    
+    if (!response.ok) {
+      const error = await response.json().catch(() => {});
+      throw {
+        message: error.message || 'Error al cargar usuarios',
+      };
     }
 
-    // Mostrar estado de carga
-    tbody.innerHTML = `
+    const usuarios = await response.json();
+    
+    tbody.innerHTML = '';
+    
+    if (usuarios.length === 0) {
+      tbody.innerHTML = `
         <tr>
-            <td colspan="7" class="text-center py-8 text-gray-400">
-                <i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i>
-                <p>Cargando usuarios...</p>
-            </td>
+          <td colspan="6" class="text-center py-8 text-gray-400">
+            <i class="fa-solid fa-users text-4xl mb-4"></i>
+            <p>No hay usuarios disponibles</p>
+          </td>
         </tr>
+      `;
+      return;
+    }
+
+    usuarios.forEach((usuario, index) => {
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-[#1a1a1a] transition-colors';
+
+      // Mostrar rol con texto
+      const rolNombre = usuario.rol === 1 ? 'Administrador' : 
+                       usuario.rol === 2 ? 'Cliente' : 'Sin rol';
+
+      tr.innerHTML = `
+        <td class="px-4 py-2 text-white">${index + 1}</td>
+        <td class="px-4 py-2 text-white font-semibold">${usuario.nombre}</td>
+        <td class="px-4 py-2 text-white">${usuario.email}</td>
+        <td class="px-4 py-2 text-gray-300">${rolNombre}</td>
+        <td class="px-4 py-2">
+          <span class="${usuario.estado ? 'text-green-400' : 'text-red-400'} font-semibold">
+            ${usuario.estado ? 'Activo' : 'Inactivo'}
+          </span>
+        </td>
+        <td class="px-4 py-2">
+          <div class="flex gap-2">
+            <button onclick="editarUsuario(${usuario.id})" 
+              class="px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded transition">
+              <i class="fa-solid fa-edit"></i>
+            </button>
+            <button onclick="eliminarUsuario(${usuario.id})" 
+              class="px-2 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded transition">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      `;
+      
+      tbody.appendChild(tr);
+    });
+
+  } catch (error) {
+    console.error('Error:', error);
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" class="text-center py-8 text-red-400">
+          <i class="fa-solid fa-exclamation-triangle text-2xl mb-2"></i>
+          <p>Error al cargar los usuarios</p>
+          <button onclick="cargarUsuarios()" class="mt-2 px-3 py-1 bg-[#e7452e] hover:bg-orange-600 text-white rounded text-sm">
+            Reintentar
+          </button>
+        </td>
+      </tr>
     `;
-
-    fetch('/api/usuarios')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al cargar usuarios');
-            }
-            return response.json();
-        })
-        .then(usuarios => {
-            tbody.innerHTML = '';
-            
-            if (usuarios.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="text-center py-8 text-gray-400">
-                            <i class="fa-solid fa-users text-4xl mb-4"></i>
-                            <p>No hay usuarios registrados</p>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            usuarios.forEach(usuario => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-[#1a1a1a] transition-colors';
-                
-                const fechaCreacion = usuario.fecha_creacion 
-                    ? new Date(usuario.fecha_creacion).toLocaleDateString('es-ES')
-                    : 'N/A';
-                
-                const estadoBadge = usuario.estado 
-                    ? '<span class="px-2 py-1 text-xs bg-green-600 text-white rounded">Activo</span>'
-                    : '<span class="px-2 py-1 text-xs bg-red-600 text-white rounded">Inactivo</span>';
-
-                tr.innerHTML = `
-                    <td class="px-4 py-2 text-white">#${String(usuario.id).padStart(3, '0')}</td>
-                    <td class="px-4 py-2 text-white">${usuario.nombre}</td>
-                    <td class="px-4 py-2 text-gray-300">${fechaCreacion}</td>
-                    <td class="px-4 py-2 text-gray-300">${usuario.rol || 'Usuario'}</td>
-                    <td class="px-4 py-2 text-gray-300">${usuario.email}</td>
-                    <td class="px-4 py-2">${estadoBadge}</td>
-                    <td class="px-4 py-2">
-                        <div class="flex gap-2">
-                            <button onclick="editarUsuario(${usuario.id})" 
-                                class="px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded transition">
-                                <i class="fa-solid fa-edit"></i>
-                            </button>
-                            <button onclick="eliminarUsuario(${usuario.id})" 
-                                class="px-2 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded transition">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="7" class="text-center py-8 text-red-400">
-                        <i class="fa-solid fa-exclamation-triangle text-2xl mb-2"></i>
-                        <p>Error al cargar los usuarios</p>
-                        <button onclick="cargarUsuarios()" class="mt-2 px-3 py-1 bg-[#e7452e] hover:bg-orange-600 text-white rounded text-sm">
-                            Reintentar
-                        </button>
-                    </td>
-                </tr>
-            `;
-        });
-}
+  }
+};
 
 function editarUsuario(id) {
     const editSection = document.getElementById('users-edit-section');

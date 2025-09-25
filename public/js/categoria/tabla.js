@@ -1,4 +1,5 @@
 const cargarCategorias = async () => {
+  console.log('Cargando categorías...'); // Debug
   const tbody = document.querySelector('#categorias-table-container tbody');
   
   if (!tbody) {
@@ -42,12 +43,12 @@ const cargarCategorias = async () => {
       return;
     }
 
-    categorias.forEach(categoria => {
+    categorias.forEach((categoria, index) => {
       const tr = document.createElement('tr');
       tr.className = 'hover:bg-[#1a1a1a] transition-colors';
 
       tr.innerHTML = `
-        <td class="px-4 py-2 text-white">${categoria.id}</td>
+        <td class="px-4 py-2 text-white">${index + 1}</td>
         <td class="px-4 py-2 text-white font-semibold">${categoria.nombre}</td>
         <td class="px-4 py-2 text-gray-300">${categoria.descripcion || 'Sin descripción'}</td>
         <td class="px-4 py-2">

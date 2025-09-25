@@ -5,16 +5,14 @@
             <tr>
                 <th class="px-4 py-2 text-left">ID</th>
                 <th class="px-4 py-2 text-left">Título</th>
-                <th class="px-4 py-2 text-left">Tipo</th>
                 <th class="px-4 py-2 text-left">Descripción</th>
+                <th class="px-4 py-2 text-left">Tipo</th>
                 <th class="px-4 py-2 text-left">Archivo</th>
-                <th class="px-4 py-2 text-left">Estado</th>
-                <th class="px-4 py-2 text-left">Fecha Creación</th>
                 <th class="px-4 py-2 text-left">Acciones</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-700">
-            <!-- Los items de galería se cargarán aquí -->
+            <!-- Los elementos de galería se cargarán aquí -->
         </tbody>
     </table>
 </div>

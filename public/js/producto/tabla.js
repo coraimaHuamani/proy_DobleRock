@@ -45,7 +45,7 @@ const cargarProductos = async () => {
       return;
     }
 
-    productos.forEach(producto => {
+    productos.forEach((producto, index) => {
       const tr = document.createElement('tr');
       tr.className = 'hover:bg-[#1a1a1a] transition-colors';
 
@@ -57,7 +57,7 @@ const cargarProductos = async () => {
            </div>`;
 
       tr.innerHTML = `
-        <td class="px-4 py-2 text-white">${producto.id}</td>
+        <td class="px-4 py-2 text-white">${index + 1}</td>
         <td class="px-4 py-2 text-white font-semibold">${producto.nombre}</td>
         <td class="px-4 py-2 text-green-400 font-semibold">S/ ${parseFloat(producto.precio).toFixed(2)}</td>
         <td class="px-4 py-2 text-gray-300">${producto.categoria?.nombre || 'Sin categoría'}</td>
