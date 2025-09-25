@@ -82,9 +82,9 @@ Route::post('/logout', function (Request $request) {
     // Limpiar sesión
     $request->session()->flush();
 
-    // Redirigir según tipo de usuario
+    // Redirigir según tipo de usuario - ADMINS VAN AL HOME
     if ($userType === 'admin') {
-        return redirect('/login')->with('success', 'Sesión cerrada correctamente');
+        return redirect('/')->with('success', 'Sesión cerrada correctamente');
     } else {
         return redirect('/')->with('logout_cliente', true);
     }
