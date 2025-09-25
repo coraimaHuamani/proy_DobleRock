@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
         usuarios: document.getElementById('panel-usuarios'),
         galeria: document.getElementById('panel-galeria'),
         noticias: document.getElementById('panel-noticias'),
-        clientes: document.getElementById('panel-clientes')
+        clientes: document.getElementById('panel-clientes'),
+        miPerfil: document.getElementById('panel-mi-perfil')
     };
 
     // Función para ocultar todos los paneles
@@ -146,6 +147,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Cargar clientes cuando se muestre el panel
         if (typeof cargarClientes === "function") {
             setTimeout(cargarClientes, 100);
+        }
+    });
+
+    document.getElementById('menu-mi-perfil')?.addEventListener('click', () => {
+        hideAllPanels();
+        resetAllFormsToList();
+        panels.miPerfil?.classList.remove('hidden');
+        
+        // Cargar perfil del administrador cuando se muestre el panel
+        if (typeof loadAdminProfile === "function") {
+            setTimeout(loadAdminProfile, 100);
         }
     });
 

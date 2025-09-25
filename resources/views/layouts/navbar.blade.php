@@ -72,30 +72,45 @@
             </li>
         </ul>
 
-        {{-- BOTÓN HAMBURGUESA MOBILE --}}
-        <div class="md:hidden">
-            <div class="flex items-center gap-2">
-                <button id="menu-btn" class="focus:outline-none text-white hover:text-[#e7452e]">
-                    <i class="fa-solid fa-bars fa-lg"></i>
-                </button>
-                <button id="open-cart-mobile" class="text-white hover:text-[#e7452e] flex items-center gap-1 md:hidden">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="cart-count-mobile"
-                        class="inline-flex items-center justify-center text-xs bg-[#e7452e] rounded-full w-5 h-5">0</span>
-                </button>
-            </div>
-        </div>
-
         {{-- DERECHA: buscador + iconos --}}
         <div class="hidden md:flex items-center space-x-4">
-            {{-- Buscador solo visible en tienda --}}
-            <!-- Buscador eliminado del navbar, ahora solo en tienda -->
-
-            <a href="/login"
-                class="flex items-center gap-1 text-white hover:text-[#e7452e] px-2 py-1 rounded transition">
-                <i class="fa-solid fa-user"></i>
-                <span class="hidden md:inline font-semibold uppercase text-xs tracking-widest"></span>
-            </a>
+            <!-- Dropdown de usuario -->
+            <div id="user-section" class="relative">
+                <button id="user-dropdown-btn" class="flex items-center gap-1 text-white hover:text-[#e7452e] px-2 py-1 rounded transition">
+                    <i class="fa-solid fa-user-circle text-lg"></i>
+                    <span id="user-dropdown-text" class="hidden md:inline font-semibold uppercase text-xs tracking-widest">Mi Cuenta</span>
+                    <i class="fa-solid fa-chevron-down ml-1"></i>
+                </button>
+                
+                <!-- Dropdown menu -->
+                <div id="user-dropdown" class="hidden absolute right-0 top-full mt-2 w-56 bg-[#181818] border border-[#232323] rounded-lg shadow-lg z-50">
+                    <!-- Para usuarios no logueados -->
+                    <div id="guest-options" class="p-2">
+                        <a href="/login" class="block w-full px-3 py-2 text-left text-white hover:bg-[#232323] rounded transition">
+                            <i class="fa-solid fa-sign-in-alt mr-2 text-[#e7452e]"></i>Iniciar Sesión
+                        </a>
+                        <a href="/register" class="block w-full px-3 py-2 text-left text-white hover:bg-[#232323] rounded transition">
+                            <i class="fa-solid fa-user-plus mr-2 text-[#e7452e]"></i>Registrarse
+                        </a>
+                    </div>
+                    
+                    <!-- Para usuarios logueados (oculto inicialmente) -->
+                    <div id="logged-options" class="hidden">
+                        <div class="p-3 border-b border-[#232323]">
+                            <p class="text-white font-semibold text-sm">¡Hola!</p>
+                            <p id="user-name-dropdown" class="text-[#e7452e] text-xs font-mono truncate"></p>
+                        </div>
+                        <div class="p-2">
+                            <a href="/perfil" class="block w-full px-3 py-2 text-left text-white hover:bg-[#232323] rounded transition">
+                                <i class="fa-solid fa-user-edit mr-2 text-[#e7452e]"></i>Mi Perfil
+                            </a>
+                            <button id="logout-btn" class="w-full px-3 py-2 text-left text-red-400 hover:bg-[#232323] rounded transition mt-1">
+                                <i class="fa-solid fa-sign-out-alt mr-2"></i>Cerrar Sesión
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {{-- CARRITO --}}
             <div class="relative">
@@ -106,6 +121,36 @@
                 </button>
             </div>
         </div>
+
+        {{-- BOTÓN HAMBURGUESA MOBILE --}}
+        <div class="md:hidden">
+            <div class="flex items-center gap-2">
+                <button id="menu-btn" class="focus:outline-none text-white hover:text-[#e7452e]">
+                    <i class="fa-solid fa-bars fa-lg"></i>
+                </button>
+                
+                <!-- Usuario móvil -->
+                <div id="user-mobile" class="relative">
+                    <!-- Para clientes no logueados -->
+                    <a href="/register" id="register-link-mobile"
+                        class="text-white hover:text-[#e7452e] flex items-center">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
+                    
+                    <!-- Para clientes logueados móvil -->
+                    <a href="/perfil" id="user-profile-mobile" class="hidden text-white hover:text-[#e7452e] flex items-center">
+                        <i class="fa-solid fa-user-circle text-lg"></i>
+                    </a>
+                </div>
+                
+                <button id="open-cart-mobile" class="text-white hover:text-[#e7452e] flex items-center gap-1">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count-mobile"
+                        class="inline-flex items-center justify-center text-xs bg-[#e7452e] rounded-full w-5 h-5">0</span>
+                </button>
+            </div>
+        </div>
+
     </div>
 
     {{-- PANEL DEL CARRITO (dropdown/side minimalista) --}}
@@ -213,3 +258,150 @@
 
 <!-- Script para el reproductor de audio -->
 <script src="{{ asset('js/reproductor/reproductor.js') }}"></script>
+
+<script>
+// Gestión del dropdown de usuario
+document.addEventListener('DOMContentLoaded', function() {
+    const clienteId = localStorage.getItem('cliente_id');
+    const clienteNombre = localStorage.getItem('cliente_nombre');
+    
+    // Elementos desktop
+    const userDropdownBtn = document.getElementById('user-dropdown-btn');
+    const userDropdown = document.getElementById('user-dropdown');
+    const userDropdownText = document.getElementById('user-dropdown-text');
+    const userNameDropdown = document.getElementById('user-name-dropdown');
+    const guestOptions = document.getElementById('guest-options');
+    const loggedOptions = document.getElementById('logged-options');
+    const logoutBtn = document.getElementById('logout-btn');
+    
+    // Elementos móvil
+    const userMobileBtn = document.getElementById('user-mobile-btn');
+    const userMobileDropdown = document.getElementById('user-mobile-dropdown');
+    const userNameMobile = document.getElementById('user-name-mobile');
+    const guestMobileOptions = document.getElementById('guest-mobile-options');
+    const loggedMobileOptions = document.getElementById('logged-mobile-options');
+    const logoutMobileBtn = document.getElementById('logout-mobile-btn');
+    
+    // Función para actualizar la interfaz según el estado de login
+    function updateUserInterface() {
+        if (clienteId && clienteNombre) {
+            // Usuario logueado
+            if (userDropdownText) userDropdownText.textContent = clienteNombre;
+            if (userNameDropdown) userNameDropdown.textContent = clienteNombre;
+            if (userNameMobile) userNameMobile.textContent = clienteNombre;
+            
+            // Mostrar opciones de usuario logueado
+            if (guestOptions) guestOptions.classList.add('hidden');
+            if (loggedOptions) loggedOptions.classList.remove('hidden');
+            if (guestMobileOptions) guestMobileOptions.classList.add('hidden');
+            if (loggedMobileOptions) loggedMobileOptions.classList.remove('hidden');
+        } else {
+            // Usuario no logueado
+            if (userDropdownText) userDropdownText.textContent = 'Mi Cuenta';
+            
+            // Mostrar opciones de invitado
+            if (guestOptions) guestOptions.classList.remove('hidden');
+            if (loggedOptions) loggedOptions.classList.add('hidden');
+            if (guestMobileOptions) guestMobileOptions.classList.remove('hidden');
+            if (loggedMobileOptions) loggedMobileOptions.classList.add('hidden');
+        }
+    }
+    
+    // Inicializar interfaz
+    updateUserInterface();
+    
+    // Toggle dropdown desktop
+    if (userDropdownBtn && userDropdown) {
+        userDropdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdown.classList.toggle('hidden');
+            if (userMobileDropdown) userMobileDropdown.classList.add('hidden');
+        });
+    }
+    
+    // Toggle dropdown móvil
+    if (userMobileBtn && userMobileDropdown) {
+        userMobileBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userMobileDropdown.classList.toggle('hidden');
+            if (userDropdown) userDropdown.classList.add('hidden');
+        });
+    }
+    
+    // Cerrar dropdowns al hacer clic fuera
+    document.addEventListener('click', function(e) {
+        if (userDropdown && !e.target.closest('#user-section')) {
+            userDropdown.classList.add('hidden');
+        }
+        if (userMobileDropdown && !e.target.closest('#user-mobile-btn')) {
+            userMobileDropdown.classList.add('hidden');
+        }
+    });
+    
+    // Funciones de logout
+    function handleLogout() {
+        if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+            localStorage.removeItem('cliente_id');
+            localStorage.removeItem('cliente_nombre');
+            window.location.reload();
+        }
+    }
+    
+    if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+    if (logoutMobileBtn) logoutMobileBtn.addEventListener('click', handleLogout);
+});
+
+// Auto-login cuando viene del registro/login exitoso
+@if (session('cliente_login'))
+    const clienteData = @json(session('cliente_login'));
+    localStorage.setItem('cliente_id', clienteData.id);
+    localStorage.setItem('cliente_nombre', clienteData.nombre);
+    localStorage.setItem('cliente_email', clienteData.email);
+    window.location.reload();
+@endif
+
+// Logout desde el backend
+@if (session('logout_cliente'))
+    localStorage.removeItem('cliente_id');
+    localStorage.removeItem('cliente_nombre');
+    localStorage.removeItem('cliente_email');
+@endif
+
+// Verificar si hay cliente logueado al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    const clienteId = localStorage.getItem('cliente_id');
+    const clienteNombre = localStorage.getItem('cliente_nombre');
+    
+    // Elementos desktop
+    const registerLink = document.getElementById('register-link');
+    const userProfile = document.getElementById('user-profile');
+    const userName = document.getElementById('user-name');
+    
+    // Elementos móvil
+    const registerLinkMobile = document.getElementById('register-link-mobile');
+    const userProfileMobile = document.getElementById('user-profile-mobile');
+    
+    if (clienteId && clienteNombre) {
+        // Cliente logueado - mostrar perfil en desktop
+        if (registerLink) registerLink.style.display = 'none';
+        if (userProfile) {
+            userProfile.classList.remove('hidden');
+            userProfile.style.display = 'flex';
+        }
+        if (userName) userName.textContent = clienteNombre;
+        
+        // Cliente logueado - mostrar perfil en móvil
+        if (registerLinkMobile) registerLinkMobile.style.display = 'none';
+        if (userProfileMobile) {
+            userProfileMobile.classList.remove('hidden');
+            userProfileMobile.style.display = 'flex';
+        }
+    } else {
+        // Cliente no logueado - mostrar registro
+        if (registerLink) registerLink.style.display = 'flex';
+        if (userProfile) userProfile.classList.add('hidden');
+        if (registerLinkMobile) registerLinkMobile.style.display = 'flex';
+        if (userProfileMobile) userProfileMobile.classList.add('hidden');
+    }
+});
+</script>

@@ -18,9 +18,7 @@
                 class="md:w-64 bg-[#181818] border-r border-[#232323] flex flex-col py-8 px-6 gap-4 h-full
             fixed md:static top-0 left-0 z-40 md:z-auto w-64 transition-transform duration-300
             -translate-x-full md:translate-x-0">
-                <div class="hidden md:block mb-8 text-[#e7452e] font-bold uppercase tracking-widest text-lg text-center">
-                    {{ session('user', 'Usuario') }}
-                </div>
+              
                 <button id="menu-categorias"
                     class="flex items-center gap-2 text-white hover:text-[#e7452e] transition font-semibold focus:outline-none">
                     <i class="fa-solid fa-tags"></i>
@@ -51,6 +49,17 @@
                     <i class="fa-solid fa-newspaper"></i>
                     Noticias
                 </button>
+
+                <!-- Separador -->
+                <hr class="border-[#232323] my-4">
+
+                <!-- Mi Perfil -->
+                <button id="menu-mi-perfil"
+                    class="flex items-center gap-2 text-white hover:text-[#e7452e] transition font-semibold focus:outline-none">
+                    <i class="fa-solid fa-user-edit"></i>
+                    Mi Perfil
+                </button>
+
                 <!-- Botón de logout -->
                 <button id="logout-btn"
                     class="flex items-center gap-2 text-white hover:text-red-500 transition font-semibold focus:outline-none mt-8">
@@ -84,7 +93,8 @@
                         class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
                         Agregar producto
                     </button>
-                     <div id="productos-container" class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                    <div id="productos-container"
+                        class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
                         @include('productos._tabla')
                     </div>
                 </div>
@@ -134,8 +144,16 @@
                         class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
                         Agregar cliente
                     </button>
-                    <div id="clientes-container" class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                    <div id="clientes-container"
+                        class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
                         @include('clientes._tabla')
+                    </div>
+                </div>
+
+                <div id="panel-mi-perfil" class="hidden">
+                    <h2 class="text-xl font-bold text-[#e7452e] mb-4">Mi Perfil de Administrador</h2>
+                    <div class="bg-[#181818] rounded-lg border border-[#232323] p-6 max-w-2xl">
+                        @include('usuarios._perfil')
                     </div>
                 </div>
             </main>

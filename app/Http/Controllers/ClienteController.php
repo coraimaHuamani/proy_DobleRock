@@ -25,7 +25,7 @@ class ClienteController extends Controller
             'estado' => 'boolean',
         ]);
 
-        Cliente::create([
+        $cliente = Cliente::create([
             'nombre' => $request->nombre,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -34,7 +34,8 @@ class ClienteController extends Controller
             'estado' => $request->estado ?? true,
         ]);
 
-        return response()->json(['message' => 'Cliente creado correctamente'], 201);
+        // Retornar el cliente creado con su ID
+        return response()->json($cliente, 201);
     }
 
     public function show($id)
