@@ -1,4 +1,4 @@
-       // Slider JS
+// Slider JS
         (function() {
             const track = document.getElementById('slider-track');
             const dots = document.querySelectorAll('.slider-dot');
@@ -16,26 +16,27 @@
             showSlide(0);
         })();
 
-        // Filtro de búsqueda
+        // Filtro de búsqueda actualizado para buscar en todas las secciones
         document.addEventListener('DOMContentLoaded', function() {
             const input = document.getElementById('search-product');
-            const productosList = document.getElementById('productos-dinamicos');
+            const productosSections = document.querySelectorAll('.productos-section');
             
             if (!input) return;
             
             input.addEventListener('input', function() {
-                if (!productosList) return;
-                
                 const val = input.value.trim().toLowerCase();
-                const cards = productosList.querySelectorAll('h3');
                 
-                cards.forEach(h3 => {
-                    const card = h3.closest('.bg-transparent');
-                    if (!val || h3.textContent.toLowerCase().includes(val)) {
-                        card.style.display = '';
-                    } else {
-                        card.style.display = 'none';
-                    }
+                productosSections.forEach(section => {
+                    const cards = section.querySelectorAll('h3');
+                    
+                    cards.forEach(h3 => {
+                        const card = h3.closest('.bg-transparent');
+                        if (!val || h3.textContent.toLowerCase().includes(val)) {
+                            card.style.display = '';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
                 });
             });
         });
@@ -52,7 +53,7 @@
             }, 1800);
         }
 
-        // Agregar al carrito (solo visual por ahora)
+        // Agregar al carrito - actualizado para trabajar con el nuevo formato
         document.addEventListener('click', function(e) {
             const btn = e.target.closest('.add-btn');
             if (btn && !btn.textContent.includes('Sin stock')) {
