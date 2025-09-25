@@ -29,6 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('menu-productos')?.addEventListener('click', () => {
         hideAllPanels();
         panels.productos?.classList.remove('hidden');
+        
+        // Cargar productos cuando se muestre el panel
+        if (typeof cargarProductos === "function") {
+            setTimeout(cargarProductos, 100);
+        }
     });
 
     document.getElementById('menu-usuarios')?.addEventListener('click', () => {

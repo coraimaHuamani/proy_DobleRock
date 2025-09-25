@@ -65,18 +65,22 @@
                         class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
                         Agregar categoría
                     </button>
-                    <div id="categorias-container" class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                    <div id="categorias-container"
+                        class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
                         @include('categorias._tabla')
                     </div>
                 </div>
 
                 <div id="panel-productos">
                     <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Productos</h2>
-                    <button
-                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">Agregar
-                        producto</button>
-                    <div class="bg-[#181818] rounded-lg border border-[#232323] p-4">
-                        <p class="text-gray-300">Aquí aparecerá la lista de productos y opciones para editar o eliminar.</p>
+                    @include('productos._agregar')
+                    @include('productos._editar')
+                    <button id="btn-create-producto" type="button"
+                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
+                        Agregar producto
+                    </button>
+                     <div id="productos-container" class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                        @include('productos._tabla')
                     </div>
                 </div>
                 <div id="panel-usuarios" class="hidden">
@@ -126,6 +130,9 @@
         <script src="{{ asset('js/categoria/tabla.js') }}"></script>
         <script src="{{ asset('js/categoria/editar.js') }}"></script>
         <script src="{{ asset('js/categoria/agregar.js') }}"></script>
+        <script src="{{ asset('js/producto/tabla.js') }}"></script>
+        <script src="{{ asset('js/producto/agregar.js') }}"></script>
+        <script src="{{ asset('js/producto/editar.js') }}"></script>
         <script src="{{ asset('js/login/logout.js') }}"></script>
     @endpush
 @endsection
