@@ -45,15 +45,57 @@
         return q;
     }
 
+    function showErrorModal(message) {
+        // Crear modal de error si no existe
+        let errorModal = document.getElementById('stock-error-modal');
+        if (!errorModal) {
+            errorModal = document.createElement('div');
+            errorModal.id = 'stock-error-modal';
+            errorModal.className = 'fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-[#181818] text-white px-6 py-3 rounded-lg shadow-lg border border-red-500 flex items-center gap-3 opacity-0 pointer-events-none transition-all duration-300';
+            errorModal.innerHTML = `
+                <i class="fa-solid fa-exclamation-triangle text-red-500 text-xl"></i>
+                <span id="error-message" class="font-mono text-sm"></span>
+            `;
+            document.body.appendChild(errorModal);
+        }
+
+        const messageSpan = errorModal.querySelector('#error-message');
+        if (messageSpan) messageSpan.textContent = message;
+
+        errorModal.classList.remove('opacity-0', 'pointer-events-none');
+        errorModal.classList.add('opacity-100');
+        
+        setTimeout(() => {
+            errorModal.classList.add('opacity-0', 'pointer-events-none');
+            errorModal.classList.remove('opacity-100');
+        }, 3000); // 3 segundos para mensaje de error
+    }
+
     function addItem(product, qty) {
         console.log('Agregando producto:', product, 'cantidad:', qty); // Debug
         const cart = loadCart();
         const idx = cart.findIndex(i => i.id === parseInt(product.id));
         
+        let newQty = qty;
         if (idx >= 0) {
-            cart[idx].qty += qty;
+            // Si ya existe, verificar que no exceda el stock
+            const currentQty = cart[idx].qty;
+            newQty = currentQty + qty;
+            
+           if (newQty > product.stock) {
+    showErrorModal(`Lo sentimos, has alcanzado el límite de stock disponible: ${product.stock} unidades.`);
+    return;
+}
+            
+            cart[idx].qty = newQty;
             console.log('Producto existente, nueva cantidad:', cart[idx].qty); // Debug
         } else {
+            // Verificar stock para producto nuevo
+            if (qty > product.stock) {
+                showErrorModal(`No puedes agregar ${qty} productos. Stock disponible: ${product.stock}`);
+                return;
+            }
+            
             cart.push({
                 id: product.id,
                 name: product.name,
@@ -81,6 +123,17 @@
         const cart = loadCart();
         const i = cart.findIndex(x => x.id === parseInt(id));
         if (i >= 0) {
+            const product = cart[i];
+            
+            // Verificar que no exceda el stock
+            if (qty > product.stock) {
+                showErrorModal(`No puedes tener más de ${product.stock} productos en el carrito.`);
+                // Restaurar la cantidad anterior
+                const input = document.querySelector(`.change-qty[data-id="${id}"]`);
+                if (input) input.value = product.qty;
+                return;
+            }
+            
             cart[i].qty = qty < 1 ? 1 : qty;
             saveCart(cart);
             renderCart();
@@ -139,6 +192,7 @@
                             class="w-16 bg-[#232323] rounded px-2 py-1 text-sm text-center text-white change-qty"
                             data-id="${item.id}">
                     </div>
+                    <p class="text-xs text-gray-500 mt-1">Stock: ${item.stock}</p>
                 </div>
                 <button class="text-[#e7452e] hover:bg-[#232323] rounded-full remove-item flex items-center justify-center w-8 h-8 text-lg" data-id="${item.id}" title="Quitar">
                     <i class="fa-solid fa-xmark"></i>

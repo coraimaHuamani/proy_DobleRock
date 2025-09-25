@@ -8,7 +8,6 @@
                 <th class="px-4 py-2 text-left">Fecha de creación</th>
                 <th class="px-4 py-2 text-left">Rol</th>
                 <th class="px-4 py-2 text-left">Email</th>
-                <th class="px-4 py-2 text-left">Estado</th>
                 <th class="px-4 py-2 text-left">Acciones</th>
             </tr>
         </thead>

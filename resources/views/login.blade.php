@@ -11,12 +11,12 @@
                 @csrf
                 <div class="mb-4">
                     <label for="email" class="block text-gray-300 text-sm mb-2">Usuario</label>
-                    <input id="email" name="email" type="text" required autofocus placeholder="admin"
+                    <input id="email" name="email" type="text" required autofocus placeholder="Ingrese su usuario"
                         class="w-full px-4 py-2 rounded bg-[#232323] border border-[#222] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#e7452e]">
                 </div>
                 <div class="mb-6">
                     <label for="password" class="block text-gray-300 text-sm mb-2">Contraseña</label>
-                    <input id="password" name="password" type="password" required placeholder="admin123"
+                    <input id="password" name="password" type="password" required placeholder="Ingrese su contraseña"
                         class="w-full px-4 py-2 rounded bg-[#232323] border border-[#222] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#e7452e]">
                 </div>
                 <button type="submit"
