@@ -10,7 +10,7 @@ const cargarProductos = async () => {
   // Mostrar estado de carga
   tbody.innerHTML = `
     <tr>
-      <td colspan="6" class="text-center py-8 text-gray-400">
+      <td colspan="7" class="text-center py-8 text-gray-400">
         <i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i>
         <p>Cargando productos...</p>
       </td>
@@ -36,7 +36,7 @@ const cargarProductos = async () => {
     if (productos.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="6" class="text-center py-8 text-gray-400">
+          <td colspan="7" class="text-center py-8 text-gray-400">
             <i class="fa-solid fa-box text-4xl mb-4"></i>
             <p>No hay productos disponibles</p>
           </td>
@@ -49,12 +49,20 @@ const cargarProductos = async () => {
       const tr = document.createElement('tr');
       tr.className = 'hover:bg-[#1a1a1a] transition-colors';
 
+      // Crear imagen thumbnail
+      const imagenHtml = producto.imagen 
+        ? `<img src="/storage/${producto.imagen}" alt="${producto.nombre}" class="w-10 h-10 rounded object-cover">`
+        : `<div class="w-10 h-10 rounded bg-gray-600 flex items-center justify-center">
+             <i class="fa-solid fa-image text-gray-400 text-xs"></i>
+           </div>`;
+
       tr.innerHTML = `
         <td class="px-4 py-2 text-white">${producto.id}</td>
         <td class="px-4 py-2 text-white font-semibold">${producto.nombre}</td>
-        <td class="px-4 py-2 text-green-400 font-semibold">$${parseFloat(producto.precio).toFixed(2)}</td>
+        <td class="px-4 py-2 text-green-400 font-semibold">S/ ${parseFloat(producto.precio).toFixed(2)}</td>
         <td class="px-4 py-2 text-gray-300">${producto.categoria?.nombre || 'Sin categoría'}</td>
         <td class="px-4 py-2 text-white">${producto.stock}</td>
+        <td class="px-4 py-2">${imagenHtml}</td>
         <td class="px-4 py-2">
           <div class="flex gap-2">
             <button onclick="editarProducto(${producto.id})" 
@@ -76,7 +84,7 @@ const cargarProductos = async () => {
     console.error('Error:', error);
     tbody.innerHTML = `
       <tr>
-        <td colspan="6" class="text-center py-8 text-red-400">
+        <td colspan="7" class="text-center py-8 text-red-400">
           <i class="fa-solid fa-exclamation-triangle text-2xl mb-2"></i>
           <p>Error al cargar los productos</p>
           <button onclick="cargarProductos()" class="mt-2 px-3 py-1 bg-[#e7452e] hover:bg-orange-600 text-white rounded text-sm">
@@ -112,6 +120,7 @@ function editarProducto(id) {
     const precioInput = document.getElementById('edit-producto-precio');
     const categoriaSelect = document.getElementById('edit-producto-categoria');
     const stockInput = document.getElementById('edit-producto-stock');
+    const previewImg = document.getElementById('edit-producto-preview');
     const editForm = document.getElementById('edit-productos-form');
 
     if (nombreInput) nombreInput.value = producto.nombre;
@@ -119,6 +128,11 @@ function editarProducto(id) {
     if (precioInput) precioInput.value = producto.precio;
     if (stockInput) stockInput.value = producto.stock;
     if (editForm) editForm.dataset.id = producto.id;
+
+    // Mostrar imagen actual
+    if (previewImg && producto.imagen) {
+      previewImg.src = `/storage/${producto.imagen}`;
+    }
 
     // Cargar categorías en el select
     if (categoriaSelect) {

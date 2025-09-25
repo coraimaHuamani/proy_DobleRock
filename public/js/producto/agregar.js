@@ -5,16 +5,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnCreateProducto && sectionCreate && sectionList) {
     btnCreateProducto.addEventListener('click', () => {
-      console.log('Botón agregar producto clickeado'); // Debug
       sectionCreate.classList.remove('hidden');      
       sectionList.classList.add('hidden');           
       btnCreateProducto.classList.add('hidden');
-      
+
       // Cargar categorías en el select
-      cargarCategoriasEnSelect();
+      loadCategorias();
     });
-  } else {
-    console.warn("Elementos para crear producto no encontrados.");
+  }
+
+  // Función para cargar categorías
+  async function loadCategorias() {
+    try {
+      const response = await fetch('/api/categorias');
+      const categorias = await response.json();
+      
+      const select = document.getElementById('create-producto-categoria');
+      if (select) {
+        select.innerHTML = '<option value="">Seleccionar categoría</option>';
+        categorias.forEach(categoria => {
+          const option = document.createElement('option');
+          option.value = categoria.id;
+          option.textContent = categoria.nombre;
+          select.appendChild(option);
+        });
+      }
+    } catch (error) {
+      console.error('Error al cargar categorías:', error);
+    }
   }
 
   const btnGuardar = document.getElementById("btn-save-create-producto");
@@ -25,21 +43,23 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const form = document.getElementById("create-productos-form");
+      const formData = new FormData();
+
+      formData.append("nombre", document.getElementById("create-producto-nombre").value);
+      formData.append("descripcion", document.getElementById("create-producto-descripcion").value);
+      formData.append("precio", document.getElementById("create-producto-precio").value);
+      formData.append("categoria_id", document.getElementById("create-producto-categoria").value);
+      formData.append("stock", document.getElementById("create-producto-stock").value);
+
+      const imageInput = document.getElementById("create-producto-imagen");
+      if (imageInput.files[0]) {
+        formData.append("imagen", imageInput.files[0]);
+      }
 
       try {
         const res = await fetch("/api/productos", {
           method: "POST",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            nombre: document.getElementById("create-producto-nombre").value,
-            descripcion: document.getElementById("create-producto-descripcion").value,
-            precio: parseFloat(document.getElementById("create-producto-precio").value),
-            categoria_id: parseInt(document.getElementById("create-producto-categoria").value) || null,
-            stock: parseInt(document.getElementById("create-producto-stock").value)
-          })
+          body: formData,
         });
 
         if (!res.ok) {
@@ -59,6 +79,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         form.reset();
+        // Limpiar preview
+        const preview = document.getElementById("create-producto-preview");
+        const placeholder = document.getElementById("create-producto-placeholder");
+        if (preview && placeholder) {
+          preview.classList.add("hidden");
+          placeholder.classList.remove("hidden");
+        }
 
       } catch (error) {
         console.error("Error al conectar con el servidor:", error);
@@ -75,25 +102,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
-// Función para cargar categorías en el select
-async function cargarCategoriasEnSelect() {
-  const categoriaSelect = document.getElementById('create-producto-categoria');
-  
-  try {
-    const response = await fetch('/api/categorias');
-    if (response.ok) {
-      const categorias = await response.json();
-      categoriaSelect.innerHTML = '<option value="">Seleccionar categoría</option>';
-      
-      categorias.forEach(categoria => {
-        const option = document.createElement('option');
-        option.value = categoria.id;
-        option.textContent = categoria.nombre;
-        categoriaSelect.appendChild(option);
-      });
-    }
-  } catch (error) {
-    console.error('Error al cargar categorías:', error);
-  }
-}

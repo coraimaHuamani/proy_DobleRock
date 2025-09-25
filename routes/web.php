@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Frontend\NewsController as PublicNewsController;
 use App\Http\Controllers\Frontend\GaleriaController as PublicGaleriaController;
+use App\Http\Controllers\Frontend\ProductoController as PublicProductoController;
 
 
 // Página principal
@@ -26,12 +27,17 @@ Route::get('/galeria', [PublicGaleriaController::class, 'index'])->name('galeria
 // Detalle de una galería
 Route::get('/galerias/{id}', [PublicGaleriaController::class, 'show'])->name('galerias.show');
 
+// ===================== PRODUCTOS =====================
+// Listado de productos (tienda)
+Route::get('/tienda', [PublicProductoController::class, 'index'])->name('tienda');
+
+// Detalle de un producto
+Route::get('/producto/{id}', [PublicProductoController::class, 'show'])->name('producto.show');
+
 // Otras vistas fijas
-Route::get('/tienda', fn() => view('tienda'))->name('tienda');
 Route::get('/login', fn() => view('login'))->name('login');
 Route::get('/register', fn() => view('register'))->name('register');
 Route::get('/musica', fn() => view('musica'))->name('musica');
-Route::get('/producto', fn() => view('producto'))->name('producto');
 
 // Dashboard con validación de sesión
 Route::get('/dashboard', function (Request $request) {
