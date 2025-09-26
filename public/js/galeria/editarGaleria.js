@@ -8,6 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const form = document.getElementById("edit-galeria-form");
       const galeriaId = form.dataset.id;
+      const token = localStorage.getItem('auth_token'); // AGREGADO
+
+      if (!token) {
+        alert('No estás autenticado. Por favor, inicia sesión.');
+        window.location.href = '/login';
+        return;
+      }
+
       const formData = new FormData();
 
       formData.append("_method", "PUT");
@@ -24,7 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         const res = await fetch(`/api/galeria/${galeriaId}`, {
-          method: "POST", // Cambiar a POST
+          method: "POST", // Laravel necesita POST para _method PUT
+          headers: {
+            'Authorization': `Bearer ${token}`, // AGREGADO
+            'Accept': 'application/json'
+            // No agregar Content-Type para FormData
+          },
           body: formData
         });
 
@@ -59,14 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Preview de archivo al cambiar
+  // MEJORADO: Preview de archivo al cambiar
   const archivoInput = document.getElementById("edit-galeria-archivo");
   const imgPreview = document.getElementById("edit-galeria-preview");
   const videoPreview = document.getElementById("edit-galeria-video-preview");
 
   if (archivoInput) {
-    archivoInput.addEventListener("change", () => {
-      const file = archivoInput.files[0];
+    archivoInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {

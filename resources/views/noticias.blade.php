@@ -78,16 +78,6 @@
                 @endforelse
             </div>
 
-            <button id="more-events-btn" type="button"
-                class="mt-3 py-3 px-6 rounded-3xl bg-[#e7452e] text-[16px] font-bold w-fit self-center flex items-center gap-2 btn-morph btn-ripple">
-                <span>Ver todas las noticias</span>
-                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none">
-                    <path d="M4 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    <path d="M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-                <span class="spinner hidden"></span>
-            </button>
         </div>
     </section>
 

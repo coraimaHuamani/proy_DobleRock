@@ -8,11 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const form = document.getElementById("edit-productos-form");
       const productoId = form.dataset.id;
+      const token = localStorage.getItem('auth_token'); // AGREGADO
+
+      if (!token) {
+        alert('No estás autenticado. Por favor, inicia sesión.');
+        window.location.href = '/login';
+        return;
+      }
 
       try {
         const res = await fetch(`/api/productos/${productoId}`, {
           method: "PUT",
           headers: {
+            'Authorization': `Bearer ${token}`, // AGREGADO
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },

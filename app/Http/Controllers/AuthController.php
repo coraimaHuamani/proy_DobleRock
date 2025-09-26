@@ -12,38 +12,48 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string|min:6'
         ]);
 
-        // Buscar usuario
-        $user = Usuario::where('email', $request->email)->first();
+        $usuario = Usuario::where('email', $request->email)->first();
 
-        if (!$user || $user->estado == 0) {
+        if (!$usuario || !Hash::check($request->password, $usuario->password)) {
             return response()->json([
-                'message' => 'El usuario está inactivo o no existe',
+                'success' => false,
+                'message' => 'Credenciales incorrectas'
+            ], 401);
+        }
+
+        if (!$usuario->estado) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Usuario inactivo. Contacta al administrador.'
             ], 403);
         }
 
-        // Verificar contraseña
-        if (! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['Las credenciales proporcionadas son incorrectas.'],
-            ]);
-        }
+        // Crear token
+        $token = $usuario->createToken('auth_token')->plainTextToken;
 
-        // Generar token Sanctum
-        $token = $user->createToken('auth_token')->plainTextToken;
+        \Log::info('=== LOGIN EXITOSO ===', [
+            'user_id' => $usuario->id,
+            'token' => substr($token, 0, 20) . '...',
+            'estableciendo_cookie' => true
+        ]);
 
+        // Quitar la cookie y solo retornar JSON normal:
         return response()->json([
+            'success' => true,
             'message' => 'Inicio de sesión exitoso',
-            'token'   => $token,
-            'usuario' => [
-                'id'                => $user->id,
-                'nombre'            => $user->nombre,
-                'rol'               => $user->rol,
+            'user' => [
+                'id' => $usuario->id,
+                'nombre' => $usuario->nombre,
+                'email' => $usuario->email,
+                'rol' => $usuario->rol
             ],
-        ], 200);
+            'token' => $token,
+            'redirect_url' => $usuario->rol === 1 ? '/dashboard' : '/'
+]);
     }
 
     public function logout(Request $request)

@@ -1,9 +1,26 @@
 const cargarCategorias = async () => {
-  console.log('Cargando categorías...'); // Debug
+  console.log('Cargando categorías...');
   const tbody = document.querySelector('#categorias-table-container tbody');
   
   if (!tbody) {
     console.error('No se encontró la tabla de categorías');
+    return;
+  }
+
+  const token = localStorage.getItem('auth_token'); // AGREGADO
+
+  if (!token) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" class="text-center py-8 text-red-400">
+          <i class="fa-solid fa-exclamation-triangle text-2xl mb-2"></i>
+          <p>No estás autenticado</p>
+          <a href="/login" class="mt-2 px-3 py-1 bg-[#e7452e] hover:bg-orange-600 text-white rounded text-sm">
+            Iniciar sesión
+          </a>
+        </td>
+      </tr>
+    `;
     return;
   }
 
@@ -18,7 +35,12 @@ const cargarCategorias = async () => {
   `;
 
   try {
-    const response = await fetch('/api/categorias');
+    const response = await fetch('/api/categorias', {
+      headers: {
+        'Authorization': `Bearer ${token}`, // AGREGADO
+        'Accept': 'application/json'
+      }
+    });
     
     if (!response.ok) {
       const error = await response.json().catch(() => {});
@@ -87,6 +109,14 @@ const cargarCategorias = async () => {
 function editarCategoria(id) {
   console.log('Editar categoría:', id);
   
+  const token = localStorage.getItem('auth_token'); // AGREGADO
+  
+  if (!token) {
+    alert('No estás autenticado. Por favor, inicia sesión.');
+    window.location.href = '/login';
+    return;
+  }
+  
   // Mostrar sección de editar y ocultar otras
   const editSection = document.getElementById('categorias-edit-section');
   const btnAddNew = document.getElementById('btn-create-categoria');
@@ -97,7 +127,12 @@ function editarCategoria(id) {
   if (categoriasContainer) categoriasContainer.classList.add('hidden');
 
   // Cargar datos de la categoría
-  fetch(`/api/categorias/${id}`)
+  fetch(`/api/categorias/${id}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`, // AGREGADO
+      'Accept': 'application/json'
+    }
+  })
     .then(response => {
       if (!response.ok) {
         throw new Error('Error al cargar categoría');
@@ -120,17 +155,32 @@ function editarCategoria(id) {
 }
 
 function eliminarCategoria(id) {
+  const token = localStorage.getItem('auth_token'); // AGREGADO
+  
+  if (!token) {
+    alert('No estás autenticado. Por favor, inicia sesión.');
+    window.location.href = '/login';
+    return;
+  }
+
   if (confirm('¿Estás seguro de que deseas eliminar esta categoría?')) {
     fetch(`/api/categorias/${id}`, {
       method: 'DELETE',
       headers: {
+        'Authorization': `Bearer ${token}`, // AGREGADO
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error al eliminar categoría');
+      }
+      return response.json();
+    })
     .then(data => {
       console.log('Categoría eliminada:', data);
+      alert('Categoría eliminada correctamente');
       cargarCategorias(); // Recargar la lista
     })
     .catch(error => {
@@ -146,11 +196,6 @@ window.eliminarCategoria = eliminarCategoria;
 window.cargarCategorias = cargarCategorias;
 
 // Cargar categorías automáticamente cuando se carga el script
-document.addEventListener('DOMContentLoaded', () => {
-  if (document.querySelector('#categorias-table-container')) {
-    cargarCategorias();
-  }
-});
 document.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('#categorias-table-container')) {
     cargarCategorias();

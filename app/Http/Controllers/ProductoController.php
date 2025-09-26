@@ -16,26 +16,63 @@ class ProductoController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nombre' => 'required|string|max:150',
-            'descripcion' => 'nullable|string',
+        \Log::info('=== CREANDO PRODUCTO ===');
+        \Log::info('Datos recibidos:', $request->all());
+        \Log::info('Archivos recibidos:', $request->allFiles());
+
+        $request->validate([
+            'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'categoria_id' => 'nullable|exists:categorias,id',
+            'stock' => 'required|integer|min:0',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
         ]);
 
-        // Manejar la subida de imagen
+        $data = $request->only(['nombre', 'descripcion', 'precio', 'categoria_id', 'stock']);
+
+        // Manejar la imagen
         if ($request->hasFile('imagen')) {
             $imagen = $request->file('imagen');
-            $filename = time() . '-' . Str::slug($request->input('nombre')) . '.' . $imagen->getClientOriginalExtension();
-            $path = $imagen->storeAs('productos', $filename, 'public');
-            $validated['imagen'] = $path;
+            
+            \Log::info('Procesando imagen:', [
+                'original_name' => $imagen->getClientOriginalName(),
+                'size' => $imagen->getSize(),
+                'mime_type' => $imagen->getMimeType(),
+                'is_valid' => $imagen->isValid()
+            ]);
+
+            if ($imagen->isValid()) {
+                // Generar nombre único
+                $nombreArchivo = time() . '_' . $imagen->getClientOriginalName();
+                $imagenPath = $imagen->storeAs('productos', $nombreArchivo, 'public');
+                
+                \Log::info('Imagen guardada:', [
+                    'path' => $imagenPath,
+                    'full_path' => storage_path('app/public/' . $imagenPath),
+                    'exists' => file_exists(storage_path('app/public/' . $imagenPath))
+                ]);
+                
+                $data['imagen'] = $imagenPath;
+            } else {
+                \Log::error('Imagen no es válida');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'La imagen no es válida'
+                ], 400);
+            }
+        } else {
+            \Log::info('No se recibió imagen');
         }
 
-        $producto = Producto::create($validated);
+        $producto = Producto::create($data);
+        
+        \Log::info('Producto creado:', [
+            'id' => $producto->id,
+            'nombre' => $producto->nombre,
+            'imagen' => $producto->imagen
+        ]);
 
-        return response()->json($producto, 201);
+        return response()->json($producto->load('categoria'), 201);
     }
 
     public function show($id)

@@ -69,8 +69,5 @@
     </form>
 </div>
 
-<script>
-// Pasar el ID del usuario desde PHP a JavaScript
-window.USER_ID = '{{ session("user_id") }}';
-</script>
+
 <script src="{{ asset('js/usuarios/usuarioPerfil.js') }}"></script>

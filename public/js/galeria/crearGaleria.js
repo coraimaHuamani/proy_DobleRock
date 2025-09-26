@@ -13,6 +13,54 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn("Elementos para crear galería no encontrados.");
   }
 
+  // AGREGADO: Preview de archivo al seleccionar
+  const archivoInput = document.getElementById("create-galeria-archivo");
+  const imgPreview = document.getElementById("create-galeria-preview");
+  const videoPreview = document.getElementById("create-galeria-video-preview");
+  const placeholder = document.getElementById("create-galeria-placeholder");
+
+  if (archivoInput) {
+    archivoInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (placeholder) placeholder.classList.add('hidden');
+          
+          if (file.type.startsWith('image/')) {
+            if (imgPreview) {
+              imgPreview.src = e.target.result;
+              imgPreview.classList.remove('hidden');
+            }
+            if (videoPreview) {
+              videoPreview.classList.add('hidden');
+            }
+          } else if (file.type.startsWith('video/')) {
+            if (videoPreview) {
+              videoPreview.src = e.target.result;
+              videoPreview.classList.remove('hidden');
+            }
+            if (imgPreview) {
+              imgPreview.classList.add('hidden');
+            }
+          }
+        };
+        reader.readAsDataURL(file);
+      } else {
+        // Resetear preview si no hay archivo
+        if (placeholder) placeholder.classList.remove('hidden');
+        if (imgPreview) {
+          imgPreview.classList.add('hidden');
+          imgPreview.src = '';
+        }
+        if (videoPreview) {
+          videoPreview.classList.add('hidden');
+          videoPreview.src = '';
+        }
+      }
+    });
+  }
+
   const btnGuardar = document.getElementById("btn-save-create-galeria");
   const btnCancelar = document.getElementById("btn-cancel-create-galeria");
 
@@ -21,6 +69,14 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const form = document.getElementById("create-galeria-form");
+      const token = localStorage.getItem('auth_token'); // AGREGADO
+
+      if (!token) {
+        alert('No estás autenticado. Por favor, inicia sesión.');
+        window.location.href = '/login';
+        return;
+      }
+
       const formData = new FormData();
 
       formData.append("titulo", document.getElementById("create-galeria-titulo").value);
@@ -36,6 +92,11 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const res = await fetch("/api/galeria", {
           method: "POST",
+          headers: {
+            'Authorization': `Bearer ${token}`, // AGREGADO
+            'Accept': 'application/json'
+            // No agregar Content-Type para FormData
+          },
           body: formData,
         });
 
@@ -56,10 +117,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         form.reset();
-        document.getElementById("create-galeria-preview").src = "";
-        document.getElementById("create-galeria-preview").classList.add("hidden");
-        document.getElementById("create-galeria-video-preview").classList.add("hidden");
-        document.getElementById("create-galeria-placeholder").classList.remove("hidden");
+        
+        // MEJORADO: Limpiar previews
+        if (imgPreview) {
+          imgPreview.src = "";
+          imgPreview.classList.add("hidden");
+        }
+        if (videoPreview) {
+          videoPreview.src = "";
+          videoPreview.classList.add("hidden");
+        }
+        if (placeholder) {
+          placeholder.classList.remove("hidden");
+        }
 
       } catch (error) {
         console.error("Error al conectar con el servidor:", error);
@@ -73,6 +143,22 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById("galeria-create-section").classList.add("hidden");
       document.getElementById("galeria-container").classList.remove("hidden");
       document.getElementById("btn-create-galeria").classList.remove("hidden");
+      
+      // AGREGADO: Limpiar formulario y previews
+      const form = document.getElementById("create-galeria-form");
+      if (form) form.reset();
+      
+      if (imgPreview) {
+        imgPreview.src = "";
+        imgPreview.classList.add("hidden");
+      }
+      if (videoPreview) {
+        videoPreview.src = "";
+        videoPreview.classList.add("hidden");
+      }
+      if (placeholder) {
+        placeholder.classList.remove("hidden");
+      }
     });
   }
 });

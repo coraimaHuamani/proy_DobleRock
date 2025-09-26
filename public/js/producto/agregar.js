@@ -16,8 +16,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Función para cargar categorías
   async function loadCategorias() {
+    const token = localStorage.getItem('auth_token'); // AGREGADO
+
+    if (!token) {
+      alert('No estás autenticado. Por favor, inicia sesión.');
+      window.location.href = '/login';
+      return;
+    }
+
     try {
-      const response = await fetch('/api/categorias');
+      const response = await fetch('/api/categorias', {
+        headers: {
+          'Authorization': `Bearer ${token}`, // AGREGADO
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al cargar categorías');
+      }
+
       const categorias = await response.json();
       
       const select = document.getElementById('create-producto-categoria');
@@ -32,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (error) {
       console.error('Error al cargar categorías:', error);
+      alert('Error al cargar las categorías');
     }
   }
 
@@ -43,6 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const form = document.getElementById("create-productos-form");
+      const token = localStorage.getItem('auth_token'); // AGREGADO
+
+      if (!token) {
+        alert('No estás autenticado. Por favor, inicia sesión.');
+        window.location.href = '/login';
+        return;
+      }
+
       const formData = new FormData();
 
       formData.append("nombre", document.getElementById("create-producto-nombre").value);
@@ -59,6 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const res = await fetch("/api/productos", {
           method: "POST",
+          headers: {
+            'Authorization': `Bearer ${token}`, // AGREGADO
+            'Accept': 'application/json'
+            // No agregar Content-Type para FormData - el navegador lo establece automáticamente
+          },
           body: formData,
         });
 

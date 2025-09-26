@@ -21,53 +21,82 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (confirm('¿Cerrar sesión?')) {
                     console.log('👤 Usuario confirmó logout');
                     
+                    // Deshabilitar botón durante el proceso
+                    newBtn.disabled = true;
+                    newBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Cerrando...';
+                    
                     try {
-                        const csrfToken = document.querySelector('meta[name="csrf-token"]');
-                        const csrfValue = csrfToken ? csrfToken.getAttribute('content') : '';
+                        const token = localStorage.getItem('auth_token');
                         
-                        console.log('🔑 CSRF Token:', csrfValue);
+                        if (token) {
+                            console.log('🔑 Token encontrado, enviando logout al servidor...');
+                            
+                            const response = await fetch('/api/logout', {
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': `Bearer ${token}`,
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                            
+                            console.log('📡 Respuesta logout:', response.status);
+                            
+                            if (response.ok) {
+                                const data = await response.json();
+                                console.log('✅ Logout exitoso:', data.message);
+                            } else {
+                                console.warn('⚠️ Error en logout del servidor, pero continuando...');
+                            }
+                        } else {
+                            console.log('❌ No hay token, logout local solamente');
+                        }
                         
-                        const response = await fetch('/logout', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-                            },
-                            body: `_token=${encodeURIComponent(csrfValue)}`,
-                            redirect: 'follow' // Seguir redirects automáticamente
-                        });
+                        // Limpiar datos locales
+                        localStorage.removeItem('auth_token');
+                        localStorage.removeItem('user_data');
+                        document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
                         
-                        console.log('📡 Respuesta logout:', response.status, response.url);
+                        console.log('🧹 Datos locales y cookies limpiados');
+                        console.log('🔄 Redirigiendo al login...');
                         
-                        // Sin importar la respuesta, redirigir al home
-                        console.log('✅ Redirigiendo al home...');
-                        window.location.href = '/';
+                        // Redirigir al login
+                        window.location.href = '/login';
                         
                     } catch (error) {
-                        console.error('❌ Error en fetch logout:', error);
+                        console.error('❌ Error en logout:', error);
                         
-                        // FALLBACK: Redirigir directamente al home
-                        console.log('🔄 Error en logout, pero redirigiendo al home de todas formas...');
-                        window.location.href = '/';
+                        // Aunque haya error, limpiar datos locales
+                        localStorage.removeItem('auth_token');
+                        localStorage.removeItem('user_data');
+                        document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                        
+                        console.log('🔄 Error en logout, pero limpiando datos y redirigiendo...');
+                        window.location.href = '/login';
                     }
                 } else {
                     console.log('❌ Usuario canceló logout');
                 }
             });
             
-            console.log('✅ Event listener configurado');
+            console.log('✅ Event listener configurado para API logout');
         } else {
             console.error('❌ Botón logout del SIDEBAR NO encontrado');
             
+            // Fallback para cualquier botón logout encontrado
             if (allLogoutBtns.length > 0) {
                 const firstBtn = allLogoutBtns[0];
                 const newBtn = firstBtn.cloneNode(true);
                 firstBtn.parentNode.replaceChild(newBtn, firstBtn);
                 
-                newBtn.addEventListener('click', (e) => {
+                newBtn.addEventListener('click', async (e) => {
                     e.preventDefault();
                     if (confirm('¿Cerrar sesión?')) {
-                        window.location.href = '/';
+                        // Limpiar datos locales
+                        localStorage.removeItem('auth_token');
+                        localStorage.removeItem('user_data');
+                        document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                        window.location.href = '/login';
                     }
                 });
             }

@@ -14,7 +14,7 @@
                 </div>
             @endif
 
-            <form id="loginForm" method="POST" action="{{ route('login.custom') }}">
+            <form id="loginForm" method="POST" action="#">
                 @csrf
                 <div class="mb-4">
                     <label for="email" class="block text-gray-300 text-sm mb-2">Correo electrónico</label>
@@ -54,22 +54,8 @@
         </div>
     </div>
 
-    @if (session('cliente_login'))
-        <script>
-            // Auto-login para clientes después del login exitoso
-            const clienteData = @json(session('cliente_login'));
-            localStorage.setItem('cliente_id', clienteData.id);
-            localStorage.setItem('cliente_nombre', clienteData.nombre);
-            localStorage.setItem('cliente_email', clienteData.email);
-        </script>
-    @endif
 
-    <script>
-        // Mejorar UX del formulario
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            const btn = document.getElementById('login-btn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Iniciando sesión...';
-        });
-    </script>
+    @push('scripts')
+        <script src="{{ asset('js/login/login.js') }}"></script>
+    @endpush
 @endsection

@@ -1,7 +1,28 @@
 const cargarGaleria = async () => {
     console.log('Cargando galería...');
     const tbody = document.querySelector('#galeria-table-container tbody');
-    if (!tbody) return console.error('No se encontró la tabla de galería');
+    
+    if (!tbody) {
+        console.error('No se encontró la tabla de galería');
+        return;
+    }
+
+    const token = localStorage.getItem('auth_token'); // AGREGADO
+
+    if (!token) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center py-8 text-red-400">
+                    <i class="fa-solid fa-exclamation-triangle text-2xl mb-2"></i>
+                    <p>No estás autenticado</p>
+                    <a href="/login" class="mt-2 px-3 py-1 bg-[#e7452e] hover:bg-orange-600 text-white rounded text-sm">
+                        Iniciar sesión
+                    </a>
+                </td>
+            </tr>
+        `;
+        return;
+    }
 
     // Mostrar estado de carga
     tbody.innerHTML = `
@@ -14,12 +35,20 @@ const cargarGaleria = async () => {
     `;
 
     try {
-        const response = await fetch('/api/galeria');
+        const response = await fetch('/api/galeria', {
+            headers: {
+                'Authorization': `Bearer ${token}`, // AGREGADO
+                'Accept': 'application/json'
+            }
+        });
+        
         if (!response.ok) {
             const error = await response.json().catch(() => {});
             throw { message: error?.message || 'Error al cargar galería' };
         }
+        
         const galerias = await response.json();
+        console.log('Galería cargada:', galerias);
         tbody.innerHTML = '';
 
         if (galerias.length === 0) {
@@ -42,15 +71,34 @@ const cargarGaleria = async () => {
                 ? '<span class="px-2 py-1 text-xs bg-green-600 text-white rounded">Imagen</span>'
                 : '<span class="px-2 py-1 text-xs bg-orange-600 text-white rounded">Video</span>';
 
-            const archivoPreview = item.archivo
-                ? (item.tipo === 'imagen'
-                    ? `<img src="/storage/${item.archivo}" alt="${item.titulo}" class="w-10 h-10 rounded object-cover">`
-                    : `<div class="w-10 h-10 rounded bg-gray-600 flex items-center justify-center">
-                           <i class="fa-solid fa-video text-gray-400 text-xs"></i>
-                       </div>`)
-                : `<div class="w-10 h-10 rounded bg-gray-600 flex items-center justify-center">
-                       <i class="fa-solid fa-file text-gray-400 text-xs"></i>
-                   </div>`;
+            // MEJORADO: Preview con mejor manejo de errores
+            let archivoPreview;
+            if (item.archivo) {
+                const archivoUrl = `/storage/${item.archivo}`;
+                if (item.tipo === 'imagen') {
+                    archivoPreview = `
+                        <img src="${archivoUrl}" 
+                             alt="${item.titulo}" 
+                             class="w-10 h-10 rounded object-cover cursor-pointer"
+                             onclick="mostrarImagenCompleta('${archivoUrl}', '${item.titulo}')"
+                             onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'w-10 h-10 rounded bg-gray-600 flex items-center justify-center\\'><i class=\\'fa-solid fa-image text-gray-400 text-xs\\'></i></div>'"
+                             onload="console.log('✅ Imagen galería cargada:', '${archivoUrl}')">
+                    `;
+                } else {
+                    archivoPreview = `
+                        <div class="w-10 h-10 rounded bg-orange-600 flex items-center justify-center cursor-pointer"
+                             onclick="mostrarVideoCompleto('${archivoUrl}', '${item.titulo}')">
+                            <i class="fa-solid fa-video text-white text-xs"></i>
+                        </div>
+                    `;
+                }
+            } else {
+                archivoPreview = `
+                    <div class="w-10 h-10 rounded bg-gray-600 flex items-center justify-center">
+                        <i class="fa-solid fa-file text-gray-400 text-xs"></i>
+                    </div>
+                `;
+            }
 
             tr.innerHTML = `
                 <td class="px-4 py-2 text-white">${index + 1}</td>
@@ -92,6 +140,14 @@ const cargarGaleria = async () => {
 function editarGaleria(id) {
     console.log('Editar galería:', id);
     
+    const token = localStorage.getItem('auth_token'); // AGREGADO
+    
+    if (!token) {
+        alert('No estás autenticado. Por favor, inicia sesión.');
+        window.location.href = '/login';
+        return;
+    }
+    
     // Mostrar sección de editar y ocultar otras
     const editSection = document.getElementById('galeria-edit-section');
     const btnAddNew = document.getElementById('btn-create-galeria');
@@ -102,7 +158,12 @@ function editarGaleria(id) {
     if (galeriaContainer) galeriaContainer.classList.add('hidden');
 
     // Cargar datos del elemento de galería
-    fetch(`/api/galeria/${id}`)
+    fetch(`/api/galeria/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`, // AGREGADO
+            'Accept': 'application/json'
+        }
+    })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error al cargar elemento de galería');
@@ -113,6 +174,7 @@ function editarGaleria(id) {
             const tituloInput = document.getElementById('edit-galeria-titulo');
             const descripcionInput = document.getElementById('edit-galeria-descripcion');
             const tipoSelect = document.getElementById('edit-galeria-tipo');
+            const estadoSelect = document.getElementById('edit-galeria-estado');
             const editForm = document.getElementById('edit-galeria-form');
             const imgPreview = document.getElementById('edit-galeria-img-preview');
             const videoPreview = document.getElementById('edit-galeria-video-preview');
@@ -120,18 +182,20 @@ function editarGaleria(id) {
             if (tituloInput) tituloInput.value = item.titulo;
             if (descripcionInput) descripcionInput.value = item.descripcion || '';
             if (tipoSelect) tipoSelect.value = item.tipo;
+            if (estadoSelect) estadoSelect.value = item.estado ? '1' : '0';
             if (editForm) editForm.dataset.id = item.id;
 
-            // Mostrar preview del archivo actual
-            if (item.archivo && imgPreview && videoPreview) {
-                if (item.tipo === 'imagen') {
-                    imgPreview.src = `/storage/${item.archivo}`;
+            // MEJORADO: Mostrar preview del archivo actual
+            if (item.archivo) {
+                const archivoUrl = `/storage/${item.archivo}`;
+                if (item.tipo === 'imagen' && imgPreview) {
+                    imgPreview.src = archivoUrl;
                     imgPreview.classList.remove('hidden');
-                    videoPreview.classList.add('hidden');
-                } else if (item.tipo === 'video') {
-                    videoPreview.src = `/storage/${item.archivo}`;
+                    if (videoPreview) videoPreview.classList.add('hidden');
+                } else if (item.tipo === 'video' && videoPreview) {
+                    videoPreview.src = archivoUrl;
                     videoPreview.classList.remove('hidden');
-                    imgPreview.classList.add('hidden');
+                    if (imgPreview) imgPreview.classList.add('hidden');
                 }
             }
         })
@@ -142,11 +206,23 @@ function editarGaleria(id) {
 }
 
 function eliminarGaleria(id) {
+    const token = localStorage.getItem('auth_token'); // AGREGADO
+    
+    if (!token) {
+        alert('No estás autenticado. Por favor, inicia sesión.');
+        window.location.href = '/login';
+        return;
+    }
+
     if (!confirm('¿Estás seguro de que deseas eliminar este elemento?')) return;
 
     fetch(`/api/galeria/${id}`, {
         method: 'DELETE',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+        headers: { 
+            'Authorization': `Bearer ${token}`, // AGREGADO
+            'Accept': 'application/json', 
+            'Content-Type': 'application/json' 
+        }
     })
     .then(response => {
         if (!response.ok) throw new Error('Error al eliminar');
@@ -154,6 +230,7 @@ function eliminarGaleria(id) {
     })
     .then(data => {
         console.log('Elemento eliminado:', data);
+        alert('Elemento eliminado correctamente');
         cargarGaleria();
     })
     .catch(error => {
@@ -162,9 +239,56 @@ function eliminarGaleria(id) {
     });
 }
 
+// AGREGADO: Funciones para mostrar imágenes/videos completos
+function mostrarImagenCompleta(url, titulo) {
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50';
+    modal.innerHTML = `
+        <div class="max-w-4xl max-h-4xl p-4">
+            <div class="relative">
+                <img src="${url}" alt="${titulo}" class="max-w-full max-h-full rounded">
+                <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                        class="absolute top-2 right-2 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-700">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+                <div class="absolute bottom-2 left-2 bg-black bg-opacity-50 text-white px-3 py-1 rounded">
+                    ${titulo}
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function mostrarVideoCompleto(url, titulo) {
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50';
+    modal.innerHTML = `
+        <div class="max-w-4xl max-h-4xl p-4">
+            <div class="relative">
+                <video controls class="max-w-full max-h-full rounded">
+                    <source src="${url}" type="video/mp4">
+                    Tu navegador no soporta videos.
+                </video>
+                <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                        class="absolute top-2 right-2 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-700">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+                <div class="absolute bottom-2 left-2 bg-black bg-opacity-50 text-white px-3 py-1 rounded">
+                    ${titulo}
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// Hacer funciones globales
 window.editarGaleria = editarGaleria;
 window.eliminarGaleria = eliminarGaleria;
 window.cargarGaleria = cargarGaleria;
+window.mostrarImagenCompleta = mostrarImagenCompleta;
+window.mostrarVideoCompleto = mostrarVideoCompleto;
 
 document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector('#galeria-table-container')) {

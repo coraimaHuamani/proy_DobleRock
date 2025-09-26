@@ -1,28 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Script categoria/agregar.js cargado'); // Debug
+  console.log('Script categoria/agregar.js cargado');
   
   const btnCreateCategoria = document.getElementById('btn-create-categoria');
   const sectionCreate = document.getElementById('categorias-create-section');
   const sectionList = document.getElementById('categorias-container');
 
-  console.log('btnCreateCategoria:', btnCreateCategoria); // Debug
-  console.log('sectionCreate:', sectionCreate); // Debug
-  console.log('sectionList:', sectionList); // Debug
-
   if (btnCreateCategoria && sectionCreate && sectionList) {
     btnCreateCategoria.addEventListener('click', (e) => {
       e.preventDefault();
-      console.log('Botón agregar categoría clickeado'); // Debug
+      console.log('Botón agregar categoría clickeado');
       
       sectionCreate.classList.remove('hidden');      
       sectionList.classList.add('hidden');           
       btnCreateCategoria.classList.add('hidden');
     });
-  } else {
-    console.warn("Elementos para crear categoría no encontrados:");
-    console.warn("btnCreateCategoria:", btnCreateCategoria);
-    console.warn("sectionCreate:", sectionCreate);
-    console.warn("sectionList:", sectionList);
   }
 
   const btnGuardar = document.getElementById("btn-save-create-categoria");
@@ -33,11 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const form = document.getElementById("create-categorias-form");
+      const token = localStorage.getItem('auth_token'); // AGREGADO
+
+      if (!token) {
+        alert('No estás autenticado. Por favor, inicia sesión.');
+        window.location.href = '/login';
+        return;
+      }
 
       try {
         const res = await fetch("/api/categorias", {
           method: "POST",
           headers: {
+            'Authorization': `Bearer ${token}`, // AGREGADO
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },

@@ -8,6 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
       sectionCreate.classList.remove('hidden');      
       sectionList.classList.add('hidden');           
       btnCreateUser.classList.add('hidden');
+      
+      // Limpiar formulario
+      const form = document.getElementById("create-users-form");
+      if (form) {
+        form.reset();
+        // Establecer valores por defecto
+        document.getElementById("create-user-estado").value = "1"; // Activo por defecto
+      }
     });
   } else {
     console.warn("Elementos para crear usuario no encontrados.");
@@ -21,60 +29,134 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const form = document.getElementById("create-users-form");
-      const rolValue = document.getElementById("create-user-rol").value;
+      
+      // Obtener datos del formulario
+      const nombre = document.getElementById("create-user-nombre").value.trim();
+      const email = document.getElementById("create-user-email").value.trim();
+      const password = document.getElementById("create-user-password").value;
+      const rol = parseInt(document.getElementById("create-user-rol").value);
+      const telefono = document.getElementById("create-user-telefono").value.trim();
+      const direccion = document.getElementById("create-user-direccion").value.trim();
+      const estado = parseInt(document.getElementById("create-user-estado").value);
 
-      // Mapear strings a números para los roles - solo Admin y Cliente
-      const rolMapping = {
-        'admin': 1,
-        'cliente': 2
-      };
+      // Validaciones básicas
+      if (!nombre) {
+        alert("El nombre es requerido");
+        document.getElementById("create-user-nombre").focus();
+        return;
+      }
+
+      if (!email) {
+        alert("El email es requerido");
+        document.getElementById("create-user-email").focus();
+        return;
+      }
+
+      if (!password || password.length < 6) {
+        alert("La contraseña debe tener al menos 6 caracteres");
+        document.getElementById("create-user-password").focus();
+        return;
+      }
+
+      if (!rol || (rol !== 1 && rol !== 2)) {
+        alert("Debes seleccionar un rol válido");
+        document.getElementById("create-user-rol").focus();
+        return;
+      }
+
+      // Deshabilitar botón mientras se procesa
+      btnGuardar.disabled = true;
+      btnGuardar.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Creando...';
 
       try {
+        const token = localStorage.getItem('auth_token');
+        
+        if (!token) {
+          alert('No tienes autorización. Inicia sesión nuevamente.');
+          return;
+        }
+
+        console.log('Enviando datos del usuario:', {
+          nombre, email, rol, telefono, direccion, estado
+        });
+
         const res = await fetch("/api/usuarios", {
           method: "POST",
           headers: {
+            'Authorization': `Bearer ${token}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            nombre: document.getElementById("create-user-nombre").value,
-            email: document.getElementById("create-user-email").value,
-            password: document.getElementById("create-user-password").value,
-            rol: rolValue ? rolMapping[rolValue] || null : null,
-            estado: parseInt(document.getElementById("create-user-estado").value)
+            nombre,
+            email,
+            password,
+            rol,
+            telefono: telefono || null,
+            direccion: direccion || null,
+            estado: Boolean(estado) // Convertir a boolean
           })
         });
 
+        const data = await res.json();
+
         if (!res.ok) {
-          const error = await res.json();
-          alert("Error al crear: " + JSON.stringify(error.errors || error.message));
+          console.error('Error del servidor:', data);
+          
+          if (data.errors) {
+            // Mostrar errores de validación específicos
+            let errorMessage = "Errores de validación:\n";
+            Object.keys(data.errors).forEach(field => {
+              errorMessage += `- ${field}: ${data.errors[field].join(', ')}\n`;
+            });
+            alert(errorMessage);
+          } else {
+            alert("Error al crear el usuario: " + (data.message || 'Error desconocido'));
+          }
           return;
         }
 
+        console.log('Usuario creado exitosamente:', data);
         alert("Usuario creado correctamente");
 
+        // Ocultar formulario y mostrar lista
         document.getElementById("users-create-section").classList.add("hidden");
         document.getElementById("users-container").classList.remove("hidden");
         document.getElementById("btn-create-user").classList.remove("hidden");
 
+        // Recargar la tabla de usuarios
         if (typeof cargarUsuarios === "function") {
           cargarUsuarios();
         }
 
+        // Limpiar formulario
         form.reset();
+        document.getElementById("create-user-estado").value = "1"; // Volver a activo por defecto
 
       } catch (error) {
         console.error("Error al conectar con el servidor:", error);
-        alert("Falló la conexión con el servidor.");
+        alert("Error de conexión con el servidor. Intenta nuevamente.");
+      } finally {
+        // Rehabilitar botón
+        btnGuardar.disabled = false;
+        btnGuardar.innerHTML = '<i class="fa-solid fa-floppy-disk mr-2"></i>Crear Usuario';
       }
     });
   } 
 
   if (btnCancelar) {
     btnCancelar.addEventListener("click", () => {
-      document.getElementById("users-create-section").classList.add("hidden");
-      document.getElementById("users-container").classList.remove("hidden");
-      document.getElementById("btn-create-user").classList.remove("hidden");
+      if (confirm('¿Estás seguro de que deseas cancelar? Los datos no guardados se perderán.')) {
+        document.getElementById("users-create-section").classList.add("hidden");
+        document.getElementById("users-container").classList.remove("hidden");
+        document.getElementById("btn-create-user").classList.remove("hidden");
+        
+        // Limpiar formulario
+        const form = document.getElementById("create-users-form");
+        if (form) {
+          form.reset();
+        }
+      }
     });
   }
 });
