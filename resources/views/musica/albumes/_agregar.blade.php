@@ -9,7 +9,7 @@
       <input id="create-album-year" type="number" name="year" required class="w-full px-4 py-2 rounded-md bg-[#232323] border-[1px] border-gray-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#e7452e]">
 
       <label for="create-album-file" class="block text-gray-300 text-sm font-bold mb-2 mt-4">Imagen del Album</label>
-      <input id="create-album-file" type="file" name="file" required accept="image/*" class="w-full text-white file:bg-[#e7452e] file:text-white file:font-bold file:px-4 file:py-2 file:border-none file:rounded-md file:cursor-pointer">
+      <input id="create-album-file" type="file" name="file"  accept="image/*" class="w-full text-white file:bg-[#e7452e] file:text-white file:font-bold file:px-4 file:py-2 file:border-none file:rounded-md file:cursor-pointer">
       
       <div class="w-full max-w-xs aspect-square mt-2 rounded overflow-hidden bg-gray-800">
         <img id="create-album-image-preview" src="" alt="Previsualización" class="w-full h-full object-cover hidden"/>

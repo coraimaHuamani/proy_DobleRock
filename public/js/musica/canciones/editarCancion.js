@@ -45,10 +45,14 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append("file_path", filePath);
       }
     }
+
+    const token = localStorage.getItem('auth_token');
+    if (!token) return alert("No se encontró el token de autenticación");
+
     try {
       const res = await fetch(`/api/songs/${songId}`, {
         method: "POST",
-        headers: { "X-HTTP-Method-Override": "PUT" },
+        headers: { "X-HTTP-Method-Override": "PUT", 'Authorization': `Bearer ${token}`, "Accept": "application/json" },
         body: formData,
       });
 

@@ -30,17 +30,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const albumFileInput = document.getElementById("create-album-file");
       if (albumFileInput.files[0]) {
         formData.append("cover_image_path", albumFileInput.files[0]);
-      } else {
-        return alert("Debes seleccionar un archivo de audio.");
       }
 
-      if (!formData.get("title") || !formData.get("year") || !formData.get("cover_image_path") ) {
+      if (!formData.get("title") || !formData.get("year") ) {
         return alert("Todos los campos deben estar llenos");
       }
 
       try {
+        const token = localStorage.getItem('auth_token');
         const res = await fetch("/api/albums", {
           method: "POST",
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            "Accept": "application/json",
+          },
           body: formData,
         });
 

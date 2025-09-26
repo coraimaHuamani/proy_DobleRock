@@ -18,9 +18,29 @@ const cargarCanciones = async () => {
       </td>
     </tr>
   `;
+  const token = localStorage.getItem('auth_token');
+  if (!token) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" class="text-center py-8 text-red-400">
+          <i class="fa-solid fa-exclamation-triangle text-2xl mb-2"></i>
+          <p>No estás autenticado</p>
+          <a href="/login" class="mt-2 px-3 py-1 bg-[#e7452e] hover:bg-orange-600 text-white rounded text-sm">
+            Iniciar sesión
+          </a>
+        </td>
+      </tr>
+    `;
+    return;
+  }
 
   try { 
-    const response = await fetch('/api/songs');
+    const response = await fetch('/api/songs', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+      }
+    });
     if (!response.ok) {
       const error = await response.json().catch(() => {});
       throw {
@@ -138,8 +158,18 @@ const cargarCanciones = async () => {
             if (songsTableContainer) songsTableContainer.classList.add('hidden');
     
             const id = button.getAttribute('data-id');
-            const response = await fetch(`/api/songs/${id}`);
-            const albumsJson = await fetch('/api/albums');
+            const response = await fetch(`/api/songs/${id}`, {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
+              }
+            });
+            const albumsJson = await fetch('/api/albums', {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
+              }
+            });
     
             if (!response.ok || !albumsJson.ok) {
               const error = await response.json().catch(()=>{});
@@ -208,7 +238,7 @@ const cargarCanciones = async () => {
             if (!confirm("¿Seguro que deseas eliminar esta canción?")) return;
 
             try {
-              const response = await fetch(`/api/songs/${id}`, { method: 'DELETE' });
+              const response = await fetch(`/api/songs/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' } });
               if (!response.ok) throw new Error("Error al eliminar canción");
 
               alert("Canción eliminada correctamente");

@@ -11,15 +11,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const sectionCreate = document.getElementById('song-create-section');
   const sectionList = document.getElementById('songs-table-container');
   const createForm = document.getElementById('create-song-form');
-
+  const token = localStorage.getItem('auth_token');
+  if (!token) { 
+    alert('No estás autenticado. Por favor, inicia sesión.');
+    window.location.href = '/login';
+    return;
+  }
 
   if (btnCreateSong && sectionCreate && sectionList && createForm) {
     btnCreateSong.addEventListener('click', async () => {
       sectionCreate.classList.remove('hidden');      
       sectionList.classList.add('hidden');           
       btnCreateSong.classList.add('hidden');
-
-      const albumsJson = await fetch('/api/albums');
+      
+      const albumsJson = await fetch('/api/albums', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          "Accept": "application/json"
+        }
+      });
       const albumsResponse = await albumsJson.json();
       const menuAlbums = document.getElementById('create-album-select');     
       menuAlbums.innerHTML = `
@@ -83,6 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const res = await fetch("/api/songs", {
           method: "POST",
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            "Accept": "application/json",
+          },
           body: formData,
         });
 

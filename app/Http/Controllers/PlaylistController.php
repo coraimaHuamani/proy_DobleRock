@@ -71,27 +71,36 @@ class PlaylistController extends Controller
         return response()->json(['message' => 'Playlist eliminada correctamente']);
     }
 
-    public function addSongs(Request $request, Playlist $playlist)
+    public function addSongs(Request $request, $id)
     {
-        $validated = $request->validate([
-            'song_ids'   => 'required|array',
-            'song_ids.*' => 'exists:songs,id',
-        ]);
+        $playlist = Playlist::findOrFail($id);
+    $songIds = $request->input('song_ids', []);
 
-        $playlist->songs()->attach($validated['song_ids']);
+    $playlist->songs()->attach($songIds);
 
-        return response()->json(['message' => 'Canciones agregadas correctamente']);
+    return response()->json([
+        'message' => 'Canciones agregadas',
+        'songs'   => $playlist->songs
+    ]);
     }
 
-    public function removeSongs(Request $request, Playlist $playlist)
+    public function removeSongs(Request $request, $id)
     {
+        
+        $playlist = Playlist::findOrFail($id);
+
         $validated = $request->validate([
             'song_ids'   => 'required|array',
-            'song_ids.*' => 'exists:songs,id',
+            'song_ids.*' => 'exists:songs,id'
         ]);
 
         $playlist->songs()->detach($validated['song_ids']);
 
-        return response()->json(['message' => 'Canciones eliminadas correctamente']);
+        return response()->json([
+            'message' => 'Canciones eliminadas correctamente',
+            'songs'   => $playlist->songs()->get()
+        ]);
     }
+
+    
 }

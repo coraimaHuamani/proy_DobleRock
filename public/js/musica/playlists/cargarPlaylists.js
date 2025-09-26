@@ -1,4 +1,6 @@
-const cargarPlaylists = async () => {
+import { renderizarCancionesTabla } from "./renderizarCancionesTabla.js";
+
+export const cargarPlaylists = async () => {
   const tbody = document.querySelector('#playlists-container tbody');
   if (!tbody) return console.error('No se encontró la tabla de playlists');
 
@@ -11,8 +13,20 @@ const cargarPlaylists = async () => {
     </tr>
   `;
 
+  const token = localStorage.getItem('auth_token');
+  if (!token) {
+    alert('No tienes autorización. Inicia sesión nuevamente.');
+    window.location.href = '/login';
+    return;
+  }
+
   try { 
-    const response = await fetch('/api/playlists');
+    const response = await fetch('/api/playlists', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+      }
+    });
     if (!response.ok) {
       const error = await response.json().catch(() => {});
       throw {
@@ -80,7 +94,12 @@ const cargarPlaylists = async () => {
             if (playlistsTableContainer) playlistsTableContainer.classList.add('hidden');
     
             const id = button.getAttribute('data-id');
-            const response = await fetch(`/api/playlists/${id}`);
+            const response = await fetch(`/api/playlists/${id}`, {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
+              }
+            });
     
             if (!response.ok) {
               const error = await response.json().catch(()=>{});
@@ -94,6 +113,7 @@ const cargarPlaylists = async () => {
             const descriptionInput = document.getElementById('edit-playlist-description');
             const imagePreview = document.getElementById('edit-playlist-image-preview');
             const placeholder = document.getElementById('edit-playlist-placeholder');
+            const editPlaylistForm = document.getElementById('edit-playlist-form');
 
             if (playlistResponse.cover_image_path !== null) {
               imagePreview.src = baseUrlImagenes + playlistResponse.cover_image_path;
@@ -106,26 +126,19 @@ const cargarPlaylists = async () => {
             }
             if (titleInput) titleInput.value = playlistResponse.title;
             if (descriptionInput) descriptionInput.value = playlistResponse.description;
-    
+            if (editPlaylistForm) editPlaylistForm.dataset.id = playlistResponse.id;
+
             const table = document.getElementById("playlist-songs-table");
             table.innerHTML = "";
-            const songs = playlistResponse.songs || [];
-            songs.forEach((song, index) => {
-              const tr = document.createElement("tr");
-              tr.innerHTML = `
-                <td class="px-4 py-2">${index + 1}</td>
-                <td class="px-4 py-2">${song.title}</td>
-                <td class="px-4 py-2">${song.artist}</td>
-                <td class="px-4 py-2 text-center">
-                  <button class="btn-remove-song px-2 py-1 bg-red-600 text-white rounded" data-id="${song.id}">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              `;
-              table.appendChild(tr);
-            });
+            let playlistSongs = playlistResponse.songs || [];
+            renderizarCancionesTabla(playlistSongs);
 
-            const allSongs = await fetch('/api/songs');
+            const allSongs = await fetch('/api/songs', {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
+              }
+            });
             if (!allSongs.ok) {
               const error = await allSongs.json().catch(()=>{});
               throw {
@@ -150,7 +163,11 @@ const cargarPlaylists = async () => {
           button.addEventListener('click', async () => {
             const id = button.getAttribute('data-id');
             const response = await fetch(`/api/playlists/${id}`, {
-              method: 'DELETE'
+              method: 'DELETE',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
+              }
             });
             if (!response.ok) {
               const error = await response.json().catch(()=>{});
@@ -168,7 +185,7 @@ const cargarPlaylists = async () => {
       <tr>
         <td colspan="7" class="text-center py-8 text-red-400">
           <i class="fa-solid fa-exclamation-triangle text-2xl mb-2"></i>
-          <p>Error al cargar los albumes</p>
+          <p>Error al cargar los playlists</p>
           <button onclick="cargarPlaylists()" class="mt-2 px-3 py-1 bg-[#e7452e] hover:bg-orange-600 text-white rounded text-sm">
             Reintentar
           </button>
@@ -178,3 +195,7 @@ const cargarPlaylists = async () => {
   }
 
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  cargarPlaylists();
+});

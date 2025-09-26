@@ -62,7 +62,7 @@
         <option value="">Seleccionar canción...</option>
         <!-- Opciones de canciones disponibles se cargan aquí -->
       </select>
-      <button id="btn-add-song" type="button"
+      <button id="btn-add-song-to-playlist" type="button"
         class=" px-4 py-2 mt-5 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-semibold transition">
         Agregar canción
       </button>
@@ -82,3 +82,7 @@
 
   </form>
 </div>
+
+@push('scripts')
+  <script type="module" src="{{ asset('js/musica/playlists/editarPlaylist.js') }}"></script>
+@endpush

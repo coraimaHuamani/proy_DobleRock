@@ -167,15 +167,12 @@
 
                 <div id="panel-clientes" class="hidden">
                     <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Clientes</h2>
-                    @include('clientes._agregar')
-                    @include('clientes._editar')
                     <button id="btn-create-cliente" type="button"
                         class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
                         Agregar cliente
                     </button>
                     <div id="clientes-container"
                         class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
-                        @include('clientes._tabla')
                     </div>
                 </div>
 
@@ -235,7 +232,7 @@
         <script src="{{ asset('js/galeria/cargarGaleria.js') }}"></script>
         <script src="{{ asset('js/musica/albumes/cargarAlbumes.js') }}"></script>
         <script src="{{ asset('js/musica/canciones/cargarCanciones.js') }}"></script>
-        <script src="{{ asset('js/musica/playlists/cargarPlaylists.js') }}"></script>
+        <script type="module" src="{{ asset('js/musica/playlists/cargarPlaylists.js') }}"></script>
         <script src="{{ asset('js/categoria/editar.js') }}"></script>
         <script src="{{ asset('js/categoria/agregar.js') }}"></script>
         <script src="{{ asset('js/producto/tabla.js') }}"></script>

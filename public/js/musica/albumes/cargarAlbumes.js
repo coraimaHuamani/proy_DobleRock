@@ -14,7 +14,13 @@ const cargarAlbumes = async () => {
   `;
 
   try { 
-    const response = await fetch('/api/albums');
+    const token = localStorage.getItem('auth_token');
+    const response = await fetch('/api/albums', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+      }
+    });
     if (!response.ok) {
       const error = await response.json().catch(() => {});
       throw {
@@ -76,7 +82,7 @@ const cargarAlbumes = async () => {
             if (albumsTableContainer) albumsTableContainer.classList.add('hidden');
     
             const id = button.getAttribute('data-id');
-            const response = await fetch(`/api/albums/${id}`);
+            const response = await fetch(`/api/albums/${id}`, { headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' } } );
     
             if (!response.ok) {
               const error = await response.json().catch(()=>{});
@@ -91,11 +97,19 @@ const cargarAlbumes = async () => {
             const imagePreview = document.getElementById('edit-album-image-preview');
             const editForm = document.getElementById('edit-album-form');
 
-            imagePreview.classList.remove('hidden');
+            if (albumResponse.cover_image_path) {
+              imagePreview.src = baseUrlImagenes + albumResponse.cover_image_path;
+              imagePreview.classList.remove('hidden');
+            } else {
+              imagePreview.removeAttribute('src'); 
+              imagePreview.classList.add('hidden');
+              const placeholder = document.getElementById('edit-album-placeholder');
+              if (placeholder) placeholder.classList.remove('hidden');
+            }
+
     
             if (titleInput) titleInput.value = albumResponse.title;
             if (yearInput) yearInput.value = albumResponse.year;
-            if (imagePreview) imagePreview.src = baseUrlImagenes + albumResponse.cover_image_path;
             if (editForm) editForm.dataset.id = albumResponse.id;
     
             
@@ -108,7 +122,8 @@ const cargarAlbumes = async () => {
           button.addEventListener('click', async () => {
             const id = button.getAttribute('data-id');
             const response = await fetch(`/api/albums/${id}`, {
-              method: 'DELETE'
+              method: 'DELETE',
+              headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
             if (!response.ok) {
               const error = await response.json().catch(()=>{});

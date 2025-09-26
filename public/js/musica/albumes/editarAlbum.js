@@ -37,9 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     try {
+      const token = localStorage.getItem('auth_token');
       const res = await fetch(`/api/albums/${albumId}`, {
         method: "POST",
-        headers: { "X-HTTP-Method-Override": "PUT" },
+        headers: { "X-HTTP-Method-Override": "PUT", 'Authorization': `Bearer ${token}`, "Accept": "application/json" },
         body: formData,
       });
 

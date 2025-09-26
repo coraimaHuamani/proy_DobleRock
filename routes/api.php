@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\GaleriaController;
+use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\SongController;
 use App\Http\Middleware\JsonOnlyMiddleware;
+use App\Models\Album;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AuthController;
@@ -26,5 +30,11 @@ Route::middleware(JsonOnlyMiddleware::class)->group(function () {
         Route::apiResource('galeria', GaleriaController::class);
         Route::apiResource('categorias', CategoriaController::class);
         Route::apiResource('productos', ProductoController::class);
+        Route::apiResource('albums', AlbumController::class);
+        Route::apiResource('songs', SongController::class);
+        Route::apiResource('playlists', PlaylistController::class);
+        Route::post('playlists/{id}/songs', [PlaylistController::class, 'addSongs']);
+        Route::delete('playlists/{id}/songs', [PlaylistController::class, 'removeSongs']);
+
     });
 });
