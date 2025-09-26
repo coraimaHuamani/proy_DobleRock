@@ -8,7 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
         galeria: document.getElementById('panel-galeria'),
         noticias: document.getElementById('panel-noticias'),
         clientes: document.getElementById('panel-clientes'),
-        miPerfil: document.getElementById('panel-mi-perfil')
+        miPerfil: document.getElementById('panel-mi-perfil'),
+        albumes: document.getElementById('panel-albumes'),
+        canciones: document.getElementById('panel-canciones'),
+        playlists: document.getElementById('panel-playlists'),
     };
 
     // Función para ocultar todos los paneles
@@ -85,6 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (clienteEditSection) clienteEditSection.classList.add('hidden');
         if (clienteContainer) clienteContainer.classList.remove('hidden');
         if (btnCreateCliente) btnCreateCliente.classList.remove('hidden');
+
+        
     }
 
     document.getElementById('menu-categorias')?.addEventListener('click', () => {
@@ -161,6 +166,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Submenú música
+    document.getElementById('menu-albumes')?.addEventListener('click', () => {
+        hideAllPanels();
+        resetAllFormsToList();
+        panels.albumes?.classList.remove('hidden');
+        if (typeof cargarAlbumes === "function") setTimeout(cargarAlbumes, 100);
+    });
+
+    document.getElementById('menu-canciones')?.addEventListener('click', () => {
+        hideAllPanels();
+        resetAllFormsToList();
+        panels.canciones?.classList.remove('hidden');
+        if (typeof cargarCanciones === "function") setTimeout(cargarCanciones, 100);
+    });
+
+    document.getElementById('menu-playlists')?.addEventListener('click', () => {
+        hideAllPanels();
+        resetAllFormsToList();
+        panels.playlists?.classList.remove('hidden');
+        if (typeof cargarPlaylists === "function") setTimeout(cargarPlaylists, 100);
+    });
+
+    
     // Menú hamburguesa para móvil
     const sidebar = document.getElementById('dashboard-sidebar');
     const overlay = document.getElementById('dashboard-overlay');

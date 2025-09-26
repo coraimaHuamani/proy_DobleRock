@@ -44,6 +44,40 @@
                     <i class="fa-solid fa-newspaper"></i>
                     Noticias
                 </button>
+               <div class="relative">
+                    <button id="menu-musica"
+                        class="flex items-center justify-between w-full text-left gap-2 text-white hover:text-[#e7452e] transition font-semibold focus:outline-none">
+                        <span class="flex items-center gap-2">
+                            <i class="fa-solid fa-music"></i>
+                            Música
+                        </span>
+                        <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200" id="music-chevron"></i>
+                    </button>
+
+                    <ul id="submenu-musica" class=" hidden ml-6 mt-2  flex-col gap-4 text-sm">
+                        <li>
+                            <button id="menu-albumes"
+                                class="flex items-center py-2 gap-2 text-white hover:text-[#e7452e] transition font-medium focus:outline-none">
+                                <i class="fa-solid fa-compact-disc"></i>
+                                Álbumes
+                            </button>
+                        </li>
+                        <li>
+                            <button id="menu-canciones"
+                                class="flex items-center py-2 gap-2 text-white hover:text-[#e7452e] transition font-medium focus:outline-none">
+                                <i class="fa-solid fa-music"></i>
+                                Canciones
+                            </button>
+                        </li>
+                        <li>
+                            <button id="menu-playlists"
+                                class="flex items-center py-2 gap-2 text-white hover:text-[#e7452e] transition font-medium focus:outline-none">
+                                <i class="fa-solid fa-list"></i>
+                                Playlists
+                            </button>
+                        </li>
+                    </ul>
+                </div>
 
                 <!-- Separador -->
                 <hr class="border-[#232323] my-4">
@@ -131,6 +165,61 @@
                     </div>
                 </div>
 
+                <div id="panel-clientes" class="hidden">
+                    <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Clientes</h2>
+                    @include('clientes._agregar')
+                    @include('clientes._editar')
+                    <button id="btn-create-cliente" type="button"
+                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
+                        Agregar cliente
+                    </button>
+                    <div id="clientes-container"
+                        class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                        @include('clientes._tabla')
+                    </div>
+                </div>
+
+                <div id="panel-albumes" class="hidden">
+                    <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Álbumes</h2>
+                    @include('musica/albumes._agregar')
+                    @include('musica/albumes._editar')
+                    <button id="btn-create-album" type="button"
+                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
+                        Agregar álbum
+                    </button>
+                    <div id="albums-container"
+                        class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                        @include('musica/albumes._tabla')
+                    </div>
+                </div>
+
+                <div id="panel-canciones" class="hidden">
+                    <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Canciones</h2>
+                    @include('musica/canciones._agregar')
+                    @include('musica/canciones._editar')
+                    <button id="btn-create-song" type="button"
+                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
+                        Agregar canción
+                    </button>
+                    <div id="songs-container"
+                        class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                        @include('musica/canciones._tabla')
+                    </div>
+                </div>
+
+                <div id="panel-playlists" class="hidden">
+                    <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Playlists</h2>
+                    @include('musica/playlists._editar')
+                    <button id="btn-create-playlist" type="button"
+                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
+                        Crear playlist
+                    </button>
+                    <div id="playlists-container"
+                        class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                        @include('musica/playlists._tabla')
+                    </div>
+                </div>
+
                 <div id="panel-mi-perfil" class="hidden">
                     <h2 class="text-xl font-bold text-[#e7452e] mb-4">Mi Perfil de Administrador</h2>
                     <div class="bg-[#181818] rounded-lg border border-[#232323] p-6 max-w-2xl">
@@ -144,12 +233,19 @@
         <script type="module" src="{{ asset('js/dashboard.js') }}"></script>
         <script src="{{ asset('js/usuarios/cargarUsuario.js') }}"></script>
         <script src="{{ asset('js/galeria/cargarGaleria.js') }}"></script>
-        <script src="{{ asset('js/categoria/tabla.js') }}"></script>
+        <script src="{{ asset('js/musica/albumes/cargarAlbumes.js') }}"></script>
+        <script src="{{ asset('js/musica/canciones/cargarCanciones.js') }}"></script>
+        <script src="{{ asset('js/musica/playlists/cargarPlaylists.js') }}"></script>
         <script src="{{ asset('js/categoria/editar.js') }}"></script>
         <script src="{{ asset('js/categoria/agregar.js') }}"></script>
         <script src="{{ asset('js/producto/tabla.js') }}"></script>
         <script src="{{ asset('js/producto/agregar.js') }}"></script>
         <script src="{{ asset('js/producto/editar.js') }}"></script>
         <script src="{{ asset('js/login/logout.js') }}"></script>
+        <script src="{{ asset('js/clientes/tabla.js') }}"></script>
+        <script src="{{ asset('js/clientes/agregar.js') }}"></script>
+        <script src="{{ asset('js/clientes/editar.js') }}"></script>
+        <script src="{{ asset('js/musica/toggleMenu.js') }}"></script>
+        
     @endpush
 @endsection

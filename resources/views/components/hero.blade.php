@@ -1,5 +1,5 @@
 <div
-    class="relative w-full h-[400px] md:h-[500px] flex items-center justify-center bg-[url('images/fondoPrincipal.jpg')] bg-cover bg-center">
+    class="relative w-full h-[400px] md:h-[500px] flex items-center justify-center bg-[url('images/fondoPrincipal.jpeg')] bg-cover bg-center">
     <!-- Overlay oscuro eliminado, ya que el fondo es un color sólido -->
     <div class="relative z-10 text-center text-black px-4">
         <h1 class="text-4xl md:text-6xl font-bold mb-2">DOBLE ROCK</h1>
