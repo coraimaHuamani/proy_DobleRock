@@ -18,7 +18,7 @@
                 class="md:w-64 bg-[#181818] border-r border-[#232323] flex flex-col py-8 px-6 gap-4 h-full
             fixed md:static top-0 left-0 z-40 md:z-auto w-64 transition-transform duration-300
             -translate-x-full md:translate-x-0">
-              
+
                 <button id="menu-categorias"
                     class="flex items-center gap-2 text-white hover:text-[#e7452e] transition font-semibold focus:outline-none">
                     <i class="fa-solid fa-tags"></i>
@@ -44,14 +44,15 @@
                     <i class="fa-solid fa-newspaper"></i>
                     Noticias
                 </button>
-               <div class="relative">
+                <div class="relative">
                     <button id="menu-musica"
                         class="flex items-center justify-between w-full text-left gap-2 text-white hover:text-[#e7452e] transition font-semibold focus:outline-none">
                         <span class="flex items-center gap-2">
                             <i class="fa-solid fa-music"></i>
                             Música
                         </span>
-                        <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200" id="music-chevron"></i>
+                        <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"
+                            id="music-chevron"></i>
                     </button>
 
                     <ul id="submenu-musica" class=" hidden ml-6 mt-2  flex-col gap-4 text-sm">
@@ -198,8 +199,7 @@
                         class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
                         Agregar canción
                     </button>
-                    <div id="songs-container"
-                        class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
+                    <div id="songs-container" class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
                         @include('musica/canciones._tabla')
                     </div>
                 </div>
@@ -236,6 +236,7 @@
         <script type="module" src="{{ asset('js/musica/playlists/cargarPlaylists.js') }}"></script>
         <script src="{{ asset('js/categoria/editar.js') }}"></script>
         <script src="{{ asset('js/categoria/agregar.js') }}"></script>
+        <script src="{{ asset('js/categoria/tabla.js') }}"></script>
         <script src="{{ asset('js/producto/tabla.js') }}"></script>
         <script src="{{ asset('js/producto/agregar.js') }}"></script>
         <script src="{{ asset('js/producto/editar.js') }}"></script>
@@ -244,6 +245,5 @@
         <script src="{{ asset('js/clientes/agregar.js') }}"></script>
         <script src="{{ asset('js/clientes/editar.js') }}"></script>
         <script src="{{ asset('js/musica/toggleMenu.js') }}"></script>
-        
     @endpush
 @endsection
