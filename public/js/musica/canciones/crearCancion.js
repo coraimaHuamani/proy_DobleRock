@@ -112,12 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
         sectionList.classList.remove("hidden");
         btnCreateSong.classList.remove("hidden");
         
-
+        createForm.reset();
+        
         if (typeof cargarCanciones === "function") {
           cargarCanciones();
         }
 
-        createForm.reset();
         
 
       } catch (error) {
@@ -130,9 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnCancelar) {
     btnCancelar.addEventListener("click", () => {
-      document.getElementById("song-create-section").classList.add("hidden");
-      document.getElementById("song-container").classList.remove("hidden");
-      document.getElementById("btn-create-song").classList.remove("hidden");
+      createForm.reset();
+      sectionCreate.classList.add('hidden');      
+      sectionList.classList.remove('hidden');           
+      btnCreateSong.classList.remove('hidden');
     });
   }
   

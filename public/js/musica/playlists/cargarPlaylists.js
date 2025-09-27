@@ -86,11 +86,11 @@ export const cargarPlaylists = async () => {
     document.querySelectorAll('.btn-edit-playlist').forEach(button => {
           button.addEventListener('click', async () => {
             const editSection = document.getElementById('playlist-edit-section');
-            const btnAddAlbum = document.getElementById('btn-create-playlist');
+            const btnAddPlaylist = document.getElementById('btn-create-playlist');
             const playlistsTableContainer = document.getElementById('playlists-container');
     
             if (editSection) editSection.classList.remove('hidden');
-            if (btnAddAlbum) btnAddAlbum.classList.add('hidden');
+            if (btnAddPlaylist) btnAddPlaylist.classList.add('hidden');
             if (playlistsTableContainer) playlistsTableContainer.classList.add('hidden');
     
             const id = button.getAttribute('data-id');

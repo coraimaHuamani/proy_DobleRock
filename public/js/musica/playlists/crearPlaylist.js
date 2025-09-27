@@ -1,16 +1,22 @@
+import { cargarPlaylists } from "./cargarPlaylists.js";
+
 // crearPlaylist
 document.addEventListener('DOMContentLoaded', () => {
-  const btnCreatelaylist = document.getElementById('btn-create-playlist');
+  const btnCreatePlaylist = document.getElementById('btn-create-playlist');
   const sectionCreate = document.getElementById('playlist-create-section');
-  const sectionList = document.getElementById('playlists-table-container');
+  const sectionList = document.getElementById('playlists-container');
   const createForm = document.getElementById('create-playlist-form');
+  const imagePreviewPlaceholder = document.getElementById("create-playlist-placeholder");
 
 
-  if (btnCreatelaylist && sectionCreate && sectionList && createForm) {
-    btnCreatelaylist.addEventListener('click', async () => {
+
+  if (btnCreatePlaylist && sectionCreate && sectionList && createForm) {
+    btnCreatePlaylist.addEventListener('click', async () => {
+
+      console.log('Botón crear playlist clickeado');
       sectionCreate.classList.remove('hidden');      
       sectionList.classList.add('hidden');           
-      btnCreatelaylist.classList.add('hidden');
+      btnCreatePlaylist.classList.add('hidden');
     
     });
   } else {
@@ -19,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const btnGuardar = document.getElementById("btn-save-create-playlist");
   const btnCancelar = document.getElementById("btn-cancel-create-playlist");
+  const imagePreview = document.getElementById("create-playlist-image-preview");
 
   if (btnGuardar) {
     btnGuardar.addEventListener("click", async (e) => {
@@ -30,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const playlistFileInput = document.getElementById("create-playlist-file");
       if (playlistFileInput.files[0]) {
-        formData.append("cover_image_path", playlistFileInput.files[0]);
+        formData.append("cover_image", playlistFileInput.files[0]);
       }
 
       if (!formData.get("title") ) {
@@ -58,14 +65,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         sectionCreate.classList.add("hidden");
         sectionList.classList.remove("hidden");
-        btnCreatelaylist.classList.remove("hidden");
+        btnCreatePlaylist.classList.remove("hidden");
+        
+        createForm.reset();
+
+        imagePreview.classList.add('hidden');
+        imagePreviewPlaceholder.classList.remove('hidden');
         
 
-        if (typeof cargarplaylistes === "function") {
-          cargarplaylistes();
+        if (typeof cargarPlaylists === "function") {
+          cargarPlaylists();
         }
 
-        createForm.reset();
         
 
       } catch (error) {
@@ -78,9 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnCancelar) {
     btnCancelar.addEventListener("click", () => {
-      document.getElementById("playlist-create-section").classList.add("hidden");
-      document.getElementById("playlists-table-container").classList.remove("hidden");
-      document.getElementById("btn-create-playlist").classList.remove("hidden");
+      createForm.reset();
+      imagePreview.classList.add('hidden');
+      imagePreviewPlaceholder.classList.remove('hidden');
+      sectionCreate.classList.add('hidden');      
+      sectionList.classList.remove('hidden');           
+      btnCreatePlaylist.classList.remove('hidden');
     });
   }
   

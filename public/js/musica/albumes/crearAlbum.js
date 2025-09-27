@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const sectionCreate = document.getElementById('album-create-section');
   const sectionList = document.getElementById('albums-table-container');
   const createForm = document.getElementById('create-album-form');
+  const imagePreview = document.getElementById("create-album-image-preview");
+  const imagePreviewPlaceholder = document.getElementById("create-album-placeholder");
+
 
 
   if (btnCreateAlbum && sectionCreate && sectionList && createForm) {
@@ -59,12 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
         sectionList.classList.remove("hidden");
         btnCreateAlbum.classList.remove("hidden");
         
-
+        createForm.reset();
+        imagePreviewPlaceholder.classList.remove('hidden');
+        imagePreview.classList.add('hidden');
         if (typeof cargarAlbumes === "function") {
           cargarAlbumes();
         }
 
-        createForm.reset();
+        
         
 
       } catch (error) {
@@ -77,6 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnCancelar) {
     btnCancelar.addEventListener("click", () => {
+      createForm.reset();
+      imagePreviewPlaceholder.classList.remove('hidden');
+      imagePreview.classList.add('hidden');
       document.getElementById("album-create-section").classList.add("hidden");
       document.getElementById("albums-table-container").classList.remove("hidden");
       document.getElementById("btn-create-album").classList.remove("hidden");

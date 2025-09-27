@@ -6,7 +6,10 @@
       <input id="create-playlist-title" type="text" name="title" required class="w-full px-4 py-2 rounded-md bg-[#232323] border-[1px] border-gray-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#e7452e]">
 
       <label for="create-playlist-description" class="block text-gray-300 text-sm font-bold mb-2 mt-4">description</label>
-      <textarea id="create-playlist-description" name="description" rows="3" class="w-full px-4 py-2 rounded-md bg-[#232323] border-[1px] border-gray-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#e7452e]">
+      <textarea id="create-playlist-description" name="description" rows="3"
+        class="w-full px-3 py-2 rounded bg-[#1e1e1e] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#e7452e] text-white"></textarea>
+
+
 
       <label for="create-playlist-file" class="block text-gray-300 text-sm font-bold mb-2 mt-4">Imagen de la playlist</label>
       <input id="create-playlist-file" type="file" name="file"  accept="image/*" class="w-full text-white file:bg-[#e7452e] file:text-white file:font-bold file:px-4 file:py-2 file:border-none file:rounded-md file:cursor-pointer">
@@ -30,10 +33,9 @@
       </div>
     </form>
 </div>
-
-@push('scripts')
-<script src="{{ asset('js/musica/playlists/crearPlaylist.js') }}"></script>
-<script>
+@push('scripts')    
+  <script type="module" src="{{ asset('js/musica/playlists/crearPlaylist.js') }}"></script>
+  <script>
   document.addEventListener("DOMContentLoaded", () => {
     const fileInput = document.getElementById("create-playlist-file");
     const imgPreview = document.getElementById("create-playlist-image-preview");
@@ -45,14 +47,10 @@
         if (file) {
           const reader = new FileReader();
           reader.onload = (e) => {
-            if (file.type.startsWith('image/')) {
+              
               imgPreview.src = e.target.result;
               imgPreview.classList.remove('hidden');
               placeholder.classList.add('hidden');
-            } else if (file.type.startsWith('video/')) {
-              imgPreview.classList.add('hidden');
-              placeholder.classList.add('hidden');
-            }
           };
           reader.readAsDataURL(file);
         } else {
@@ -64,3 +62,4 @@
   });
 </script>
 @endpush
+  

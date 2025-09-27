@@ -207,6 +207,7 @@
                 <div id="panel-playlists" class="hidden">
                     <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Playlists</h2>
                     @include('musica/playlists._editar')
+                    @include('musica/playlists._agregar')
                     <button id="btn-create-playlist" type="button"
                         class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
                         Crear playlist
