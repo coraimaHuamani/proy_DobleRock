@@ -4,13 +4,14 @@
         class="max-w-[1200px] mx-auto p-2 flex flex-col md:flex-row items-center justify-center md:justify-between w-full gap-4">
 
         <!-- Logo -->
-        <div class="flex items-center mb-2 md:mb-0">
-            <img src="{{ asset('images/image.png') }}" alt="Logo" class="w-12 h-12 object-contain mr-3" />
-            <div class="flex flex-col md:mr-6">
-                <span class="text-white font-bold text-xl leading-tight">DOBLE</span>
-                <span class="text-[#e7452e] font-bold text-xl leading-tight">ROCK</span>
-            </div>
-        </div>
+        <!-- Logo -->
+<a href="/" class="flex items-center mb-2 md:mb-0">
+    <img src="{{ asset('images/image.png') }}" alt="Logo" class="w-12 h-12 object-contain mr-3" />
+    <div class="flex flex-col md:mr-6">
+        <span class="text-white font-bold text-xl leading-tight">DOBLE</span>
+        <span class="text-[#e7452e] font-bold text-xl leading-tight">ROCK</span>
+    </div>
+</a>
 
         <!-- Reproductor de música -->
         <div
