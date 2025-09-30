@@ -73,8 +73,8 @@ const cargarGaleria = async () => {
 
             // MEJORADO: Preview con mejor manejo de errores
             let archivoPreview;
-            if (item.archivo) {
-                const archivoUrl = `/storage/${item.archivo}`;
+            if (item.archivo_url) {
+                const archivoUrl = item.archivo_url;
                 if (item.tipo === 'imagen') {
                     archivoPreview = `
                         <img src="${archivoUrl}" 
@@ -176,7 +176,7 @@ function editarGaleria(id) {
             const tipoSelect = document.getElementById('edit-galeria-tipo');
             const estadoSelect = document.getElementById('edit-galeria-estado');
             const editForm = document.getElementById('edit-galeria-form');
-            const imgPreview = document.getElementById('edit-galeria-img-preview');
+            const imgPreview = document.getElementById('edit-galeria-preview');
             const videoPreview = document.getElementById('edit-galeria-video-preview');
 
             if (tituloInput) tituloInput.value = item.titulo;
@@ -186,18 +186,29 @@ function editarGaleria(id) {
             if (editForm) editForm.dataset.id = item.id;
 
             // MEJORADO: Mostrar preview del archivo actual
-            if (item.archivo) {
-                const archivoUrl = `/storage/${item.archivo}`;
+            if (item.archivo_url) {
+                const archivoUrl = item.archivo_url;
+                console.log('Archivo URL:', archivoUrl);
+                console.log('Asignado src a preview:', imgPreview, imgPreview?.src);
+                console.log(item.tipo)
                 if (item.tipo === 'imagen' && imgPreview) {
                     imgPreview.src = archivoUrl;
+                    imgPreview.alt = item.titulo || 'Vista previa';
+                    console.log('Asignado src a preview:', imgPreview, imgPreview?.src);
                     imgPreview.classList.remove('hidden');
                     if (videoPreview) videoPreview.classList.add('hidden');
-                } else if (item.tipo === 'video' && videoPreview) {
+                } 
+                else if (item.tipo === 'video' && videoPreview) {
                     videoPreview.src = archivoUrl;
+                    videoPreview.load();
                     videoPreview.classList.remove('hidden');
                     if (imgPreview) imgPreview.classList.add('hidden');
                 }
+            } else {
+                if (imgPreview) imgPreview.classList.add('hidden');
+                if (videoPreview) videoPreview.classList.add('hidden');
             }
+
         })
         .catch(error => {
             console.error('Error:', error);

@@ -77,13 +77,13 @@ const cargarProductos = async () => {
         id: producto.id,
         nombre: producto.nombre,
         imagen: producto.imagen,
-        imagen_path: producto.imagen ? `/storage/${producto.imagen}` : 'No imagen'
+        imagen_path: producto.image_url ? producto.image_url : 'No imagen'
       });
 
       // Crear imagen thumbnail con mejor manejo de errores
       let imagenHtml;
-      if (producto.imagen) {
-        const imagenUrl = `/storage/${producto.imagen}`;
+      if (producto.image_url) {
+        const imagenUrl = producto.image_url;
         imagenHtml = `
           <img src="${imagenUrl}" 
                alt="${producto.nombre}" 
@@ -192,8 +192,8 @@ function editarProducto(id) {
     if (editForm) editForm.dataset.id = producto.id;
 
     // Mostrar imagen actual
-    if (previewImg && producto.imagen) {
-      previewImg.src = `/storage/${producto.imagen}`;
+    if (previewImg && producto.image_url) {
+      previewImg.src = producto.image_url;
     }
 
     // Cargar categorías en el select

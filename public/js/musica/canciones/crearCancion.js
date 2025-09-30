@@ -9,7 +9,7 @@ const mmssToSeconds = (mmss) => {
 document.addEventListener('DOMContentLoaded', () => {
   const btnCreateSong = document.getElementById('btn-create-song');
   const sectionCreate = document.getElementById('song-create-section');
-  const sectionList = document.getElementById('songs-table-container');
+  const sectionList = document.getElementById('songs-container');
   const createForm = document.getElementById('create-song-form');
   const token = localStorage.getItem('auth_token');
   if (!token) { 

@@ -16,21 +16,27 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      const formData = new FormData();
+      formData.append("nombre", document.getElementById("edit-producto-nombre").value);
+      formData.append("descripcion", document.getElementById("edit-producto-descripcion").value);
+      formData.append("precio", document.getElementById("edit-producto-precio").value);
+      formData.append("categoria_id", document.getElementById("edit-producto-categoria").value);
+      formData.append("stock", document.getElementById("edit-producto-stock").value);
+      const imageInput = document.getElementById("edit-producto-imagen");
+      if (imageInput?.files[0]) {
+        formData.append("imagen", imageInput.files[0]);
+      }
+      console.log(formData);
+      formData.append("_method", "PUT");
+
       try {
         const res = await fetch(`/api/productos/${productoId}`, {
-          method: "PUT",
+          method: "POST",
           headers: {
             'Authorization': `Bearer ${token}`, // AGREGADO
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            nombre: document.getElementById("edit-producto-nombre").value,
-            descripcion: document.getElementById("edit-producto-descripcion").value,
-            precio: parseFloat(document.getElementById("edit-producto-precio").value),
-            categoria_id: parseInt(document.getElementById("edit-producto-categoria").value) || null,
-            stock: parseInt(document.getElementById("edit-producto-stock").value)
-          })
+          body: formData
         });
 
         if (!res.ok) {

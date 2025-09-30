@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class News extends Model
 {
@@ -16,6 +17,9 @@ class News extends Model
         'image',
         'source_url',
     ];
+    
+    protected $appends = ['image_url'];
+
 
     // Constantes para categorías
     public const CATEGORIES = [
@@ -39,5 +43,12 @@ class News extends Model
     public function scopeEventos($query)
     {
         return $query->where('category', 'evento');
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image
+            ? Storage::disk('public')->url($this->image)
+            : null;
     }
 }
