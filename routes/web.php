@@ -18,7 +18,7 @@ Route::get('/noticias/{id}', [PublicNewsController::class, 'show'])->name('notic
 
 // ===================== GALERÍAS =====================
 // Listado de galerías
-Route::get('/galeria', [PublicGaleriaController::class, 'index'])->name('galeria');
+Route::get('/galerias', [PublicGaleriaController::class, 'index'])->name('galeria');
 // Detalle de una galería
 Route::get('/galerias/{id}', [PublicGaleriaController::class, 'show'])->name('galerias.show');
 
@@ -40,4 +40,5 @@ Route::middleware(\App\Http\Middleware\CheckJwtAuth::class . ':admin')->group(fu
 
 Route::middleware(\App\Http\Middleware\CheckJwtAuth::class . ':cliente')->group(function () {
     Route::get('/perfil', fn() => view('perfil-cliente'))->name('perfil');
+    Route::get('/checkout', fn() => view('checkout'))->name('checkout');
 });

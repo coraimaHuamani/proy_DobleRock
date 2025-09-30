@@ -1,4 +1,3 @@
-{{-- filepath: d:\Tecnovedades\proy_DobleRock\resources\views\usuarios\_logueados.blade.php --}}
 <div class="mb-4 flex justify-between items-center">
     <h3 class="text-lg font-semibold text-white">Sesiones Activas</h3>
     <button id="refresh-online-users" class="px-3 py-1 bg-[#e7452e] hover:bg-orange-600 text-white rounded text-sm">

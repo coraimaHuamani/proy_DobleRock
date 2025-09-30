@@ -192,8 +192,24 @@
                         if (checkoutBtn) {
                             checkoutBtn.addEventListener('click', function(e) {
                                 e.preventDefault();
-                                window.location.href = '/login';
+                                // Verifica si el usuario está logueado (ajusta según tu sistema)
+                                var clienteId = localStorage.getItem('cliente_id');
+                                if (clienteId) {
+                                    window.location.href = '/checkout'; // Página de pago
+                                } else {
+                                    // Guarda intención y redirige a login
+                                    localStorage.setItem('checkout_pending', '1');
+                                    window.location.href = '/login';
+                                }
                             });
+                        }
+                    });
+
+                    // Después de login, redirige a checkout si corresponde
+                    document.addEventListener('DOMContentLoaded', function() {
+                        if (localStorage.getItem('checkout_pending') === '1') {
+                            localStorage.removeItem('checkout_pending');
+                            window.location.href = '/checkout';
                         }
                     });
                 </script>
