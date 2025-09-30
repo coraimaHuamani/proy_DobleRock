@@ -74,6 +74,17 @@ const cargarCanciones = async () => {
       const seconds = String(song.duration % 60).padStart(2, '0');
       const durationFormatted = `${minutes}:${seconds}`;
 
+      if (song.file_url) {
+        const fileUrl = song.file_url;
+        fileHtml = `
+           <button data-src="${fileUrl}" class="btn-song-preview w-10 h-10 flex items-center justify-center bg-[#e7452e] text-white rounded-full hover:bg-orange-600 transition">
+            <i class="fa-solid fa-play"></i>
+          </button>
+        `
+      } else {
+        fileHtml = 'Audio no disponible';
+      }
+
       tr.innerHTML += `
        <td class="px-4 py-2 text-white">${index + 1}</td>
         <td class="px-4 py-2 text-white font-semibold">${song.title}</td>
@@ -81,11 +92,7 @@ const cargarCanciones = async () => {
         <td class="px-4 py-2 text-gray-300">${song.genre}</td>
         <td class="px-4 py-2 text-gray-300">${durationFormatted}</td>
         <td class="px-4 py-2 text-gray-300">${albumTitle}</td>
-        <td class="px-5 py-2 text-gray-300 text-center">
-          <button data-src="/storage/${song.file_path}" class="btn-song-preview w-10 h-10 flex items-center justify-center bg-[#e7452e] text-white rounded-full hover:bg-orange-600 transition">
-            <i class="fa-solid fa-play"></i>
-          </button>
-        </td>
+        <td class="px-5 py-2 text-gray-300 text-center">${fileHtml}</td>
         <td class="px-4 py-2 text-gray-300">
           <div class="flex gap-2">
             <button data-id="${song.id}" class="btn-edit-song px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded transition">
@@ -151,7 +158,7 @@ const cargarCanciones = async () => {
           button.addEventListener('click', async () => {
             const editSection = document.getElementById('song-edit-section');
             const btnAddsong = document.getElementById('btn-create-song');
-            const songsTableContainer = document.getElementById('songs-table-container');
+            const songsTableContainer = document.getElementById('songs-container');
     
             if (editSection) editSection.classList.remove('hidden');
             if (btnAddsong) btnAddsong.classList.add('hidden');
@@ -222,7 +229,7 @@ const cargarCanciones = async () => {
             }
             if (editForm) editForm.dataset.id = songResponse.id;
             if (audioSource) {
-              audioSource.setAttribute('src', `/storage/${songResponse.file_path}`);
+              audioSource.setAttribute('src', songResponse.file_url);
               audio.load(); 
             }
     

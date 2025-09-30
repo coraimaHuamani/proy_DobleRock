@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Song extends Model
 {
@@ -14,6 +15,8 @@ class Song extends Model
         'file_path',
         'album_id'
     ];
+
+    protected $appends = ['file_url'];
 
     public function album(){
         return $this->belongsTo(Album::class, 'album_id');
@@ -30,6 +33,12 @@ class Song extends Model
                     ->withTimestamps();
     }
 
+    public function getFileUrlAttribute()
+    {
+        return $this->file_path
+            ? Storage::disk('public')->url($this->file_path)
+            : null;
+    }
 
 
 }

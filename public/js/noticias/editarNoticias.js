@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const formData = new FormData();
-    formData.append("_method", "PUT"); // MEJORADO: Usar _method en lugar del header
+    formData.append("_method", "PUT");
     formData.append("title", document.getElementById("edit-new-title").value);
     formData.append("description", document.getElementById("edit-new-description").value);
     formData.append("category", document.getElementById("edit-new-category").value);
@@ -67,13 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
       formData.append("image", imageInput.files[0]);
     }
 
+    if(!formData.get("title") || !formData.get("description") || !formData.get("category") || !formData.get("source_url")) {
+      alert("Por favor, completa todos los campos.");
+      return;
+    }
+
     try {
       const res = await fetch(`/api/news/${newsId}`, {
-        method: "POST", // Laravel necesita POST para _method
+        method: "POST", 
         headers: {
           'Authorization': `Bearer ${token}`, // AGREGADO
           'Accept': 'application/json'
-          // No agregar Content-Type para FormData
+        
         },
         body: formData,
       });

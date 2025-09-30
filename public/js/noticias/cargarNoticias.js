@@ -1,5 +1,3 @@
-const baseUrlImagenes = '/storage/';
-
 export const cargarNoticias = async () => {
   const tbody = document.querySelector('#news-table-container tbody');
   
@@ -78,8 +76,9 @@ export const cargarNoticias = async () => {
       
       // MEJORADO: Manejo de imágenes con mejor error handling
       let imagenHtml;
-      if (e.image) {
-        const imagenUrl = `${baseUrlImagenes}${e.image}`;
+      if (e.image_url) {
+        const imagenUrl = e.image_url;
+        console.log('✅ Imagen noticia encontrada:', imagenUrl);
         imagenHtml = `
           <img src="${imagenUrl}" 
                alt="${e.title}" 
@@ -160,8 +159,8 @@ export const cargarNoticias = async () => {
           if (editForm) editForm.dataset.id = newResponse.id;
           
           // MEJORADO: Preview de imagen con manejo de errores
-          if (imagePreview && newResponse.image) {
-            const imagenUrl = baseUrlImagenes + newResponse.image;
+          if (imagePreview && newResponse.image_url) {
+            const imagenUrl =newResponse.image_url;
             imagePreview.src = imagenUrl;
             imagePreview.classList.remove('hidden');
             imagePreview.onerror = function() {

@@ -17,6 +17,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
+  const imageInput = document.getElementById("edit-playlist-file");
+  const imagePreview = document.getElementById("edit-playlist-image-preview");
+
+  if (imageInput && imagePreview) {
+    imageInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            imagePreview.src = reader.result;
+            imagePreview.classList.remove('hidden');
+          };
+          reader.readAsDataURL(file);
+        } else {
+          alert('Por favor, selecciona un archivo de imagen.');
+        }
+      }
+    });
+  }
+
   const token = localStorage.getItem('auth_token');
   if (!token) {
     alert('No estás autenticado. Por favor, inicia sesión.');

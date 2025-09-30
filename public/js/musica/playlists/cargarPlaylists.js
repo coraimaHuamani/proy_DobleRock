@@ -52,8 +52,8 @@ export const cargarPlaylists = async () => {
 
     playlists.forEach((playlist, index) => {
       const tr = document.createElement('tr');
-      const cover = playlist.cover_image_path
-        ? `<img src="/storage/${playlist.cover_image_path}" class="w-12 h-12 object-cover rounded" />`
+      const cover = playlist.cover_image_url
+        ? `<img src="${playlist.cover_image_url}" class="w-12 h-12 object-cover rounded" />`
         : '<span class="text-gray-500">Sin portada</span>';
 
       const songsList = playlist.songs && playlist.songs.length > 0
@@ -115,8 +115,8 @@ export const cargarPlaylists = async () => {
             const placeholder = document.getElementById('edit-playlist-placeholder');
             const editPlaylistForm = document.getElementById('edit-playlist-form');
 
-            if (playlistResponse.cover_image_path !== null) {
-              imagePreview.src = baseUrlImagenes + playlistResponse.cover_image_path;
+            if (playlistResponse.cover_image_url !== null) {
+              imagePreview.src = playlistResponse.cover_image_url;
               imagePreview.classList.remove('hidden');
               placeholder.classList.add('hidden');
             } else {

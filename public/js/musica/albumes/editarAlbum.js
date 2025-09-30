@@ -11,6 +11,29 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  const imageInput = document.getElementById("edit-album-file");
+  const imagePreview = document.getElementById("edit-album-image-preview");
+
+  if(imageInput && imagePreview) {
+    imageInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            imagePreview.src = e.target.result;
+            imagePreview.classList.remove('hidden');
+          };
+          reader.readAsDataURL(file);
+        } else {
+          alert('Por favor selecciona un archivo de imagen válido');
+          imageInput.value = '';
+        }
+      }
+    });
+  }
+
+
   btnCancelar.addEventListener('click', () => {
     sectionEditar.classList.add('hidden');
     sectionListado.classList.remove('hidden');
@@ -28,13 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
     formData.append("year", document.getElementById("edit-album-year").value);
     const albumFileInput = document.getElementById("edit-album-file");
     if (albumFileInput.files.length > 0) {
-      formData.append("file", albumFileInput.files[0]);
-    } else {
-      const filePath = editForm.dataset.filePath;
-      if (filePath) {
-        formData.append("file_path", filePath);
-      }
-    }
+      formData.append("cover_image_path", albumFileInput.files[0]);
+    } 
     
     try {
       const token = localStorage.getItem('auth_token');

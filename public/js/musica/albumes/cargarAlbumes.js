@@ -1,5 +1,3 @@
-const baseUrlImagenes = '/storage/';
-
 const cargarAlbumes = async () => {
   const tbody = document.querySelector('#albums-table-container tbody');
   if (!tbody) return console.error('No se encontró la tabla de albumes');
@@ -44,19 +42,36 @@ const cargarAlbumes = async () => {
       return;
     }
 
+    
+
     albums.forEach((album, index) => {
       const tr = document.createElement('tr');
+      console.log('✅ Album cargado:', album);
+      let imagenHtml;
+      if (album.cover_image_url) {
+        const imagenUrl = album.cover_image_url;
+        imagenHtml = `
+          <img src="${imagenUrl}" 
+                alt="${album.title}" 
+                class="w-10 h-10 rounded object-cover cursor-pointer"
+                onclick="mostrarImagenCompleta('${imagenUrl}', '${album.title.replace(/'/g, '&apos;')}')"
+                onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'w-10 h-10 rounded bg-gray-600 flex items-center justify-center\\'><i class=\\'fa-solid fa-image text-gray-400 text-xs\\'></i></div>'"
+                onload="console.log('✅ Imagen noticia cargada:', '${imagenUrl}')">
+        `;
+      } else {
+        imagenHtml = `
+          <div class="w-10 h-10 rounded bg-gray-600 flex items-center justify-center">
+            <i class="fa-solid fa-image text-gray-400 text-xs"></i>
+          </div>
+        `;
+      }
+
       tr.className = 'hover:bg-[#1a1a1a] transition-colors';
-      tr.innerHTML += `
+      tr.innerHTML = `
        <td class="px-4 py-2 text-white">${index + 1}</td>
         <td class="px-4 py-2 text-white font-semibold">${album.title}</td>
         <td class="px-4 py-2 text-gray-300">${album.year}</td>
-        <td class="px-4 py-2">
-          ${album.cover_image_path ? `<img src="${baseUrlImagenes}${album.cover_image_path}" alt="${album.title}" class="w-10 h-10 rounded object-cover">` : 
-            `<div class="w-10 h-10 rounded bg-gray-600 flex items-center justify-center">
-               <i class="fa-solid fa-image text-gray-400 text-xs"></i>
-             </div>`}
-        </td>
+        <td class="px-4 py-2">${imagenHtml}</td>
         <td class="px-4 py-2">
           <div class="flex gap-2">
             <button data-id="${album.id}" class="btn-edit-album px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded transition">
@@ -97,8 +112,8 @@ const cargarAlbumes = async () => {
             const imagePreview = document.getElementById('edit-album-image-preview');
             const editForm = document.getElementById('edit-album-form');
 
-            if (albumResponse.cover_image_path) {
-              imagePreview.src = baseUrlImagenes + albumResponse.cover_image_path;
+            if (albumResponse.cover_image_url) {
+              imagePreview.src = albumResponse.cover_image_url;
               imagePreview.classList.remove('hidden');
             } else {
               imagePreview.removeAttribute('src'); 

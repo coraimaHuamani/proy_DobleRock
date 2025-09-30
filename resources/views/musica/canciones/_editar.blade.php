@@ -21,10 +21,11 @@
 
       <label for="edit-song-file" class="block text-gray-300 text-sm font-bold mb-2 mt-4">Archivo</label>
       <input id="edit-song-file" type="file" name="file" accept="audio/*" class="w-full text-white file:bg-[#e7452e] file:text-white file:font-bold file:px-4 file:py-2 file:border-none file:rounded-md file:cursor-pointer">
+      
       <div id="edit-song-preview" class="mt-4">
         <p class="text-sm text-gray-400 mb-2">Previsualización:</p>
-        <audio controls class="w-full rounded">
-          <source  src="" type="audio/mpeg">
+        <audio  controls class="w-full rounded">
+          <source id="edit-song-audio-source" src="" type="audio/mpeg">
           Tu navegador no soporta el elemento de audio.
         </audio>
       </div>
@@ -45,4 +46,31 @@
 
 @push('scripts')
 <script type="module" src="{{ asset('js/musica/canciones/editarCancion.js') }}"></script>
+<script>
+  const songInput = document.getElementById('edit-song-file');
+  const songPreview = document.getElementById('edit-song-preview');
+  const songSource = document.getElementById('edit-song-audio-source');
+  
+  if(songInput && songPreview && songSource) {
+    songInput.addEventListener('change', () => {
+      const file = songInput.files[0];
+      if (file) {
+        if (file.type.startsWith("audio/")) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            songSource.src = e.target.result;
+            songPreview.classList.remove("hidden");
+            songPreview.querySelector("audio").load(); 
+          };
+          reader.readAsDataURL(file);
+        } else {
+          alert("Por favor selecciona un archivo de audio válido");
+          songInput.value = "";
+          songPreview.classList.add("hidden");
+        }
+      }
+    });
+  }
+
+</script>
 @endpush

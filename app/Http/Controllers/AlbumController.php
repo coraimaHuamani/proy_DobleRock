@@ -31,11 +31,15 @@ class AlbumController extends Controller
         ]);
 
         if ($request->hasFile('cover_image_path')) {
+            
             $image = $request->file('cover_image_path');
-            $filename = time() .'-'.Str::slug($request->input('title')). '.' . $image->getClientOriginalExtension();
+            // crea el nombre del archivo con timestamp + título del álbum
+            $filename = time() . '-' . Str::slug($request->input('title')) . '.' . $image->getClientOriginalExtension();
+
+            // se guarda en public/uploads/album_images
             $path = $image->storeAs('album_images', $filename, 'public');
             $validated['cover_image_path'] = $path;
-        }    
+        }
 
 
         $album = Album::create($validated);
@@ -63,16 +67,21 @@ class AlbumController extends Controller
             'cover_image_path'=> 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($request->hasFile('cover_image_path')){ 
-            if ($album->cover_image_path && Storage::disk('public')->exists($album->cover_image_path)){ 
+        if ($request->hasFile('cover_image_path')) {
+            // borra la imagen anterior si existe
+            if ($album->cover_image_path && Storage::disk('public')->exists($album->cover_image_path)) {
                 Storage::disk('public')->delete($album->cover_image_path);
             }
 
-            $cover_image_path = $request->file('cover_image_path');
-            $filename = time() . '-' . Str::slug($request->input('title')) . '.' . $cover_image_path->getClientOriginalExtension();
-            $path = $cover_image_path->storeAs('album_images', $filename, 'public');
+            // genera nombre nuevo
+            $coverImage = $request->file('cover_image_path');
+            $filename = time() . '-' . Str::slug($request->input('title')) . '.' . $coverImage->getClientOriginalExtension();
+
+            // se guarda en public/uploads/album_images
+            $path = $coverImage->storeAs('album_images', $filename, 'public');
             $validated['cover_image_path'] = $path;
         }
+
 
         $album->update($validated);
         return response()->json($album);

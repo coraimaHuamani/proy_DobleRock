@@ -67,6 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (imageInput.files[0]) {
         formData.append("image", imageInput.files[0]);
       }
+      
+      if(!formData.get("title") || !formData.get("description") || !formData.get("category") || !formData.get("source_url")) {
+        alert("Por favor, completa todos los campos.");
+        return;
+      }
 
       try {
         const res = await fetch("/api/news", {
