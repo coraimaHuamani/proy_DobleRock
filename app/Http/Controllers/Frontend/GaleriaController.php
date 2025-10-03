@@ -14,18 +14,9 @@ class GaleriaController extends Controller
     {
         // Traer solo las galerías activas con columnas específicas
         $galerias = Galeria::where('estado', true)
-                          ->orderBy('created_at', 'desc')
-                          ->get(['id', 'titulo', 'descripcion', 'archivo', 'tipo', 'estado', 'created_at'])
-                          ->map(function($item) {
-                              return [
-                                  'id' => $item->id,
-                                  'titulo' => $item->titulo,
-                                  'descripcion' => $item->descripcion,
-                                  'tipo' => $item->tipo,
-                                  'archivo_url' => $item->archivo ? asset('storage/' . $item->archivo) : null,
-                                  'tipo_nombre' => $item->tipo === 'imagen' ? 'Foto' : 'Video'
-                              ];
-                          });
+            ->orderBy('created_at', 'desc')
+            ->get(['id', 'titulo', 'descripcion', 'archivo', 'tipo', 'estado', 'created_at']);
+                          
 
         return view('galeria', compact('galerias'));
     }

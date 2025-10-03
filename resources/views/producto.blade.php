@@ -159,7 +159,7 @@
             const prod = productos[sku];
 
             if (prod) {
-                imgEl.src = prod.image;
+                imgEl.src = prod.image_url;
                 imgEl.alt = prod.name;
                 titleEl.textContent = prod.name;
                 descEl.textContent = prod.desc;

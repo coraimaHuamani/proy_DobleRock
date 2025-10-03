@@ -23,12 +23,12 @@
                 @forelse ($noticias as $index => $noticia)
                     @php
                         $shift = $index % 2 === 0 ? '-8px' : '8px';
-                        $imageUrl = $noticia->image
-                            ? asset('storage/' . $noticia->image)
+                        $imageUrl = $noticia->image_url
+                            ? asset($noticia->image_url)
                             : 'https://via.placeholder.com/400x300/232323/e7452e?text=Sin+Imagen';
                     @endphp
 
-                    <article class="group news-card reveal px-4 py-2" style="--rx:{{ $shift }}">
+                    <a href="{{ $noticia->source_url }}" class="group news-card reveal px-4 py-2" style="--rx:{{ $shift }}">
                         <div class="rounded-xl overflow-hidden">
                             <div class="thumb aspect-[1/1] bg-[#232323] relative">
                                 {{-- DEBUG: Mostrar ruta de imagen --}}
@@ -63,7 +63,7 @@
                         <p class="mt-3 text-[12px] tracking-wide text-gray-300">
                             {{ Str::limit($noticia->description, 100) }}
                         </p>
-                    </article>
+                    </a>
                 @empty
                     <div class="col-span-full text-center py-12">
                         <div class="text-gray-500 mb-4">

@@ -31,7 +31,7 @@ class ProductoController extends Controller
                         'descripcion' => $producto->descripcion,
                         'precio' => $producto->precio,
                         'stock' => $producto->stock,
-                        'imagen_url' => $producto->imagen ? asset('storage/' . $producto->imagen) : 'https://via.placeholder.com/400x300',
+                        'image_url' => $producto->image_url ?: 'https://via.placeholder.com/400x300',
                     ];
                 });
 
@@ -56,7 +56,7 @@ class ProductoController extends Controller
                     'descripcion' => $producto->descripcion,
                     'precio' => $producto->precio,
                     'stock' => $producto->stock,
-                    'imagen_url' => $producto->imagen ? asset('storage/' . $producto->imagen) : 'https://via.placeholder.com/400x300',
+                    'image_url' => $producto->image_url ?: 'https://via.placeholder.com/400x300',
                 ];
             });
 
@@ -77,7 +77,7 @@ class ProductoController extends Controller
             'descripcion' => $producto->descripcion,
             'precio' => $producto->precio,
             'stock' => $producto->stock,
-            'imagen_url' => $producto->imagen ? asset('storage/' . $producto->imagen) : 'https://via.placeholder.com/400x300',
+            'image_url' => $producto->imagen_url ?: 'https://via.placeholder.com/400x300',
             'categoria' => $producto->categoria ? $producto->categoria->nombre : 'Sin categoría',
         ];
 
