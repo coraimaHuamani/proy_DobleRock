@@ -5,43 +5,67 @@
 
         <!-- Logo -->
         <!-- Logo -->
-<a href="/" class="flex items-center mb-2 md:mb-0">
-    <img src="{{ asset('images/image.png') }}" alt="Logo" class="w-12 h-12 object-contain mr-3" />
-    <div class="flex flex-col md:mr-6">
-        <span class="text-white font-bold text-xl leading-tight">DOBLE</span>
-        <span class="text-[#e7452e] font-bold text-xl leading-tight">ROCK</span>
-    </div>
-</a>
-
-        <!-- Reproductor de música -->
-        <div
-            class="bg-[#232323] rounded-full flex items-center px-3 py-2 shadow-lg space-x-2 w-full max-w-md h-[54px] md:ml-0">
-
-            <!-- Info de canción (puede ser estática o dinámica) -->
-            <div class="flex flex-col justify-center flex-1 min-w-0">
-                <span class="text-white font-bold text-sm block leading-tight">Radio en vivo</span>
-                <span class="text-gray-300 text-xs truncate">DOBLE ROCK</span>
+        <a href="/" class="flex items-center mb-2 md:mb-0">
+            <img src="{{ asset('images/image.png') }}" alt="Logo" class="w-12 h-12 object-contain mr-3" />
+            <div class="flex flex-col md:mr-6">
+                <span class="text-white font-bold text-xl leading-tight">DOBLE</span>
+                <span class="text-[#e7452e] font-bold text-xl leading-tight">ROCK</span>
             </div>
+        </a>
 
-            <!-- Botón play/pause -->
-            <button id="playBtn"
-                class="bg-[#e7452e] hover:bg-orange-600 text-white w-8 h-8 flex items-center justify-center rounded-full"
-                aria-label="Play">
-                <i id="playIcon" class="fa-solid fa-play"></i>
-            </button>
+        <!-- Reproductor de música – Modern UI (solo badge, menos rectangular) -->
+        <div id="radioWrapper" class="w-full max-w-sm min-w-[260px]">
+            <div
+                class="group relative mx-auto flex items-center gap-3 rounded-full border border-white/10 bg-[#232323]/80 px-3.5 py-2 shadow-[0_10px_30px_rgba(0,0,0,.35)] backdrop-blur-md supports-[backdrop-filter]:backdrop-blur-md">
 
-            <!-- Progreso (opcional, en vivo no aplica mucho) -->
-            <div class="w-16 h-1 bg-gray-600 rounded-full overflow-hidden">
-                <div class="h-1 bg-[#e7452e] w-2/3"></div>
+                <!-- Glow decorativo -->
+                <div class="pointer-events-none absolute -inset-0.5 rounded-full opacity-0 blur-lg transition-opacity duration-500 group-hover:opacity-100"
+                    style="background: radial-gradient(60% 60% at 50% 50%, rgba(231,69,46,0.22), transparent 60%);">
+                </div>
+
+                <!-- Punto de estado -->
+                <div class="relative flex items-center justify-center shrink-0">
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span
+                            class="absolute inset-0 rounded-full bg-[#e7452e]/60 animate-[pulse_2.2s_cubic-bezier(0,0,0.2,1)_infinite]"></span>
+                        <span
+                            class="relative z-[1] h-2.5 w-2.5 rounded-full bg-[#e7452e] shadow-[0_0_10px_rgba(231,69,46,.8)]"></span>
+                    </span>
+                </div>
+
+                <!-- Info compacta -->
+                <div class="min-w-0 flex-1">
+                    <div class="flex items-center gap-2">
+                        <span class="text-white/90 text-[13px] font-semibold tracking-wide">Radio en vivo</span>
+                        <!-- ÚNICO “DOBLE ROCK” que se mantiene -->
+                        <span
+                            class="rounded-full border border-white/10 bg-white/5 px-2.5 py-[3px] text-[10px] text-white/80">
+                            DOBLE ROCK
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Ecualizador (solo en play) -->
+                <div class="hidden sm:flex h-5 items-end gap-[3px] pr-0.5" aria-hidden="true">
+                    <span class="eq-bar eq-1 w-[2px] rounded-full bg-[#e7452e]"></span>
+                    <span class="eq-bar eq-2 w-[2px] rounded-full bg-[#e7452e]"></span>
+                    <span class="eq-bar eq-3 w-[2px] rounded-full bg-[#e7452e]"></span>
+                </div>
+
+                <!-- Botón Play/Pause (IDs conservados) -->
+                <button id="playBtn"
+                    class="relative grid h-10 w-10 place-items-center shrink-0 rounded-full bg-[#e7452e] text-white shadow-[0_6px_16px_rgba(231,69,46,.45)] transition-all duration-200 hover:scale-105 hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-[#e7452e]/60 focus:ring-offset-2 focus:ring-offset-black"
+                    aria-label="Play">
+                    <span class="play-ring pointer-events-none absolute inset-0 rounded-full opacity-0"></span>
+                    <i id="playIcon" class="fa-solid fa-play text-[13px]"></i>
+                </button>
+
+                <!-- Audio -->
+                <audio id="radioPlayer" preload="none" class="hidden">
+                    <source src="http://109.169.15.21:37873/;stream.mp3" type="audio/mpeg">
+                </audio>
             </div>
-
-            <!-- Audio oculto -->
-            <audio id="radioPlayer">
-                <source src="http://109.169.15.21:37873/;stream.mp3" type="audio/mpeg">
-            </audio>
         </div>
-
-
     </div>
 </div>
 
@@ -284,149 +308,11 @@
 <!-- Script para el reproductor de audio -->
 <script src="{{ asset('js/reproductor/reproductor.js') }}"></script>
 
-<script>
-    // Gestión del dropdown de usuario
-    document.addEventListener('DOMContentLoaded', function() {
-        const clienteId = localStorage.getItem('cliente_id');
-        const clienteNombre = localStorage.getItem('cliente_nombre');
+<!-- Script para el reproductor diseño de transiciones -->
+<script src="{{ asset('js/reproductor/reproductorDiseño.js') }}"></script>
 
-        // Elementos desktop
-        const userDropdownBtn = document.getElementById('user-dropdown-btn');
-        const userDropdown = document.getElementById('user-dropdown');
-        const userDropdownText = document.getElementById('user-dropdown-text');
-        const userNameDropdown = document.getElementById('user-name-dropdown');
-        const guestOptions = document.getElementById('guest-options');
-        const loggedOptions = document.getElementById('logged-options');
-        const logoutBtn = document.getElementById('logout-btn');
+<!-- Script para la sesiones del cliente -->
+<script src="{{ asset('js/clientes/cliente_login.js') }}"></script>
 
-        // Elementos móvil
-        const userMobileBtn = document.getElementById('user-mobile-btn');
-        const userMobileDropdown = document.getElementById('user-mobile-dropdown');
-        const userNameMobile = document.getElementById('user-name-mobile');
-        const guestMobileOptions = document.getElementById('guest-mobile-options');
-        const loggedMobileOptions = document.getElementById('logged-mobile-options');
-        const logoutMobileBtn = document.getElementById('logout-mobile-btn');
-
-        // Función para actualizar la interfaz según el estado de login
-        function updateUserInterface() {
-            if (clienteId && clienteNombre) {
-                // Usuario logueado
-                if (userDropdownText) userDropdownText.textContent = clienteNombre;
-                if (userNameDropdown) userNameDropdown.textContent = clienteNombre;
-                if (userNameMobile) userNameMobile.textContent = clienteNombre;
-
-                // Mostrar opciones de usuario logueado
-                if (guestOptions) guestOptions.classList.add('hidden');
-                if (loggedOptions) loggedOptions.classList.remove('hidden');
-                if (guestMobileOptions) guestMobileOptions.classList.add('hidden');
-                if (loggedMobileOptions) loggedMobileOptions.classList.remove('hidden');
-            } else {
-                // Usuario no logueado
-                if (userDropdownText) userDropdownText.textContent = 'Mi Cuenta';
-
-                // Mostrar opciones de invitado
-                if (guestOptions) guestOptions.classList.remove('hidden');
-                if (loggedOptions) loggedOptions.classList.add('hidden');
-                if (guestMobileOptions) guestMobileOptions.classList.remove('hidden');
-                if (loggedMobileOptions) loggedMobileOptions.classList.add('hidden');
-            }
-        }
-
-        // Inicializar interfaz
-        updateUserInterface();
-
-        // Toggle dropdown desktop
-        if (userDropdownBtn && userDropdown) {
-            userDropdownBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                userDropdown.classList.toggle('hidden');
-                if (userMobileDropdown) userMobileDropdown.classList.add('hidden');
-            });
-        }
-
-        // Toggle dropdown móvil
-        if (userMobileBtn && userMobileDropdown) {
-            userMobileBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                userMobileDropdown.classList.toggle('hidden');
-                if (userDropdown) userDropdown.classList.add('hidden');
-            });
-        }
-
-        // Cerrar dropdowns al hacer clic fuera
-        document.addEventListener('click', function(e) {
-            if (userDropdown && !e.target.closest('#user-section')) {
-                userDropdown.classList.add('hidden');
-            }
-            if (userMobileDropdown && !e.target.closest('#user-mobile-btn')) {
-                userMobileDropdown.classList.add('hidden');
-            }
-        });
-
-        // Funciones de logout
-        function handleLogout() {
-            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-                localStorage.removeItem('cliente_id');
-                localStorage.removeItem('cliente_nombre');
-                window.location.reload();
-            }
-        }
-
-        if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
-        if (logoutMobileBtn) logoutMobileBtn.addEventListener('click', handleLogout);
-    });
-
-    // Auto-login cuando viene del registro/login exitoso
-    @if (session('cliente_login'))
-        const clienteData = @json(session('cliente_login'));
-        localStorage.setItem('cliente_id', clienteData.id);
-        localStorage.setItem('cliente_nombre', clienteData.nombre);
-        localStorage.setItem('cliente_email', clienteData.email);
-        window.location.reload();
-    @endif
-
-    // Logout desde el backend
-    @if (session('logout_cliente'))
-        localStorage.removeItem('cliente_id');
-        localStorage.removeItem('cliente_nombre');
-        localStorage.removeItem('cliente_email');
-    @endif
-
-    // Verificar si hay cliente logueado al cargar la página
-    document.addEventListener('DOMContentLoaded', function() {
-        const clienteId = localStorage.getItem('cliente_id');
-        const clienteNombre = localStorage.getItem('cliente_nombre');
-
-        // Elementos desktop
-        const registerLink = document.getElementById('register-link');
-        const userProfile = document.getElementById('user-profile');
-        const userName = document.getElementById('user-name');
-
-        // Elementos móvil
-        const registerLinkMobile = document.getElementById('register-link-mobile');
-        const userProfileMobile = document.getElementById('user-profile-mobile');
-
-        if (clienteId && clienteNombre) {
-            // Cliente logueado - mostrar perfil en desktop
-            if (registerLink) registerLink.style.display = 'none';
-            if (userProfile) {
-                userProfile.classList.remove('hidden');
-                userProfile.style.display = 'flex';
-            }
-            if (userName) userName.textContent = clienteNombre;
-
-            // Cliente logueado - mostrar perfil en móvil
-            if (registerLinkMobile) registerLinkMobile.style.display = 'none';
-            if (userProfileMobile) {
-                userProfileMobile.classList.remove('hidden');
-                userProfileMobile.style.display = 'flex';
-            }
-        } else {
-            // Cliente no logueado - mostrar registro
-            if (registerLink) registerLink.style.display = 'flex';
-            if (userProfile) userProfile.classList.add('hidden');
-            if (registerLinkMobile) registerLinkMobile.style.display = 'flex';
-            if (userProfileMobile) userProfileMobile.classList.add('hidden');
-        }
-    });
-</script>
+<!-- Diseño y estilo para el reproductor -->
+<link rel="stylesheet" href="{{ asset('css/reproductor/reproductor.css') }}">

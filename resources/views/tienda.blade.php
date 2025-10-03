@@ -12,7 +12,7 @@
     <section class="w-full bg-black py-8">
         <div class="max-w-[1200px] mx-auto px-4">
             <h2 class="text-center text-base md:text-xl tracking-widest text-white mb-6 uppercase font-normal">
-                PRODUCTOS MUSICALES, MERCHANDISING Y ACCESORIOS DE ESTILO ROCK.
+                PRODUCTOS MUSICALES, MERCHANDISING Y ACCESORIOS DE ESTILO ROCK
             </h2>
             <!-- Slider simple -->
             <div id="banner-slider" class="relative overflow-hidden rounded-lg shadow-lg">

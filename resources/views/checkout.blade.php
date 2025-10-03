@@ -10,7 +10,10 @@
 .drk-scroll::-webkit-scrollbar-thumb{background:#232323;border-radius:9999px}
 </style>
 
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+<div class="min-h-screen relative text-white px-4 sm:px-6 lg:px-8 py-6"
+  style="background-image: url('https://images.pexels.com/photos/15474721/pexels-photo-15474721.jpeg?_gl=1*1s948t4*_ga*MTgxOTg3ODAzNS4xNzU3NzQ0MzM3*_ga_8JE65Q40S6*czE3NTc3NDQzMzYkbzEkZzEkdDE3NTc3NDQzNzUkajIxJGwwJGgw'); background-size: cover; background-position: center;">
+  <div class="absolute inset-0 bg-black/80"></div>
+  <div class="relative z-10 max-w-5xl mx-auto">
   <h1 class="text-3xl font-extrabold tracking-tight mb-6">
     <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#e7452e] to-[#cf3d28]">Checkout</span>
   </h1>
@@ -44,12 +47,10 @@
         </table>
       </div>
       <div class="mt-4 flex items-center justify-end gap-3">
-        <a href="{{ url()->previous() }}" class="inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-[#e7452e]">
-          ⟵ Seguir comprando
+        <a href="{{ route('tienda') }}" class="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-xl bg-[#232323] hover:bg-[#e7452e] hover:text-white text-white shadow transition">
+          <i class="fa-solid fa-arrow-left"></i>
+          Seguir comprando
         </a>
-        <button id="btn-continuar" class="inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold text-white bg-[#e7452e] hover:bg-[#cf3d28] focus:outline-none">
-          Continuar
-        </button>
         <!-- Botón Mercado Pago -->
         <button id="btn-mercadopago" class="bg-[#009ee3] text-white px-4 py-2 rounded-lg">
           Pagar con Mercado Pago
@@ -99,7 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </td>
           <td class="py-3 px-4 text-center">
-            <span class="inline-flex items-center justify-center w-10 h-9 rounded-lg bg-[#232323] text-[#e7452e] font-semibold select-none">${qty}</span>
+            <input type="number" min="1" max="${prod.stock || 99}" value="${qty}" data-idx="${idx}" class="qty-input w-16 h-9 rounded-lg bg-[#232323] text-[#e7452e] font-semibold text-center border border-[#e7452e] focus:outline-none" />
+            <div class="text-xs text-gray-400 mt-1">Max stock: ${prod.stock !== undefined ? prod.stock : '∞'}</div>
           </td>
           <td class="py-3 px-4 text-right text-[#e7452e]">S/ ${price.toFixed(2)}</td>
           <td class="py-3 px-4 text-right font-semibold text-[#e7452e]">S/ ${subtotal.toFixed(2)}</td>
@@ -119,6 +121,24 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', function() {
         const idx = Number(this.dataset.idx);
         productos.splice(idx, 1);
+        localStorage.setItem('cart', JSON.stringify(productos));
+        renderCheckout();
+      });
+    });
+
+    // Modificar cantidad
+    document.querySelectorAll('.qty-input').forEach(input => {
+      input.addEventListener('change', function() {
+        const idx = Number(this.dataset.idx);
+        let value = Number(this.value);
+        const max = Number(this.max);
+        if (value < 1) value = 1;
+        if (value > max) {
+          alert('No puedes agregar más unidades que el stock disponible.');
+          value = max;
+          this.value = value;
+        }
+        productos[idx].qty = value;
         localStorage.setItem('cart', JSON.stringify(productos));
         renderCheckout();
       });

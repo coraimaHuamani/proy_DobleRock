@@ -166,17 +166,6 @@
                     </div>
                 </div>
 
-                <div id="panel-clientes" class="hidden">
-                    <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Clientes</h2>
-                    <button id="btn-create-cliente" type="button"
-                        class="mb-4 px-4 py-2 rounded bg-[#e7452e] hover:bg-orange-600 text-white font-semibold transition">
-                        Agregar cliente
-                    </button>
-                    <div id="clientes-container"
-                        class="bg-[#181818] rounded-lg border border-[#232323] p-4 overflow-x-auto">
-                    </div>
-                </div>
-
                 <div id="panel-albumes" class="hidden">
                     <h2 class="text-xl font-bold text-[#e7452e] mb-4">Gestión de Álbumes</h2>
                     @include('musica/albumes._agregar')
@@ -241,9 +230,6 @@
         <script src="{{ asset('js/producto/agregar.js') }}"></script>
         <script src="{{ asset('js/producto/editar.js') }}"></script>
         <script src="{{ asset('js/login/logout.js') }}"></script>
-        <script src="{{ asset('js/clientes/tabla.js') }}"></script>
-        <script src="{{ asset('js/clientes/agregar.js') }}"></script>
-        <script src="{{ asset('js/clientes/editar.js') }}"></script>
         <script src="{{ asset('js/musica/toggleMenu.js') }}"></script>
     @endpush
 @endsection

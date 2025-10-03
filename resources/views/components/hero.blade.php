@@ -9,8 +9,8 @@
             Escucha nuestras playlists y visita nuestra tienda virtual
         </p>
         <div class="flex justify-center gap-4">
-            <a href="#"
-                class="flex items-center gap-2   text-white bg-[#e7452e] hover:bg-orange-600 px-6 py-2 rounded-full font-semibold  transition">
+            <a href="#" id="btn-escuchar"
+                class="flex items-center gap-2 text-white bg-[#e7452e] hover:bg-orange-600 px-6 py-2 rounded-full font-semibold transition">
                 <i class="fa-solid fa-play text-white"></i>
                 ESCUCHAR
             </a>
@@ -22,3 +22,24 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var btnEscuchar = document.getElementById('btn-escuchar');
+        var radioPlayer = document.getElementById('radioPlayer');
+        var playBtn = document.getElementById('playBtn');
+        var playIcon = document.getElementById('playIcon');
+
+        if (btnEscuchar && radioPlayer) {
+            btnEscuchar.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Inicia el audio
+                radioPlayer.play();
+                // Cambia el ícono a pausa si tienes esa lógica
+                if (playIcon) {
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                }
+            });
+        }
+    });
+</script>
