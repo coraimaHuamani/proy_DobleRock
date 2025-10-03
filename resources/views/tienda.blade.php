@@ -76,7 +76,7 @@
                                 <div
                                     class="bg-transparent overflow-hidden shadow border border-[#222] min-h-[440px] flex flex-col">
                                     <a href="{{ route('producto.show', $producto['id']) }}">
-                                        <img src="{{ $producto['imagen_url'] }}" alt="{{ $producto['nombre'] }}"
+                                        <img src="{{ $producto['image_url'] }}" alt="{{ $producto['nombre'] }}"
                                             class="w-full h-56 object-cover cursor-pointer transition hover:scale-105">
                                     </a>
                                     <div class="p-4 space-y-2 flex-1 flex flex-col justify-between">
@@ -108,7 +108,7 @@
                                                     'id' => $producto['id'],
                                                     'name' => $producto['nombre'],
                                                     'price' => $producto['precio'],
-                                                    'image' => $producto['imagen_url'],
+                                                    'image' => $producto['image_url'],
                                                     'desc' => $producto['descripcion'],
                                                     'stock' => $producto['stock'],
                                                 ]) }}">
@@ -142,7 +142,7 @@
                                     <div
                                         class="bg-transparent overflow-hidden shadow border border-[#222] min-h-[440px] flex flex-col">
                                         <a href="{{ route('producto.show', $producto['id']) }}">
-                                            <img src="{{ $producto['imagen_url'] }}" alt="{{ $producto['nombre'] }}"
+                                            <img src="{{ $producto['image_url'] }}" alt="{{ $producto['nombre'] }}"
                                                 class="w-full h-56 object-cover cursor-pointer transition hover:scale-105">
                                         </a>
                                         <div class="p-4 space-y-2 flex-1 flex flex-col justify-between">
@@ -175,7 +175,7 @@
                                                         'id' => $producto['id'],
                                                         'name' => $producto['nombre'],
                                                         'price' => $producto['precio'],
-                                                        'image' => $producto['imagen_url'],
+                                                        'image' => $producto['image_url'],
                                                         'desc' => $producto['descripcion'],
                                                         'stock' => $producto['stock'],
                                                     ]) }}">

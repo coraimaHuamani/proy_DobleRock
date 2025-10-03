@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\News;
 
-class NewsController extends Controller
+class NoticiasController extends Controller
 {
     public function index()
     {
-        $noticias = News::latest()->get(['id', 'title', 'description', 'image', 'created_at', 'category']);
+        $noticias = News::latest()->get(['id', 'title', 'description', 'image', 'source_url','created_at', 'category']);
         return view('noticias', compact('noticias'));
     }
 

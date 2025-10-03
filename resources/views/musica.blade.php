@@ -78,7 +78,7 @@
                 animation: revealUp .45s ease forwards
             }
 
-            .play-btn {
+            .btn-play {
                 width: 36px;
                 height: 36px;
                 border-radius: 9999px;
@@ -89,11 +89,11 @@
                 font-weight: 700
             }
 
-            .play-btn:hover {
+            .btn-play:hover {
                 opacity: .9
             }
 
-            .play-btn[aria-pressed="true"] {
+            .btn-play[aria-pressed="true"] {
                 box-shadow: 0 0 0 6px rgba(231, 69, 46, .18)
             }
 
@@ -308,26 +308,7 @@
                         'artista' => 'Doble Rock',
                     ],
                 ];
-                $playlists = [
-                    [
-                        'nombre' => 'Lo Mejor del Rock',
-                        'items' => 35,
-                        'sample' => '/audio/playlist-bestof-sample.mp3',
-                        'artista' => 'Varios',
-                    ],
-                    [
-                        'nombre' => 'Power Ballads',
-                        'items' => 28,
-                        'sample' => '/audio/playlist-power-sample.mp3',
-                        'artista' => 'Varios',
-                    ],
-                    [
-                        'nombre' => 'Rock en Español',
-                        'items' => 40,
-                        'sample' => '/audio/playlist-espanol-sample.mp3',
-                        'artista' => 'Varios',
-                    ],
-                ];
+                
             @endphp
 
             <!-- PANELES -->
@@ -337,12 +318,12 @@
                     <div class="card p-6">
                         <h2 class="text-xl font-bold text-[#e7452e] mb-4">Canciones</h2>
                         <ul class="divide-y divide-white/10">
-                            @foreach ($canciones as $i => $c)
+                            @foreach ($songs as $song)
                                 <li class="py-3 flex items-center justify-between">
                                     <div class="flex items-center gap-4">
-                                        <button class="btn-play-song text-white" aria-label="Reproducir {{ $c['titulo'] }}"
-                                            data-src="{{ $c['src'] }}" data-title="{{ $c['titulo'] }}"
-                                            data-artist="{{ $c['artista'] }}">
+                                        <button class="btn-play text-white" aria-label="Reproducir {{ $song['titulo'] }}"
+                                            data-src="{{ $song['src'] }}" data-title="{{ $song['titulo'] }}"
+                                            data-artist="{{ $song['artista'] }}">
                                             <!-- Icono play/pause -->
                                             <svg class="icon-play w-4 h-4 pointer-events-none " viewBox="0 0 24 24"
                                                 fill="none">
@@ -354,11 +335,11 @@
                                             </svg>
                                         </button>
                                         <div>
-                                            <p class="font-semibold">{{ $c['titulo'] }}</p>
-                                            <p class="text-xs text-neutral-400">{{ $c['artista'] }}</p>
+                                            <p class="font-semibold">{{ $song['titulo'] }}</p>
+                                            <p class="text-xs text-neutral-400">{{ $song['artista'] }}</p>
                                         </div>
                                     </div>
-                                    <span class="text-xs text-neutral-400">{{ $c['duracion'] }}</span>
+                                    <span class="text-xs text-neutral-400">{{  $song['duracion']}}</span>
                                 </li>
                             @endforeach
                         </ul>
@@ -367,23 +348,23 @@
 
                 <!-- Álbumes -->
                 <div id="panel-albumes" role="tabpanel" aria-labelledby="tab-albumes" hidden class="reveal">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @foreach ($albumes as $a)
+                    <div id="album-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @foreach ($albums as $album)
                             <article class="card p-4">
                                 <div class="aspect-[4/3] rounded-xl overflow-hidden mb-4">
-                                    <img src="{{ $a['cover'] }}" alt="{{ $a['nombre'] }}"
+                                    <img src="{{ $album['cover'] }}" alt="{{ $album['nombre'] }}"
                                         class="w-full h-full object-cover">
                                 </div>
-                                <h3 class="font-semibold">{{ $a['nombre'] }}</h3>
-                                <p class="text-sm text-neutral-400">{{ $a['anio'] }} • {{ $a['pistas'] }} pistas</p>
+                                <h3 class="font-semibold">{{ $album['nombre'] }}</h3>
+                                <p class="text-sm text-neutral-400">{{ $album['anio'] }} • {{ $album['pistas'] }} pistas</p>
                                 <div class="mt-4 flex items-center justify-between">
-                                    <button
+                                    <button onclick="window.location.hash='album#id={{ $album['id'] }}'" 
                                         class="px-3 py-1 rounded bg-white/10 hover:bg-white/15 text-xs">Detalles</button>
-                                    <button class="play-btn text-white"
-                                        aria-label="Reproducir muestra {{ $a['nombre'] }}"
-                                        data-src="{{ $a['sample'] }}" data-title="{{ $a['nombre'] }} (muestra)"
-                                        data-artist="{{ $a['artista'] }}">
-                                        <svg class="w-4 h-4 pointer-events-none icon-play" viewBox="0 0 24 24"
+                                    <button class="btn-play text-white"
+                                        aria-label="Reproducir muestra {{ $album['nombre'] }}"
+                                        data-src="{{ $album['sample'] }}" data-title="{{ $album['nombre'] }} (muestra)"
+                                        data-artist="{{ $album['artista'] }}">
+                                        <svg class="icon-play w-4 h-4 pointer-events-none " viewBox="0 0 24 24"
                                             fill="none">
                                             <path d="M6 4l14 8-14 8V4z" fill="currentColor" />
                                         </svg>
@@ -396,24 +377,29 @@
                             </article>
                         @endforeach
                     </div>
+                    <!-- Panel dinámico para detalle del álbum -->
+                    <div id="album-details" class="hidden"></div>
                 </div>
+                
 
                 <!-- Playlists -->
                 <div id="panel-playlists" role="tabpanel" aria-labelledby="tab-playlists" hidden class="reveal">
-                    <div class="card p-6">
+                    <div id="playlist-list" class="card p-6">
                         <h2 class="text-xl font-bold text-[#e7452e] mb-4">Playlists</h2>
                         <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            @foreach ($playlists as $p)
+                            @foreach ($playlists as $playlist)
                                 <li
                                     class="flex items-center justify-between bg-white/5 rounded-xl p-4 ring-1 ring-white/10">
                                     <div>
-                                        <p class="font-semibold">{{ $p['nombre'] }}</p>
-                                        <p class="text-xs text-neutral-400">{{ $p['items'] }} canciones</p>
+                                        <p class="font-semibold">{{ $playlist['nombre'] }}</p>
+                                        <p class="text-xs text-neutral-400">{{ $playlist['items'] }} canciones</p>
+                                        <button onclick="window.location.hash='playlist#id={{ $playlist['id'] }}'" 
+                                            class="px-3 py-1 mt-4 rounded bg-white/10 hover:bg-white/15 text-xs">Detalles</button>
                                     </div>
-                                    <button class="play-btn text-white"
-                                        aria-label="Reproducir muestra playlist {{ $p['nombre'] }}"
-                                        data-src="{{ $p['sample'] }}" data-title="{{ $p['nombre'] }} (muestra)"
-                                        data-artist="{{ $p['artista'] }}">
+                                    <button class="btn-play text-white"
+                                        aria-label="Reproducir muestra playlist {{ $playlist['nombre'] }}"
+                                        data-src="{{ $playlist['sample'] }}" data-title="{{ $playlist['nombre'] }} (muestra)"
+                                        data-artist="{{ $playlist['artista'] }}">
                                         <svg class="w-4 h-4 pointer-events-none icon-play" viewBox="0 0 24 24"
                                             fill="none">
                                             <path d="M6 4l14 8-14 8V4z" fill="currentColor" />
@@ -427,13 +413,14 @@
                             @endforeach
                         </ul>
                     </div>
+                    <!-- Panel dinámico para detalle de la playlist -->
+                    <div id="playlist-details" class="hidden"></div>
+
                 </div>
             </section>
-        </div>
     </div>
 
-    <audio id="audioPlayer" preload="none" crossorigin="anonymous"></audio>
-
+<script src="{{ asset('js/songPlayer.js') }}"></script>
     <!-- JS: Tabs + Player -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -482,102 +469,8 @@
             const h = location.hash.toLowerCase();
             if (map[h] != null) activate(map[h], false);
 
-            // --- Audio Player ---
-            const audio = document.getElementById('audioPlayer');
-            const npPlayPause = document.getElementById('npPlayPause');
-            const npEq = document.getElementById('npEq');
-            const npTitle = document.getElementById('npTitle');
-            const npArtist = document.getElementById('npArtist');
-            const npProgress = document.getElementById('npProgress');
-            const npProgressFill = document.getElementById('npProgressFill');
-
-            let currentBtn = null; // botón play activo
-
-            function setBtnState(btn, playing) {
-                const playI = btn.querySelector('.icon-play');
-                const pauseI = btn.querySelector('.icon-pause');
-                btn.setAttribute('aria-pressed', playing ? 'true' : 'false');
-                playI.classList.toggle('hidden', playing);
-                pauseI.classList.toggle('hidden', !playing);
-            }
-
-            function setGlobalState(playing) {
-                setBtnState(npPlayPause, playing);
-                npEq.classList.toggle('playing', playing);
-            }
-
-            function loadAndPlay(src, title, artist, btn) {
-                if (currentBtn && currentBtn !== btn) setBtnState(currentBtn, false);
-                currentBtn = btn;
-
-                // si es misma pista, toggle play/pause
-                if (audio.src && audio.src.endsWith(src)) {
-                    if (audio.paused) {
-                        audio.play();
-                        setBtnState(btn, true);
-                        setGlobalState(true);
-                    } else {
-                        audio.pause();
-                        setBtnState(btn, false);
-                        setGlobalState(false);
-                    }
-                    return;
-                }
-
-                // nueva pista
-                audio.src = src;
-                audio.play().then(() => {
-                    npTitle.textContent = title || 'Reproduciendo';
-                    npArtist.textContent = artist || '';
-                    npPlayPause.disabled = false;
-                    setBtnState(btn, true);
-                    setGlobalState(true);
-                }).catch(err => {
-                    console.error(err);
-                    // feedback mínimo
-                    btn.classList.add('opacity-60');
-                    btn.title = 'No se pudo reproducir';
-                });
-            }
-
-            // Delegación: click en cualquier .play-btn
-            document.body.addEventListener('click', (e) => {
-                const btn = e.target.closest('.btn-play-song');
-                if (!btn || btn === npPlayPause) return;
-                const src = btn.dataset.src;
-                if (!src) return;
-                loadAndPlay(src, btn.dataset.title, btn.dataset.artist, btn);
-            });
-
-            // Botón global play/pause
-            npPlayPause.addEventListener('click', () => {
-                if (!audio.src) return;
-                if (audio.paused) {
-                    audio.play();
-                    if (currentBtn) setBtnState(currentBtn, true);
-                    setGlobalState(true);
-                } else {
-                    audio.pause();
-                    if (currentBtn) setBtnState(currentBtn, false);
-                    setGlobalState(false);
-                }
-            });
-
-            // Progreso
-            audio.addEventListener('timeupdate', () => {
-                const p = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
-                npProgress.value = p;
-                npProgressFill.style.width = p + '%';
-            });
-            audio.addEventListener('ended', () => {
-                setGlobalState(false);
-                if (currentBtn) setBtnState(currentBtn, false);
-            });
-            npProgress.addEventListener('input', () => {
-                if (!audio.duration) return;
-                const t = (npProgress.value / 100) * audio.duration;
-                audio.currentTime = t;
-            });
+            
+          
         });
     </script>
 @endsection

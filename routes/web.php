@@ -1,10 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Frontend\NewsController as PublicNewsController;
+use App\Http\Controllers\Frontend\NoticiasController as PublicNewsController;
 use App\Http\Controllers\Frontend\GaleriaController as PublicGaleriaController;
 use App\Http\Controllers\Frontend\ProductoController as PublicProductoController;
 use App\Http\Controllers\MercadoPagoController;
+use App\Http\Controllers\Frontend\MusicaController as PublicMusicaController;
+use App\Http\Controllers\Frontend\AlbumController as PublicAlbumController;
+use App\Http\Controllers\Frontend\PlaylistController as PublicPlaylistController;
 
 // ===================== PÁGINA PRINCIPAL =====================
 Route::get('/', function () {
@@ -32,8 +35,11 @@ Route::get('/producto/{id}', [PublicProductoController::class, 'show'])->name('p
 // ===================== VISTAS FIJAS =====================
 Route::get('/login', fn() => view('login'))->name('login');
 Route::get('/register', fn() => view('register'))->name('register');
-Route::get('/musica', fn() => view('musica'))->name('musica');
 
+// ===================== MUSICA =====================
+Route::get('/musica', [PublicMusicaController::class, 'index'])->name('musica');
+Route::get('/album/{id}/partial', [PublicAlbumController::class, 'partial'])->name('album.partial');
+Route::get('/playlist/{id}/partial', [PublicPlaylistController::class, 'partial'])->name('playlist.partial');
 // ===================== RUTAS PROTEGIDAS =====================
 Route::middleware(\App\Http\Middleware\CheckJwtAuth::class . ':admin')->group(function () {
     Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
@@ -41,10 +47,11 @@ Route::middleware(\App\Http\Middleware\CheckJwtAuth::class . ':admin')->group(fu
 
 Route::middleware(\App\Http\Middleware\CheckJwtAuth::class . ':cliente')->group(function () {
     Route::get('/perfil', fn() => view('perfil-cliente'))->name('perfil');
-    Route::get('/checkout', fn() => view('checkout'))->name('checkout');
 });
 
 // ===================== RUTAS MERCADOPAGO =====================
 Route::get('/mercadopago/success', [MercadoPagoController::class, 'success']);
 Route::get('/mercadopago/failure', [MercadoPagoController::class, 'failure']);
 Route::get('/mercadopago/pending', [MercadoPagoController::class, 'pending']);
+
+Route::view('/player', 'player')->name('player');
