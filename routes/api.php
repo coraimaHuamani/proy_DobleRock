@@ -12,6 +12,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\MercadoPagoController;
 
 Route::middleware(JsonOnlyMiddleware::class)->group(function () {
     // Rutas públicas
@@ -35,6 +36,7 @@ Route::middleware(JsonOnlyMiddleware::class)->group(function () {
         Route::apiResource('playlists', PlaylistController::class);
         Route::post('playlists/{id}/songs', [PlaylistController::class, 'addSongs']);
         Route::delete('playlists/{id}/songs', [PlaylistController::class, 'removeSongs']);
+        Route::post('mercadopago/checkout', [MercadoPagoController::class, 'checkout']);
 
     });
 });

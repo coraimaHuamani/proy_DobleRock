@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\NewsController as PublicNewsController;
 use App\Http\Controllers\Frontend\GaleriaController as PublicGaleriaController;
 use App\Http\Controllers\Frontend\ProductoController as PublicProductoController;
+use App\Http\Controllers\MercadoPagoController;
 
 // ===================== PÁGINA PRINCIPAL =====================
 Route::get('/', function () {
@@ -42,3 +43,8 @@ Route::middleware(\App\Http\Middleware\CheckJwtAuth::class . ':cliente')->group(
     Route::get('/perfil', fn() => view('perfil-cliente'))->name('perfil');
     Route::get('/checkout', fn() => view('checkout'))->name('checkout');
 });
+
+// ===================== RUTAS MERCADOPAGO =====================
+Route::get('/mercadopago/success', [MercadoPagoController::class, 'success']);
+Route::get('/mercadopago/failure', [MercadoPagoController::class, 'failure']);
+Route::get('/mercadopago/pending', [MercadoPagoController::class, 'pending']);

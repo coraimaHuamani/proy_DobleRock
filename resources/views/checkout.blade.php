@@ -50,6 +50,10 @@
         <button id="btn-continuar" class="inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold text-white bg-[#e7452e] hover:bg-[#cf3d28] focus:outline-none">
           Continuar
         </button>
+        <!-- Botón Mercado Pago -->
+        <button id="btn-mercadopago" class="bg-[#009ee3] text-white px-4 py-2 rounded-lg">
+          Pagar con Mercado Pago
+        </button>
       </div>
     </div>
   </div>
@@ -124,6 +128,27 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Continuar con el pago');
     });
   }
+
+  document.getElementById('btn-mercadopago').addEventListener('click', function() {
+    const token = localStorage.getItem('auth_token');
+    const productos = JSON.parse(localStorage.getItem('cart') || '[]');
+
+    fetch('/api/mercadopago/checkout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ productos })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.init_point) {
+            window.location.href = data.init_point;
+        }
+    });
+});
 
   function safeParse(json){ try { return JSON.parse(json || '[]'); } catch { return []; } }
   function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
